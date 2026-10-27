@@ -17,6 +17,7 @@ import 'features/projects/data/projects_providers.dart';
 import 'features/reminders/data/reminders_providers.dart';
 import 'features/settings/presentation/theme_mode_controller.dart';
 import 'features/tasks/data/tasks_providers.dart';
+import 'features/trash/data/trash_providers.dart';
 import 'l10n/app_localizations_tr.dart';
 
 Future<void> main() async {
@@ -48,6 +49,15 @@ Future<void> main() async {
       ],
       inboxTitle: l.inboxTitle,
     );
+  }
+
+  // 30 günden eski çöpü kalıcı olarak temizle.
+  try {
+    await container
+        .read(trashRepositoryProvider)
+        .purgeOlderThan(const Duration(days: 30));
+  } catch (e) {
+    debugPrint('Çöp temizlenemedi: $e');
   }
 
   // iOS ana ekran widget'ı: App Group'u ayarla ve veri senkronunu başlat.

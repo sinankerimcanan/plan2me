@@ -4,6 +4,7 @@ abstract final class Routes {
   static const newProject = '/projects/new';
   static const people = '/people';
   static const settings = '/settings';
+  static const trash = '/settings/trash';
 
   static String project(String id) => '/projects/$id';
   static String editProject(String id) => '/projects/$id/edit';

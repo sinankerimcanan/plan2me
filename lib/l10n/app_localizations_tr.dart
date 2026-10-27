@@ -644,4 +644,82 @@ class AppLocalizationsTr extends AppLocalizations {
   String reminderDigestMore(int count) {
     return 've $count görev daha';
   }
+
+  @override
+  String get trashTitle => 'Çöp kutusu';
+
+  @override
+  String get trashHelp =>
+      'Silinen kayıtlar burada durur; 30 günden eskiler otomatik olarak kalıcı silinir.';
+
+  @override
+  String get trashEmptyTitle => 'Çöp kutusu boş';
+
+  @override
+  String get trashEmptyAll => 'Çöpü boşalt';
+
+  @override
+  String get trashEmptyConfirm =>
+      'Çöpteki tüm kayıtlar kalıcı olarak silinecek. Bu işlem geri alınamaz.';
+
+  @override
+  String get trashRestore => 'Geri yükle';
+
+  @override
+  String get trashRestored => 'Geri yüklendi';
+
+  @override
+  String get trashPurge => 'Kalıcı olarak sil';
+
+  @override
+  String trashPurgeConfirm(String title) {
+    return '\"$title\" kalıcı olarak silinecek. Bu işlem geri alınamaz.';
+  }
+
+  @override
+  String get trashKindProject => 'Proje';
+
+  @override
+  String get trashKindCard => 'Görev';
+
+  @override
+  String get trashKindPerson => 'Kişi';
+
+  @override
+  String trashDeletedOn(String date) {
+    return '$date silindi';
+  }
+
+  @override
+  String get projectDeletedToast => 'Proje silindi';
+
+  @override
+  String get personDeletedToast => 'Kişi silindi';
+
+  @override
+  String get backupExport => 'Yedek al';
+
+  @override
+  String get backupExportHelp => 'Tüm verileri bir dosyaya kaydet ve paylaş.';
+
+  @override
+  String get backupImport => 'Yedekten geri yükle';
+
+  @override
+  String get backupImportHelp =>
+      'Mevcut verilerin yerine bir yedek dosyası yükle.';
+
+  @override
+  String get backupImportConfirmTitle => 'Yedek geri yüklensin mi?';
+
+  @override
+  String backupImportConfirmBody(int projects, int cards, int persons) {
+    return '$projects proje, $cards görev ve $persons kişi yüklenecek. Cihazdaki mevcut verilerin yerini alacak.';
+  }
+
+  @override
+  String get backupImported => 'Yedek geri yüklendi';
+
+  @override
+  String get backupShareSubject => 'plan2me yedeği';
 }

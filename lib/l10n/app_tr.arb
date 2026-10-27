@@ -344,5 +344,55 @@
         "type": "int"
       }
     }
+  },
+  "trashTitle": "Çöp kutusu",
+  "trashHelp": "Silinen kayıtlar burada durur; 30 günden eskiler otomatik olarak kalıcı silinir.",
+  "trashEmptyTitle": "Çöp kutusu boş",
+  "trashEmptyAll": "Çöpü boşalt",
+  "trashEmptyConfirm": "Çöpteki tüm kayıtlar kalıcı olarak silinecek. Bu işlem geri alınamaz.",
+  "trashRestore": "Geri yükle",
+  "trashRestored": "Geri yüklendi",
+  "trashPurge": "Kalıcı olarak sil",
+  "trashPurgeConfirm": "\"{title}\" kalıcı olarak silinecek. Bu işlem geri alınamaz.",
+  "trashKindProject": "Proje",
+  "trashKindCard": "Görev",
+  "trashKindPerson": "Kişi",
+  "trashDeletedOn": "{date} silindi",
+  "projectDeletedToast": "Proje silindi",
+  "personDeletedToast": "Kişi silindi",
+  "backupExport": "Yedek al",
+  "backupExportHelp": "Tüm verileri bir dosyaya kaydet ve paylaş.",
+  "backupImport": "Yedekten geri yükle",
+  "backupImportHelp": "Mevcut verilerin yerine bir yedek dosyası yükle.",
+  "backupImportConfirmTitle": "Yedek geri yüklensin mi?",
+  "backupImportConfirmBody": "{projects} proje, {cards} görev ve {persons} kişi yüklenecek. Cihazdaki mevcut verilerin yerini alacak.",
+  "backupImported": "Yedek geri yüklendi",
+  "backupShareSubject": "plan2me yedeği",
+  "@trashPurgeConfirm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@trashDeletedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@backupImportConfirmBody": {
+    "placeholders": {
+      "projects": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "int"
+      },
+      "persons": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -11,6 +11,7 @@ import '../../features/projects/presentation/project_form_screen.dart';
 import '../../features/projects/presentation/projects_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/tasks/presentation/tasks_screen.dart';
+import '../../features/trash/presentation/trash_screen.dart';
 import 'app_shell.dart';
 import 'routes.dart';
 import 'transitions.dart';
@@ -146,6 +147,14 @@ GoRouter appRouter(Ref ref) {
                   key: state.pageKey,
                   child: const SettingsScreen(),
                 ),
+                routes: [
+                  GoRoute(
+                    path: 'trash',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (context, state) =>
+                        glassPage(state, const TrashScreen()),
+                  ),
+                ],
               ),
             ],
           ),

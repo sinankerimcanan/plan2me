@@ -1269,6 +1269,144 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'ve {count} görev daha'**
   String reminderDigestMore(int count);
+
+  /// No description provided for @trashTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çöp kutusu'**
+  String get trashTitle;
+
+  /// No description provided for @trashHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silinen kayıtlar burada durur; 30 günden eskiler otomatik olarak kalıcı silinir.'**
+  String get trashHelp;
+
+  /// No description provided for @trashEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çöp kutusu boş'**
+  String get trashEmptyTitle;
+
+  /// No description provided for @trashEmptyAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çöpü boşalt'**
+  String get trashEmptyAll;
+
+  /// No description provided for @trashEmptyConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çöpteki tüm kayıtlar kalıcı olarak silinecek. Bu işlem geri alınamaz.'**
+  String get trashEmptyConfirm;
+
+  /// No description provided for @trashRestore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yükle'**
+  String get trashRestore;
+
+  /// No description provided for @trashRestored.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yüklendi'**
+  String get trashRestored;
+
+  /// No description provided for @trashPurge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalıcı olarak sil'**
+  String get trashPurge;
+
+  /// No description provided for @trashPurgeConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"{title}\" kalıcı olarak silinecek. Bu işlem geri alınamaz.'**
+  String trashPurgeConfirm(String title);
+
+  /// No description provided for @trashKindProject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje'**
+  String get trashKindProject;
+
+  /// No description provided for @trashKindCard.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev'**
+  String get trashKindCard;
+
+  /// No description provided for @trashKindPerson.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi'**
+  String get trashKindPerson;
+
+  /// No description provided for @trashDeletedOn.
+  ///
+  /// In tr, this message translates to:
+  /// **'{date} silindi'**
+  String trashDeletedOn(String date);
+
+  /// No description provided for @projectDeletedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje silindi'**
+  String get projectDeletedToast;
+
+  /// No description provided for @personDeletedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi silindi'**
+  String get personDeletedToast;
+
+  /// No description provided for @backupExport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek al'**
+  String get backupExport;
+
+  /// No description provided for @backupExportHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm verileri bir dosyaya kaydet ve paylaş.'**
+  String get backupExportHelp;
+
+  /// No description provided for @backupImport.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedekten geri yükle'**
+  String get backupImport;
+
+  /// No description provided for @backupImportHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut verilerin yerine bir yedek dosyası yükle.'**
+  String get backupImportHelp;
+
+  /// No description provided for @backupImportConfirmTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek geri yüklensin mi?'**
+  String get backupImportConfirmTitle;
+
+  /// No description provided for @backupImportConfirmBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{projects} proje, {cards} görev ve {persons} kişi yüklenecek. Cihazdaki mevcut verilerin yerini alacak.'**
+  String backupImportConfirmBody(int projects, int cards, int persons);
+
+  /// No description provided for @backupImported.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek geri yüklendi'**
+  String get backupImported;
+
+  /// No description provided for @backupShareSubject.
+  ///
+  /// In tr, this message translates to:
+  /// **'plan2me yedeği'**
+  String get backupShareSubject;
 }
 
 class _AppLocalizationsDelegate

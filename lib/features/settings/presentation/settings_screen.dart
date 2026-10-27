@@ -5,7 +5,13 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/toast.dart';
+
+import 'package:go_router/go_router.dart';
+
+import '../../../core/router/routes.dart';
+import '../../backup/presentation/backup_actions.dart';
 import '../../reminders/data/reminders_providers.dart';
+import '../../trash/data/trash_providers.dart';
 import 'theme_mode_controller.dart';
 
 const kAppVersion = '1.0.0';
@@ -61,19 +67,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             const _RemindersCard(),
             SectionHeader(l.settingsData, icon: Icons.storage_rounded),
-            GlassSurface(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.phone_iphone_rounded,
-                    color: theme.colorScheme.primary,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(child: Text(l.settingsDataLocal)),
-                ],
-              ),
-            ),
+            const _DataCard(),
             SectionHeader(l.settingsAbout, icon: Icons.info_outline_rounded),
             GlassSurface(
               padding: const EdgeInsets.all(16),
@@ -177,6 +171,55 @@ class _RemindersCard extends ConsumerWidget {
                       ),
                     ],
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DataCard extends ConsumerWidget {
+  const _DataCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final trashCount = ref.watch(trashItemsProvider).value?.length ?? 0;
+    return GlassSurface(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.phone_iphone_rounded),
+            title: Text(
+              l.settingsDataLocal,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          ListTile(
+            leading: const Icon(Icons.ios_share_rounded),
+            title: Text(l.backupExport),
+            subtitle: Text(l.backupExportHelp),
+            onTap: () => exportBackup(context, ref),
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings_backup_restore_rounded),
+            title: Text(l.backupImport),
+            subtitle: Text(l.backupImportHelp),
+            onTap: () => importBackup(context, ref),
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete_outline_rounded),
+            title: Text(l.trashTitle),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (trashCount > 0) Badge(label: Text('$trashCount')),
+                const Icon(Icons.chevron_right_rounded),
+              ],
+            ),
+            onTap: () => context.push(Routes.trash),
           ),
         ],
       ),

@@ -37,33 +37,36 @@ void main() {
     }
   });
 
-  test('v1 → v2: mevcut proje ve kartlar korunur, yeni alanlar varsayılan alır', () async {
-    final schema = await verifier.schemaAt(1);
-    final old = v1.DatabaseAtV1(schema.newConnection());
-    const ts = '2026-10-27T10:00:00.000Z';
-    await old.customStatement(
-      'INSERT INTO projects (id, created_at, updated_at, title, priority, status, position) '
-      "VALUES ('p1', '$ts', '$ts', 'Eski proje', 'high', 'inProgress', 1024)",
-    );
-    await old.customStatement(
-      'INSERT INTO board_columns (id, created_at, updated_at, project_id, name, position) '
-      "VALUES ('c1', '$ts', '$ts', 'p1', 'Yapılacak', 1024)",
-    );
-    await old.customStatement(
-      'INSERT INTO cards (id, created_at, updated_at, column_id, project_id, title, priority, position) '
-      "VALUES ('k1', '$ts', '$ts', 'c1', 'p1', 'Eski kart', 'medium', 1024)",
-    );
-    await old.close();
+  test(
+    'v1 → v2: mevcut proje ve kartlar korunur, yeni alanlar varsayılan alır',
+    () async {
+      final schema = await verifier.schemaAt(1);
+      final old = v1.DatabaseAtV1(schema.newConnection());
+      const ts = '2026-10-27T10:00:00.000Z';
+      await old.customStatement(
+        'INSERT INTO projects (id, created_at, updated_at, title, priority, status, position) '
+        "VALUES ('p1', '$ts', '$ts', 'Eski proje', 'high', 'inProgress', 1024)",
+      );
+      await old.customStatement(
+        'INSERT INTO board_columns (id, created_at, updated_at, project_id, name, position) '
+        "VALUES ('c1', '$ts', '$ts', 'p1', 'Yapılacak', 1024)",
+      );
+      await old.customStatement(
+        'INSERT INTO cards (id, created_at, updated_at, column_id, project_id, title, priority, position) '
+        "VALUES ('k1', '$ts', '$ts', 'c1', 'p1', 'Eski kart', 'medium', 1024)",
+      );
+      await old.close();
 
-    final db = AppDatabase(schema.newConnection());
-    await verifier.migrateAndValidate(db, 2);
-    final project = await db.select(db.projects).getSingle();
-    final card = await db.select(db.cards).getSingle();
-    expect(project.title, 'Eski proje');
-    expect(project.isInbox, isFalse);
-    expect(card.title, 'Eski kart');
-    expect(card.assigneePersonId, isNull);
-    expect(card.recurrence, isNull);
-    await db.close();
-  });
+      final db = AppDatabase(schema.newConnection());
+      await verifier.migrateAndValidate(db, 2);
+      final project = await db.select(db.projects).getSingle();
+      final card = await db.select(db.cards).getSingle();
+      expect(project.title, 'Eski proje');
+      expect(project.isInbox, isFalse);
+      expect(card.title, 'Eski kart');
+      expect(card.assigneePersonId, isNull);
+      expect(card.recurrence, isNull);
+      await db.close();
+    },
+  );
 }

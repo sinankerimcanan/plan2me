@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +11,7 @@ import 'package:plan2me/features/projects/data/projects_providers.dart';
 import 'package:plan2me/features/projects/domain/project.dart';
 import 'package:plan2me/features/tasks/data/tasks_providers.dart';
 import 'package:plan2me/features/tasks/domain/task_item.dart';
+import 'package:plan2me/features/tasks/presentation/quick_add_sheet.dart';
 import 'package:plan2me/features/tasks/presentation/tasks_screen.dart';
 
 import '../../helpers.dart';
@@ -115,7 +118,8 @@ void main() {
 
   testWidgets('hızlı ekleme Enter ile ekler ve açık kalır', (tester) async {
     await pumpTasks(tester);
-    await tester.tap(find.text('Görev ekle').first);
+    // Menüdeki "+" düğmesinin çağırdığı akış.
+    unawaited(showQuickAddSheet(tester.element(find.byType(TasksScreen))));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'Süt al');
     await tester.testTextInput.receiveAction(TextInputAction.send);

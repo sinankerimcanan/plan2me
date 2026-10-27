@@ -30,7 +30,7 @@ class SettingsScreen extends ConsumerWidget {
       title: Text(l.settingsTitle),
       body: Builder(
         builder: (context) => ListView(
-          padding: liquidBodyPadding(context, bottom: 96),
+          padding: liquidBodyPadding(context),
           children: [
             SectionHeader(l.settingsTheme, icon: Icons.palette_rounded),
             GlassSurface(

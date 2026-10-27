@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
@@ -63,14 +62,6 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
         ),
         const SizedBox(width: 4),
       ],
-      floatingActionButton: ShellFab(
-        child: FloatingActionButton.extended(
-          heroTag: 'fab-tasks',
-          onPressed: () => showQuickAddSheet(context),
-          icon: const Icon(Icons.add_task_rounded),
-          label: Text(l.taskAdd),
-        ),
-      ),
       body: Builder(
         builder: (context) => AsyncView(
           value: state,
@@ -122,7 +113,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                     ..._section(context, group, s.groups[group]!),
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: MediaQuery.paddingOf(context).bottom + 96,
+                  height: MediaQuery.paddingOf(context).bottom + 24,
                 ),
               ),
             ],

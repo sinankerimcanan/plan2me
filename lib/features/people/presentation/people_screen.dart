@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/l10n.dart';
-import '../../../core/router/app_shell.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/widgets/chips.dart';
 import '../../../core/widgets/common.dart';
@@ -14,18 +13,19 @@ import '../domain/person.dart';
 import 'people_view_model.dart';
 import 'person_form_sheet.dart';
 
+/// Yeni kişi formu açar ve kaydeder (Kişiler sekmesinin "+" düğmesi).
+Future<void> createPerson(BuildContext context, WidgetRef ref) async {
+  final input = await showPersonForm(context);
+  if (input == null) return;
+  try {
+    await ref.read(peopleViewModelProvider.notifier).create(input);
+  } catch (e) {
+    if (context.mounted) showError(context, e);
+  }
+}
+
 class PeopleScreen extends ConsumerWidget {
   const PeopleScreen({super.key});
-
-  Future<void> _create(BuildContext context, WidgetRef ref) async {
-    final input = await showPersonForm(context);
-    if (input == null) return;
-    try {
-      await ref.read(peopleViewModelProvider.notifier).create(input);
-    } catch (e) {
-      if (context.mounted) showError(context, e);
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,14 +33,6 @@ class PeopleScreen extends ConsumerWidget {
     final people = ref.watch(peopleViewModelProvider);
     return LiquidScaffold(
       title: Text(l.peopleTitle),
-      floatingActionButton: ShellFab(
-        child: FloatingActionButton.extended(
-          heroTag: 'fab-people',
-          onPressed: () => _create(context, ref),
-          icon: const Icon(Icons.person_add_alt_1_rounded),
-          label: Text(l.personNew),
-        ),
-      ),
       body: Builder(
         builder: (context) => AsyncView(
           value: people,
@@ -53,7 +45,7 @@ class PeopleScreen extends ConsumerWidget {
               );
             }
             return ListView.separated(
-              padding: liquidBodyPadding(context, bottom: 96),
+              padding: liquidBodyPadding(context),
               itemCount: list.length,
               separatorBuilder: (_, _) => const SizedBox(height: 10),
               itemBuilder: (context, i) => _PersonTile(list[i])

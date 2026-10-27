@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
-import '../../../core/router/app_shell.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/widgets/common.dart';
 import '../domain/project.dart';
@@ -67,14 +66,6 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
         ),
         const SizedBox(width: 4),
       ],
-      floatingActionButton: ShellFab(
-        child: FloatingActionButton.extended(
-          heroTag: 'fab-projects',
-          onPressed: () => context.push(Routes.newProject),
-          icon: const Icon(Icons.add_rounded),
-          label: Text(l.projectsNew),
-        ),
-      ),
       body: Builder(
         builder: (context) => AsyncView(
           value: projects,
@@ -132,7 +123,7 @@ class _ProjectsScreenState extends ConsumerState<ProjectsScreen> {
                     16,
                     14,
                     16,
-                    MediaQuery.paddingOf(context).bottom + 96,
+                    MediaQuery.paddingOf(context).bottom + 24,
                   ),
                   sliver: filters.canReorder
                       ? _reorderable(list)

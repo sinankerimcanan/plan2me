@@ -1,0 +1,102 @@
+import 'dart:async';
+
+import 'package:drift/drift.dart';
+import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/foundation.dart';
+
+import '../domain/enums.dart';
+import 'tables.dart';
+
+part 'app_database.g.dart';
+
+@DriftDatabase(
+  tables: [
+    Persons,
+    Projects,
+    ProjectRequesters,
+    BoardColumns,
+    Cards,
+    ChecklistItems,
+    Labels,
+    CardLabels,
+  ],
+)
+class AppDatabase extends _$AppDatabase {
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
+
+  /// Testler için: `AppDatabase.forTesting(NativeDatabase.memory())`.
+  AppDatabase.forTesting(super.executor);
+
+  @override
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) => m.createAll(),
+    beforeOpen: (details) async {
+      // SQLite'ta FK kontrolü varsayılan olarak kapalıdır.
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
+
+  static QueryExecutor _openConnection() => driftDatabase(
+    name: 'plan2me',
+    native: const DriftNativeOptions(),
+    web: DriftWebOptions(
+      sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+      driftWorker: Uri.parse('drift_worker.js'),
+      onResult: (result) {
+        if (result.missingFeatures.isNotEmpty) {
+          debugPrint(
+            'Drift web: ${result.chosenImplementation} kullanılıyor, '
+            'eksik özellikler: ${result.missingFeatures}',
+          );
+        }
+      },
+    ),
+  );
+
+  /// Verilen tablolardan herhangi biri değiştiğinde [load]'u yeniden çalıştıran stream.
+  /// Birden çok tabloyu birleştiren görünüm modelleri (board, proje özeti) için.
+  /// Değişiklik aboneliği ilk yüklemeden ÖNCE açılır, böylece arada olan yazımlar kaçmaz.
+  Stream<T> watchTables<T>(
+    Iterable<TableInfo<Table, Object?>> tables,
+    Future<T> Function() load,
+  ) {
+    final updates = tableUpdates(TableUpdateQuery.onAllTables(tables));
+    return Stream<void>.multi((controller) {
+      final sub = updates.listen(
+        (_) => controller.add(null),
+        onError: controller.addError,
+        onDone: controller.close,
+      );
+      controller
+        ..add(null)
+        ..onCancel = sub.cancel;
+    }).asyncMap((_) => load());
+  }
+
+  /// `version` kolonunu artırır (senkron için değişiklik sayacı).
+  Future<void> bumpVersion(TableInfo<Table, Object?> table, String id) =>
+      customUpdate(
+        'UPDATE ${table.actualTableName} SET version = version + 1 WHERE id = ?',
+        variables: [Variable<String>(id)],
+        updates: {table},
+        updateKind: UpdateKind.update,
+      );
+
+  /// Soft delete: [whereSql] koşuluna uyan ve henüz silinmemiş satırları işaretler.
+  Future<int> softDeleteWhere(
+    TableInfo<Table, Object?> table,
+    String whereSql,
+    List<Variable<Object>> args,
+    DateTime now,
+  ) => customUpdate(
+    'UPDATE ${table.actualTableName} '
+    'SET deleted_at = ?, updated_at = ?, version = version + 1 '
+    'WHERE deleted_at IS NULL AND ($whereSql)',
+    variables: [Variable<DateTime>(now), Variable<DateTime>(now), ...args],
+    updates: {table},
+    updateKind: UpdateKind.update,
+  );
+}

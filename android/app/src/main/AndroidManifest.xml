@@ -2,6 +2,8 @@
     <!-- Hatırlatıcılar: Android 13+ bildirim izni ve yeniden başlatmada bildirimleri geri kurma -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Uygulama kilidi: biyometrik doğrulama -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
     <application
         android:label="plan2me"
         android:name="${applicationName}"

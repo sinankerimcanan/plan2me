@@ -9,6 +9,7 @@ import '../../../core/widgets/toast.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/routes.dart';
+import '../../app_lock/data/app_lock_controller.dart';
 import '../../backup/presentation/backup_actions.dart';
 import '../../reminders/data/reminders_providers.dart';
 import '../../trash/data/trash_providers.dart';
@@ -66,6 +67,8 @@ class SettingsScreen extends ConsumerWidget {
               icon: Icons.notifications_active_rounded,
             ),
             const _RemindersCard(),
+            SectionHeader(l.securityTitle, icon: Icons.shield_rounded),
+            const _SecurityCard(),
             SectionHeader(l.settingsData, icon: Icons.storage_rounded),
             const _DataCard(),
             SectionHeader(l.settingsAbout, icon: Icons.info_outline_rounded),
@@ -222,6 +225,33 @@ class _DataCard extends ConsumerWidget {
             onTap: () => context.push(Routes.trash),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SecurityCard extends ConsumerWidget {
+  const _SecurityCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final supported = ref.watch(appLockSupportedProvider).value ?? false;
+    final enabled = ref.watch(
+      appLockControllerProvider.select((s) => s.enabled),
+    );
+    return GlassSurface(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: SwitchListTile(
+        secondary: const Icon(Icons.face_rounded),
+        title: Text(l.appLockEnable),
+        subtitle: Text(supported ? l.appLockHelp : l.appLockUnsupported),
+        value: enabled,
+        onChanged: !supported
+            ? null
+            : (v) => ref
+                  .read(appLockControllerProvider.notifier)
+                  .setEnabled(v, reason: l.appLockReason),
       ),
     );
   }

@@ -49,6 +49,8 @@
 	<string>Görev ve proje son tarihlerini takvimine eklemek için.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Takvim etkinliği eklerken konum önerileri için.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>plan2me kilidini Face ID ile açmak için.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

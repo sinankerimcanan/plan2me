@@ -257,4 +257,43 @@ void main() {
       expect(next.card.dueDate, DateTime.utc(2026, 1, 2));
     },
   );
+
+  test(
+    'undoComplete kartı eski sütununa alır ve üretilen tekrarı siler',
+    () async {
+      final k = await board.addCard(
+        cols[1],
+        'Tekrarlı',
+        initial: CardPatch(
+          recurrence: Recurrence.daily,
+          dueDate: DateTime.utc(2026, 1, 5),
+        ),
+      );
+      await board.completeCard(k);
+      var open = [
+        for (final l in (await board.watchBoard(projectId).first).lanes)
+          for (final c in l.cards)
+            if (!c.card.isCompleted) c.card.id,
+      ];
+      expect(open, hasLength(1)); // sonraki tekrar
+
+      await board.undoComplete(k, toColumnId: cols[1]);
+      final lanes = (await board.watchBoard(projectId).first).lanes;
+      open = [
+        for (final l in lanes)
+          for (final c in l.cards) c.card.id,
+      ];
+      expect(open, [k]);
+      expect(lanes[1].cards.single.card.isCompleted, isFalse);
+
+      // Tekrar tamamlanınca yine tek bir sonraki tekrar oluşur.
+      await board.completeCard(k);
+      final again = [
+        for (final l in (await board.watchBoard(projectId).first).lanes)
+          for (final c in l.cards)
+            if (!c.card.isCompleted) c,
+      ];
+      expect(again, hasLength(1));
+    },
+  );
 }

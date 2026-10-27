@@ -28,6 +28,10 @@ abstract interface class BoardRepository {
 
   /// Tamamlanmış kartı ilk açık sütunun sonuna geri taşır.
   Future<void> reopenCard(String cardId);
+
+  /// "Tamamla"yı geri alır: kartı [toColumnId]'ye geri taşır ve tamamlanınca
+  /// üretilmiş (henüz dokunulmamış) sonraki tekrarı siler.
+  Future<void> undoComplete(String cardId, {required String toColumnId});
   Future<void> updateCard(String cardId, CardPatch patch);
 
   /// [beforeCardId] null ise hedef sütunun sonuna taşır.

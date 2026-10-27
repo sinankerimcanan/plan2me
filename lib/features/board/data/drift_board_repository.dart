@@ -430,6 +430,35 @@ class DriftBoardRepository implements BoardRepository {
     await moveCard(cardId, open.id);
   }
 
+  @override
+  Future<void> undoComplete(String cardId, {required String toColumnId}) =>
+      _db.transaction(() async {
+        final card = await _aliveCard(cardId);
+        if (card == null) return;
+        final now = _clock();
+        final nextId = card.nextCardId;
+        if (nextId != null) {
+          final next = await _aliveCard(nextId);
+          if (next != null && next.completedAt == null) {
+            final arg = [Variable<String>(nextId)];
+            await _db.softDeleteWhere(
+              _db.checklistItems,
+              'card_id = ?',
+              arg,
+              now,
+            );
+            await _db.softDeleteWhere(_db.cardLabels, 'card_id = ?', arg, now);
+            await _db.softDeleteWhere(_db.cards, 'id = ?', arg, now);
+          }
+          await _writeCard(
+            cardId,
+            const CardsCompanion(nextCardId: Value(null)),
+            now,
+          );
+        }
+        await moveCard(cardId, toColumnId);
+      });
+
   Future<List<BoardColumnRow>> _aliveColumns(String projectId) =>
       (_db.select(_db.boardColumns)
             ..where((t) => t.projectId.equals(projectId) & t.deletedAt.isNull())

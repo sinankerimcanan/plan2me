@@ -1,0 +1,416 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Turkish (`tr`).
+class AppLocalizationsTr extends AppLocalizations {
+  AppLocalizationsTr([String locale = 'tr']) : super(locale);
+
+  @override
+  String get appTitle => 'plan2me';
+
+  @override
+  String get navProjects => 'Projeler';
+
+  @override
+  String get navPeople => 'Kişiler';
+
+  @override
+  String get navSettings => 'Ayarlar';
+
+  @override
+  String get commonSave => 'Kaydet';
+
+  @override
+  String get commonCancel => 'Vazgeç';
+
+  @override
+  String get commonDelete => 'Sil';
+
+  @override
+  String get commonEdit => 'Düzenle';
+
+  @override
+  String get commonAdd => 'Ekle';
+
+  @override
+  String get commonClose => 'Kapat';
+
+  @override
+  String get commonNone => 'Yok';
+
+  @override
+  String get commonClear => 'Temizle';
+
+  @override
+  String get commonRetry => 'Tekrar dene';
+
+  @override
+  String get commonDeleteTitle => 'Silinsin mi?';
+
+  @override
+  String get commonColor => 'Renk';
+
+  @override
+  String get commonNotFound => 'Kayıt bulunamadı';
+
+  @override
+  String errorGeneric(Object error) {
+    return 'Bir şeyler ters gitti: $error';
+  }
+
+  @override
+  String get priority => 'Öncelik';
+
+  @override
+  String get priorityLow => 'Düşük';
+
+  @override
+  String get priorityMedium => 'Orta';
+
+  @override
+  String get priorityHigh => 'Yüksek';
+
+  @override
+  String get priorityCritical => 'Kritik';
+
+  @override
+  String get status => 'Aşama';
+
+  @override
+  String get statusBacklog => 'Havuz';
+
+  @override
+  String get statusPlanned => 'Planlandı';
+
+  @override
+  String get statusInProgress => 'Devam ediyor';
+
+  @override
+  String get statusOnHold => 'Askıda';
+
+  @override
+  String get statusDone => 'Tamamlandı';
+
+  @override
+  String get statusCancelled => 'İptal';
+
+  @override
+  String get projectsTitle => 'Projelerim';
+
+  @override
+  String get projectsSearchHint => 'Proje, kişi veya detay ara';
+
+  @override
+  String get projectsEmptyTitle => 'Henüz proje yok';
+
+  @override
+  String get projectsEmptyBody => 'İlk projeni oluşturarak planlamaya başla.';
+
+  @override
+  String get projectsNoMatch => 'Filtrelere uyan proje yok';
+
+  @override
+  String get projectsNew => 'Yeni proje';
+
+  @override
+  String get projectsFilters => 'Filtreler';
+
+  @override
+  String get projectsShowClosed => 'Kapananları göster';
+
+  @override
+  String get projectsClearFilters => 'Filtreleri temizle';
+
+  @override
+  String get projectsReorderHint => 'Sıralamak için basılı tutup sürükle';
+
+  @override
+  String get sort => 'Sırala';
+
+  @override
+  String get sortManual => 'Manuel';
+
+  @override
+  String get sortPriority => 'Öncelik';
+
+  @override
+  String get sortDueDate => 'Son tarih';
+
+  @override
+  String get sortUpdated => 'Son güncellenen';
+
+  @override
+  String cardsProgress(int done, int total) {
+    return '$done/$total kart';
+  }
+
+  @override
+  String get projectFormNew => 'Yeni proje';
+
+  @override
+  String get projectFormEdit => 'Projeyi düzenle';
+
+  @override
+  String get fieldTitle => 'Başlık';
+
+  @override
+  String get fieldTitleRequired => 'Başlık gerekli';
+
+  @override
+  String get fieldDescription => 'Kısa açıklama';
+
+  @override
+  String get fieldDetails => 'Detaylar';
+
+  @override
+  String get fieldDetailsHint => 'Kapsam, notlar, bağlantılar…';
+
+  @override
+  String get fieldStartDate => 'Başlangıç';
+
+  @override
+  String get fieldDueDate => 'Son tarih';
+
+  @override
+  String get fieldDates => 'Tarihler';
+
+  @override
+  String get fieldResponsible => 'Sorumlu';
+
+  @override
+  String get fieldRequesters => 'Talep edenler';
+
+  @override
+  String get pickDate => 'Tarih seç';
+
+  @override
+  String get addPersonInline => 'Yeni kişi';
+
+  @override
+  String get noPeopleYet => 'Henüz kişi yok. Yeni kişi ekleyebilirsin.';
+
+  @override
+  String get defaultColumnTodo => 'Yapılacak';
+
+  @override
+  String get defaultColumnDoing => 'Devam ediyor';
+
+  @override
+  String get defaultColumnDone => 'Tamamlandı';
+
+  @override
+  String get projectOpenBoard => 'Board\'u aç';
+
+  @override
+  String get projectPeople => 'Kişiler';
+
+  @override
+  String get projectDetails => 'Detaylar';
+
+  @override
+  String get projectNoDetails => 'Henüz detay eklenmemiş.';
+
+  @override
+  String get projectBoardSummary => 'Board';
+
+  @override
+  String projectDeleteBody(String title) {
+    return '\"$title\" projesi ve tüm board içeriği silinecek.';
+  }
+
+  @override
+  String get projectChangeStatus => 'Aşamayı değiştir';
+
+  @override
+  String projectCreated(String date) {
+    return 'Oluşturuldu $date';
+  }
+
+  @override
+  String dueOverdue(int days) {
+    return '$days gün gecikti';
+  }
+
+  @override
+  String get dueToday => 'Bugün';
+
+  @override
+  String get dueTomorrow => 'Yarın';
+
+  @override
+  String dueInDays(int days) {
+    return '$days gün kaldı';
+  }
+
+  @override
+  String get boardAddColumn => 'Sütun ekle';
+
+  @override
+  String get boardColumnName => 'Sütun adı';
+
+  @override
+  String get boardAddCard => 'Kart ekle';
+
+  @override
+  String get boardCardTitleHint => 'Kart başlığı, Enter ile ekle';
+
+  @override
+  String get boardEmptyColumn => 'Kartı buraya bırak';
+
+  @override
+  String get boardLabels => 'Etiketler';
+
+  @override
+  String get columnSettings => 'Sütun ayarları';
+
+  @override
+  String get columnMoveLeft => 'Sola taşı';
+
+  @override
+  String get columnMoveRight => 'Sağa taşı';
+
+  @override
+  String get columnWipLimit => 'WIP limiti';
+
+  @override
+  String get columnWipHint => 'Boş bırakılırsa limitsiz';
+
+  @override
+  String get columnIsDone => 'Tamamlanma sütunu';
+
+  @override
+  String get columnIsDoneHelp =>
+      'Bu sütuna taşınan kartlar tamamlandı sayılır.';
+
+  @override
+  String columnDeleteBody(String name, int count) {
+    return '\"$name\" sütunu ve içindeki $count kart silinecek.';
+  }
+
+  @override
+  String get columnLastWarning => 'Board\'da en az bir sütun kalmalı.';
+
+  @override
+  String get cardColumn => 'Sütun';
+
+  @override
+  String get cardDescription => 'Açıklama';
+
+  @override
+  String get cardDescriptionHint => 'Açıklama ekle…';
+
+  @override
+  String get cardLabels => 'Etiketler';
+
+  @override
+  String get cardChecklist => 'Kontrol listesi';
+
+  @override
+  String get cardChecklistHint => 'Yeni madde ekle';
+
+  @override
+  String get cardDeleteBody => 'Bu kart ve kontrol listesi silinecek.';
+
+  @override
+  String cardCompletedOn(String date) {
+    return 'Tamamlandı · $date';
+  }
+
+  @override
+  String get cardNoLabels => 'Bu projede henüz etiket yok.';
+
+  @override
+  String get labelsManage => 'Etiketleri yönet';
+
+  @override
+  String get labelNew => 'Yeni etiket';
+
+  @override
+  String get labelName => 'Etiket adı';
+
+  @override
+  String labelDeleteBody(String name) {
+    return '\"$name\" etiketi tüm kartlardan kaldırılacak.';
+  }
+
+  @override
+  String get peopleTitle => 'Kişiler';
+
+  @override
+  String get peopleEmptyTitle => 'Kişi listesi boş';
+
+  @override
+  String get peopleEmptyBody =>
+      'Projelere talep eden ve sorumlu atamak için kişi ekle.';
+
+  @override
+  String get personNew => 'Yeni kişi';
+
+  @override
+  String get personEdit => 'Kişiyi düzenle';
+
+  @override
+  String get personName => 'Ad soyad';
+
+  @override
+  String get personNameRequired => 'Ad gerekli';
+
+  @override
+  String get personEmail => 'E-posta';
+
+  @override
+  String get personRole => 'Rol / birim';
+
+  @override
+  String get personIsMe => 'Bu benim';
+
+  @override
+  String get personIsMeHelp => 'Yeni projelerde varsayılan sorumlu olur.';
+
+  @override
+  String get personMe => 'Ben';
+
+  @override
+  String personStats(int responsible, int requested) {
+    return '$responsible sorumlu · $requested talep';
+  }
+
+  @override
+  String personDeleteBody(String name) {
+    return '\"$name\" silinecek ve projelerdeki atamaları kaldırılacak.';
+  }
+
+  @override
+  String get settingsTitle => 'Ayarlar';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get themeSystem => 'Sistem';
+
+  @override
+  String get themeLight => 'Açık';
+
+  @override
+  String get themeDark => 'Koyu';
+
+  @override
+  String get settingsData => 'Veri';
+
+  @override
+  String get settingsDataLocal =>
+      'Tüm veriler yalnızca bu cihazda saklanıyor. Senkronizasyon ileride eklenecek.';
+
+  @override
+  String get settingsAbout => 'Hakkında';
+
+  @override
+  String settingsVersion(String version) {
+    return 'Sürüm $version';
+  }
+}

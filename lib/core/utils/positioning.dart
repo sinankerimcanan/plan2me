@@ -49,10 +49,10 @@ List<double> renormalized(int count) => [
   for (var i = 0; i < count; i++) (i + 1) * kPositionStep,
 ];
 
-/// ReorderableListView (oldIndex, newIndex) çiftini "şu id'nin önüne" biçimine çevirir.
-/// [ids] taşımadan önceki sıradır. Dönen null, "sona taşı" demektir.
+/// `onReorderItem(oldIndex, newIndex)` çiftini "şu id'nin önüne" biçimine çevirir.
+/// [newIndex], öğe listeden çıkarıldıktan sonraki hedef sıradır (Flutter'ın
+/// onReorderItem semantiği). [ids] taşımadan önceki sıradır. null = sona taşı.
 String? beforeIdForReorder(List<String> ids, int oldIndex, int newIndex) {
   final without = [...ids]..removeAt(oldIndex);
-  final target = newIndex > oldIndex ? newIndex - 1 : newIndex;
-  return target >= without.length ? null : without[target];
+  return newIndex >= without.length ? null : without[newIndex];
 }

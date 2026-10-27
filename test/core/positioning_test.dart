@@ -43,8 +43,9 @@ void main() {
 
   group('beforeIdForReorder', () {
     final ids = ['a', 'b', 'c', 'd'];
-    test('aşağı taşıma', () => expect(beforeIdForReorder(ids, 0, 2), 'c'));
-    test('en sona', () => expect(beforeIdForReorder(ids, 1, 4), isNull));
+    // a'yı çıkar → [b, c, d]; hedef 2 → d'nin önüne
+    test('aşağı taşıma', () => expect(beforeIdForReorder(ids, 0, 2), 'd'));
+    test('en sona', () => expect(beforeIdForReorder(ids, 1, 3), isNull));
     test('yukarı taşıma', () => expect(beforeIdForReorder(ids, 3, 1), 'b'));
     test('başa', () => expect(beforeIdForReorder(ids, 2, 0), 'a'));
   });

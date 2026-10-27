@@ -3,9 +3,9 @@
     "short_name": "plan2me",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F8FBEE",
+    "theme_color": "#4E7A0B",
+    "description": "Kişisel proje ve kanban planlama uygulaması.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

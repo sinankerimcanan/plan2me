@@ -16,6 +16,7 @@ import '../../../core/widgets/person_avatar.dart';
 import '../../../core/widgets/toast.dart';
 import '../../trash/data/trash_providers.dart';
 import '../../board/presentation/board_view_model.dart';
+import '../../calendar_sync/data/calendar_sync_providers.dart';
 import '../../location/presentation/location_tile.dart';
 import '../../people/domain/person.dart';
 import '../domain/project.dart';
@@ -34,22 +35,23 @@ class ProjectDetailScreen extends ConsumerWidget {
 
     return LiquidScaffold(
       actions: [
-        if (overview.value?.project.dueDate case final due?)
-          IconButton(
-            tooltip: l.addToDeviceCalendar,
-            icon: const Icon(Icons.edit_calendar_rounded),
-            onPressed: () async {
-              final p = overview.value!.project;
-              final ok = await DeviceCalendar.addAllDayEvent(
-                title: l.deviceCalendarProjectDue(p.title),
-                date: due,
-                description: p.description,
-              );
-              if (!ok && context.mounted) {
-                showError(context, l.deviceCalendarFailed);
-              }
-            },
-          ),
+        if (!ref.watch(calendarSyncSettingsControllerProvider).enabled)
+          if (overview.value?.project.dueDate case final due?)
+            IconButton(
+              tooltip: l.addToDeviceCalendar,
+              icon: const Icon(Icons.edit_calendar_rounded),
+              onPressed: () async {
+                final p = overview.value!.project;
+                final ok = await DeviceCalendar.addAllDayEvent(
+                  title: l.deviceCalendarProjectDue(p.title),
+                  date: due,
+                  description: p.description,
+                );
+                if (!ok && context.mounted) {
+                  showError(context, l.deviceCalendarFailed);
+                }
+              },
+            ),
         IconButton(
           tooltip: l.commonEdit,
           icon: const Icon(Icons.edit_rounded),

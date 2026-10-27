@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/routes.dart';
 import '../../app_lock/data/app_lock_controller.dart';
 import '../../backup/presentation/backup_actions.dart';
+import '../../calendar_sync/data/calendar_sync_providers.dart';
 import '../../reminders/data/reminders_providers.dart';
 import '../../trash/data/trash_providers.dart';
 import 'theme_mode_controller.dart';
@@ -67,6 +68,11 @@ class SettingsScreen extends ConsumerWidget {
               icon: Icons.notifications_active_rounded,
             ),
             const _RemindersCard(),
+            SectionHeader(
+              l.calendarSyncTitle,
+              icon: Icons.event_available_rounded,
+            ),
+            const _CalendarSyncCard(),
             SectionHeader(l.securityTitle, icon: Icons.shield_rounded),
             const _SecurityCard(),
             SectionHeader(l.settingsData, icon: Icons.storage_rounded),
@@ -252,6 +258,44 @@ class _SecurityCard extends ConsumerWidget {
             : (v) => ref
                   .read(appLockControllerProvider.notifier)
                   .setEnabled(v, reason: l.appLockReason),
+      ),
+    );
+  }
+}
+
+class _CalendarSyncCard extends ConsumerWidget {
+  const _CalendarSyncCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final s = ref.watch(calendarSyncSettingsControllerProvider);
+    final ctrl = ref.read(calendarSyncSettingsControllerProvider.notifier);
+    return GlassSurface(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Column(
+        children: [
+          SwitchListTile(
+            secondary: const Icon(Icons.sync_rounded),
+            title: Text(l.calendarSyncEnable),
+            subtitle: Text(l.calendarSyncHelp),
+            value: s.enabled,
+            onChanged: (v) async {
+              if (!await ctrl.setEnabled(v)) showToast(l.calendarSyncDenied);
+            },
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.event_note_rounded),
+            title: Text(l.calendarSyncShowDevice),
+            subtitle: Text(l.calendarSyncShowDeviceHelp),
+            value: s.showDeviceEvents,
+            onChanged: (v) async {
+              if (!await ctrl.setShowDeviceEvents(v)) {
+                showToast(l.calendarSyncDenied);
+              }
+            },
+          ),
+        ],
       ),
     );
   }

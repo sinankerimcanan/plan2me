@@ -7,6 +7,9 @@
     <!-- Konum: göreve/projeye mevcut konumu ekleme -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- Takvim eşitleme: plan2me takvimi ve telefon etkinliklerini gösterme -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <application
         android:label="plan2me"
         android:name="${applicationName}"

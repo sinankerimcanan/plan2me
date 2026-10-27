@@ -12,6 +12,7 @@ import 'core/database/demo_seed.dart';
 import 'core/router/app_router.dart';
 import 'core/services/quick_actions_service.dart';
 import 'features/board/data/board_providers.dart';
+import 'features/calendar_sync/data/calendar_sync_providers.dart';
 import 'features/home_widget/data/home_widget_sync.dart';
 import 'features/people/data/people_providers.dart';
 import 'features/projects/data/projects_providers.dart';
@@ -75,8 +76,26 @@ Future<void> main() async {
     // Widget'tan tamamlanan görevler: açılışta ve uygulama her öne geldiğinde işle.
     final sync = container.read(homeWidgetSyncProvider.notifier);
     await sync.processPendingCompletions();
-    _lifecycle = AppLifecycleListener(onResume: sync.processPendingCompletions);
   }
+
+  // Telefon takvimiyle eşitleme (Ayarlar > Takvim'den açılır).
+  if (container.read(deviceCalendarGatewayProvider) != null) {
+    container.listen(calendarSyncProvider, (_, _) {});
+  }
+
+  // Uygulama öne geldiğinde: widget'tan gelen tamamlamalar, takvim eşitleme
+  // (kullanıcı takvimde etkinlik silmiş olabilir) ve telefon etkinliklerini tazeleme.
+  _lifecycle = AppLifecycleListener(
+    onResume: () async {
+      if (container.read(widgetBridgeProvider) != null) {
+        await container
+            .read(homeWidgetSyncProvider.notifier)
+            .processPendingCompletions();
+      }
+      container.invalidate(deviceEventsProvider);
+      await container.read(calendarSyncProvider.notifier).syncNow();
+    },
+  );
 
   // Hatırlatıcılar: bildirime dokununca ilgili ekranı aç, verilere göre yeniden kur.
   final notifications = container.read(notificationGatewayProvider);

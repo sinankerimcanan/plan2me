@@ -12,6 +12,7 @@ import '../../../core/widgets/glass_sheet.dart';
 import '../../../core/widgets/person_avatar.dart';
 import '../../../core/widgets/toast.dart';
 import '../../people/data/people_providers.dart';
+import '../../calendar_sync/data/calendar_sync_providers.dart';
 import '../../location/presentation/location_picker_sheet.dart';
 import '../../location/presentation/location_tile.dart';
 import '../../trash/data/trash_providers.dart';
@@ -217,21 +218,22 @@ class _Content extends ConsumerWidget {
               ),
             ),
             if (card.dueDate != null) ...[
-              IconButton(
-                tooltip: l.addToDeviceCalendar,
-                icon: const Icon(Icons.edit_calendar_rounded),
-                onPressed: () async {
-                  final ok = await DeviceCalendar.addAllDayEvent(
-                    title: card.title,
-                    date: card.dueDate!,
-                    description: card.description,
-                    recurrence: card.recurrence,
-                  );
-                  if (!ok && context.mounted) {
-                    showError(context, l.deviceCalendarFailed);
-                  }
-                },
-              ),
+              if (!ref.watch(calendarSyncSettingsControllerProvider).enabled)
+                IconButton(
+                  tooltip: l.addToDeviceCalendar,
+                  icon: const Icon(Icons.edit_calendar_rounded),
+                  onPressed: () async {
+                    final ok = await DeviceCalendar.addAllDayEvent(
+                      title: card.title,
+                      date: card.dueDate!,
+                      description: card.description,
+                      recurrence: card.recurrence,
+                    );
+                    if (!ok && context.mounted) {
+                      showError(context, l.deviceCalendarFailed);
+                    }
+                  },
+                ),
               IconButton(
                 tooltip: l.commonClear,
                 icon: const Icon(Icons.close_rounded),

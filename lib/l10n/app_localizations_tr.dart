@@ -812,4 +812,39 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get mapsNone => 'Bu konumu açabilecek harita uygulaması bulunamadı.';
+
+  @override
+  String get calendarSyncTitle => 'Takvim';
+
+  @override
+  String get calendarSyncEnable => 'Telefon takvimiyle eşitle';
+
+  @override
+  String get calendarSyncHelp =>
+      'Tarihli görevler ve proje teslimleri \"plan2me\" takviminde tutulur; değişince güncellenir, tamamlanınca kaldırılır.';
+
+  @override
+  String get calendarSyncShowDevice => 'Telefondaki etkinlikleri göster';
+
+  @override
+  String get calendarSyncShowDeviceHelp =>
+      'Toplantı ve etkinliklerin uygulamadaki takvimde de görünür.';
+
+  @override
+  String get calendarSyncDenied =>
+      'Takvim izni verilmedi. Ayarlar > plan2me > Takvimler\'den tam erişim verebilirsin.';
+
+  @override
+  String get calendarSyncCalendarName => 'plan2me';
+
+  @override
+  String calendarSyncTaskFooter(String context) {
+    return '$context · plan2me';
+  }
+
+  @override
+  String get calendarDeviceEvents => 'Takvim etkinlikleri';
+
+  @override
+  String get calendarAllDay => 'Tüm gün';
 }

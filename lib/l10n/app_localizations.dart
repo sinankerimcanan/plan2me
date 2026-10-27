@@ -1575,6 +1575,66 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu konumu açabilecek harita uygulaması bulunamadı.'**
   String get mapsNone;
+
+  /// No description provided for @calendarSyncTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim'**
+  String get calendarSyncTitle;
+
+  /// No description provided for @calendarSyncEnable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon takvimiyle eşitle'**
+  String get calendarSyncEnable;
+
+  /// No description provided for @calendarSyncHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarihli görevler ve proje teslimleri \"plan2me\" takviminde tutulur; değişince güncellenir, tamamlanınca kaldırılır.'**
+  String get calendarSyncHelp;
+
+  /// No description provided for @calendarSyncShowDevice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefondaki etkinlikleri göster'**
+  String get calendarSyncShowDevice;
+
+  /// No description provided for @calendarSyncShowDeviceHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplantı ve etkinliklerin uygulamadaki takvimde de görünür.'**
+  String get calendarSyncShowDeviceHelp;
+
+  /// No description provided for @calendarSyncDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim izni verilmedi. Ayarlar > plan2me > Takvimler\'den tam erişim verebilirsin.'**
+  String get calendarSyncDenied;
+
+  /// No description provided for @calendarSyncCalendarName.
+  ///
+  /// In tr, this message translates to:
+  /// **'plan2me'**
+  String get calendarSyncCalendarName;
+
+  /// No description provided for @calendarSyncTaskFooter.
+  ///
+  /// In tr, this message translates to:
+  /// **'{context} · plan2me'**
+  String calendarSyncTaskFooter(String context);
+
+  /// No description provided for @calendarDeviceEvents.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim etkinlikleri'**
+  String get calendarDeviceEvents;
+
+  /// No description provided for @calendarAllDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm gün'**
+  String get calendarAllDay;
 }
 
 class _AppLocalizationsDelegate

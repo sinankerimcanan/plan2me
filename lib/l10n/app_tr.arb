@@ -429,5 +429,22 @@
         "type": "String"
       }
     }
+  },
+  "calendarSyncTitle": "Takvim",
+  "calendarSyncEnable": "Telefon takvimiyle eşitle",
+  "calendarSyncHelp": "Tarihli görevler ve proje teslimleri \"plan2me\" takviminde tutulur; değişince güncellenir, tamamlanınca kaldırılır.",
+  "calendarSyncShowDevice": "Telefondaki etkinlikleri göster",
+  "calendarSyncShowDeviceHelp": "Toplantı ve etkinliklerin uygulamadaki takvimde de görünür.",
+  "calendarSyncDenied": "Takvim izni verilmedi. Ayarlar > plan2me > Takvimler'den tam erişim verebilirsin.",
+  "calendarSyncCalendarName": "plan2me",
+  "calendarSyncTaskFooter": "{context} · plan2me",
+  "calendarDeviceEvents": "Takvim etkinlikleri",
+  "calendarAllDay": "Tüm gün",
+  "@calendarSyncTaskFooter": {
+    "placeholders": {
+      "context": {
+        "type": "String"
+      }
+    }
   }
 }

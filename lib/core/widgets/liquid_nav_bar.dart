@@ -443,7 +443,9 @@ class _ActionButtonState extends State<_ActionButton> {
                       ),
                       child: Icon(
                         widget.action.icon,
-                        color: dark ? scheme.onPrimary : scheme.onPrimaryContainer,
+                        color: dark
+                            ? scheme.onPrimary
+                            : scheme.onPrimaryContainer,
                         size: 26,
                       ),
                     ),

@@ -5,6 +5,7 @@ import '../../../../core/theme/color_schemes.dart';
 import '../../../../core/theme/glass.dart';
 import '../../../../core/theme/semantic_colors.dart';
 import '../../../../core/widgets/chips.dart';
+import '../../../../core/widgets/person_avatar.dart';
 import '../../domain/board_models.dart';
 
 /// Board üzerindeki kart görünümü (sahte cam: blur yok, kaydırmada ucuz).
@@ -106,12 +107,20 @@ class KanbanCardTile extends StatelessWidget {
                           ? s.success
                           : theme.colorScheme.onSurfaceVariant,
                     ),
+                  if (card.recurrence != null)
+                    Icon(
+                      Icons.repeat_rounded,
+                      size: 16,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   if (card.description != null)
                     Icon(
                       Icons.notes_rounded,
                       size: 16,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
+                  if (item.assignee != null)
+                    PersonAvatar(item.assignee!, size: 22),
                 ],
               ),
             ],

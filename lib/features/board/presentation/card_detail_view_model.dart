@@ -35,6 +35,36 @@ class CardDetailViewModel extends _$CardDetailViewModel {
         : CardPatch(dueDate: dateOnly(d)),
   );
 
+  Future<void> setAssignee(String? personId) => _repo.updateCard(
+    cardId,
+    personId == null
+        ? const CardPatch(clearAssignee: true)
+        : CardPatch(assigneePersonId: personId),
+  );
+
+  Future<void> setRecurrence(Recurrence? r) => _repo.updateCard(
+    cardId,
+    r == null
+        ? const CardPatch(clearRecurrence: true)
+        : CardPatch(recurrence: r),
+  );
+
+  /// Tamamla / yeniden aç; geri alma fonksiyonu döner.
+  Future<({bool completed, Future<void> Function() undo})>
+  toggleComplete() async {
+    final card = state.value?.card;
+    if (card == null) return (completed: false, undo: () async {});
+    if (card.isCompleted) {
+      await _repo.reopenCard(cardId);
+      return (completed: false, undo: () => _repo.completeCard(cardId));
+    }
+    await _repo.completeCard(cardId);
+    return (
+      completed: true,
+      undo: () => _repo.undoComplete(cardId, toColumnId: card.columnId),
+    );
+  }
+
   Future<void> moveToColumn(String columnId) =>
       _repo.moveCard(cardId, columnId);
 

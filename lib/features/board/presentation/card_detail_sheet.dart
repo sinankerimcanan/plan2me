@@ -8,6 +8,10 @@ import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/glass_sheet.dart';
+import '../../../core/widgets/person_avatar.dart';
+import '../../../core/widgets/toast.dart';
+import '../../people/data/people_providers.dart';
+import '../../trash/data/trash_providers.dart';
 import '../domain/board_models.dart';
 import 'card_detail_view_model.dart';
 import 'label_manager_sheet.dart';
@@ -76,6 +80,26 @@ class _Content extends ConsumerWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            IconButton(
+              tooltip: card.isCompleted ? l.taskReopen : l.taskComplete,
+              iconSize: 30,
+              color: card.isCompleted
+                  ? context.semantic.success
+                  : theme.colorScheme.onSurfaceVariant,
+              icon: Icon(
+                card.isCompleted
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked_rounded,
+              ),
+              onPressed: () async {
+                final r = await vm.toggleComplete();
+                showToast(
+                  r.completed ? l.taskCompletedToast : l.taskReopenedToast,
+                  undoLabel: l.undo,
+                  onUndo: r.undo,
+                );
+              },
+            ),
             Expanded(
               child: CommitTextField(
                 value: card.title,
@@ -98,8 +122,14 @@ class _Content extends ConsumerWidget {
               icon: const Icon(Icons.delete_outline_rounded),
               onPressed: () async {
                 if (await confirmDelete(context, l.cardDeleteBody)) {
+                  final trash = ref.read(trashRepositoryProvider);
                   await vm.delete();
                   if (context.mounted) Navigator.of(context).maybePop();
+                  showToast(
+                    l.taskDeletedToast,
+                    undoLabel: l.undo,
+                    onUndo: () => trash.restoreCard(card.id),
+                  );
                 }
               },
             ),
@@ -188,6 +218,41 @@ class _Content extends ConsumerWidget {
                 tooltip: l.commonClear,
                 icon: const Icon(Icons.close_rounded),
                 onPressed: () => vm.setDueDate(null),
+              ),
+          ],
+        ),
+        SectionHeader(l.taskAssignee, icon: Icons.person_pin_rounded),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ChoiceChip(
+              showCheckmark: false,
+              label: Text(l.commonNone),
+              selected: card.assigneePersonId == null,
+              onSelected: (_) => vm.setAssignee(null),
+            ),
+            for (final p in ref.watch(allPeopleProvider).value ?? const [])
+              ChoiceChip(
+                showCheckmark: false,
+                avatar: PersonAvatar(p, size: 22),
+                label: Text(p.name),
+                selected: card.assigneePersonId == p.id,
+                onSelected: (_) => vm.setAssignee(p.id),
+              ),
+          ],
+        ),
+        SectionHeader(l.recurrence, icon: Icons.repeat_rounded),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final r in <Recurrence?>[null, ...Recurrence.values])
+              ChoiceChip(
+                showCheckmark: false,
+                label: Text(r.label(l)),
+                selected: card.recurrence == r,
+                onSelected: (_) => vm.setRecurrence(r),
               ),
           ],
         ),

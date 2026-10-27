@@ -14,6 +14,7 @@ import 'features/board/data/board_providers.dart';
 import 'features/home_widget/data/home_widget_sync.dart';
 import 'features/people/data/people_providers.dart';
 import 'features/projects/data/projects_providers.dart';
+import 'features/reminders/data/reminders_providers.dart';
 import 'features/settings/presentation/theme_mode_controller.dart';
 import 'features/tasks/data/tasks_providers.dart';
 import 'l10n/app_localizations_tr.dart';
@@ -57,9 +58,25 @@ Future<void> main() async {
     container.listen(homeWidgetSyncProvider, (_, _) {});
   }
 
+  // Hatırlatıcılar: bildirime dokununca ilgili ekranı aç, verilere göre yeniden kur.
+  final notifications = container.read(notificationGatewayProvider);
+  String? launchRoute;
+  if (notifications != null) {
+    await notifications.initialize(
+      onOpen: (route) => container.read(appRouterProvider).push(route),
+    );
+    launchRoute = await notifications.launchRoute();
+    container.listen(reminderSyncProvider, (_, _) {});
+  }
+
   runApp(
     UncontrolledProviderScope(container: container, child: const Plan2MeApp()),
   );
+  if (launchRoute case final route?) {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => container.read(appRouterProvider).push(route),
+    );
+  }
 }
 
 /// Sadece geliştirme (PLAN2ME_SEED) modunda: Documents/dev_start_route.txt varsa

@@ -759,6 +759,21 @@ class $ProjectsTable extends Projects
     type: DriftSqlType.double,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _isInboxMeta = const VerificationMeta(
+    'isInbox',
+  );
+  @override
+  late final GeneratedColumn<bool> isInbox = GeneratedColumn<bool>(
+    'is_inbox',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_inbox" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -775,6 +790,7 @@ class $ProjectsTable extends Projects
     responsiblePersonId,
     details,
     position,
+    isInbox,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -873,6 +889,12 @@ class $ProjectsTable extends Projects
     } else if (isInserting) {
       context.missing(_positionMeta);
     }
+    if (data.containsKey('is_inbox')) {
+      context.handle(
+        _isInboxMeta,
+        isInbox.isAcceptableOrUnknown(data['is_inbox']!, _isInboxMeta),
+      );
+    }
     return context;
   }
 
@@ -942,6 +964,10 @@ class $ProjectsTable extends Projects
         DriftSqlType.double,
         data['${effectivePrefix}position'],
       )!,
+      isInbox: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_inbox'],
+      )!,
     );
   }
 
@@ -971,6 +997,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
   final String? responsiblePersonId;
   final String? details;
   final double position;
+
+  /// Projesiz hızlı görevlerin toplandığı özel "Gelen kutusu" projesi.
+  final bool isInbox;
   const ProjectRow({
     required this.id,
     required this.createdAt,
@@ -986,6 +1015,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     this.responsiblePersonId,
     this.details,
     required this.position,
+    required this.isInbox,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1024,6 +1054,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       map['details'] = Variable<String>(details);
     }
     map['position'] = Variable<double>(position);
+    map['is_inbox'] = Variable<bool>(isInbox);
     return map;
   }
 
@@ -1055,6 +1086,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           ? const Value.absent()
           : Value(details),
       position: Value(position),
+      isInbox: Value(isInbox),
     );
   }
 
@@ -1084,6 +1116,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       ),
       details: serializer.fromJson<String?>(json['details']),
       position: serializer.fromJson<double>(json['position']),
+      isInbox: serializer.fromJson<bool>(json['isInbox']),
     );
   }
   @override
@@ -1108,6 +1141,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       'responsiblePersonId': serializer.toJson<String?>(responsiblePersonId),
       'details': serializer.toJson<String?>(details),
       'position': serializer.toJson<double>(position),
+      'isInbox': serializer.toJson<bool>(isInbox),
     };
   }
 
@@ -1126,6 +1160,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     Value<String?> responsiblePersonId = const Value.absent(),
     Value<String?> details = const Value.absent(),
     double? position,
+    bool? isInbox,
   }) => ProjectRow(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -1143,6 +1178,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
         : this.responsiblePersonId,
     details: details.present ? details.value : this.details,
     position: position ?? this.position,
+    isInbox: isInbox ?? this.isInbox,
   );
   ProjectRow copyWithCompanion(ProjectsCompanion data) {
     return ProjectRow(
@@ -1164,6 +1200,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           : this.responsiblePersonId,
       details: data.details.present ? data.details.value : this.details,
       position: data.position.present ? data.position.value : this.position,
+      isInbox: data.isInbox.present ? data.isInbox.value : this.isInbox,
     );
   }
 
@@ -1183,7 +1220,8 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           ..write('dueDate: $dueDate, ')
           ..write('responsiblePersonId: $responsiblePersonId, ')
           ..write('details: $details, ')
-          ..write('position: $position')
+          ..write('position: $position, ')
+          ..write('isInbox: $isInbox')
           ..write(')'))
         .toString();
   }
@@ -1204,6 +1242,7 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     responsiblePersonId,
     details,
     position,
+    isInbox,
   );
   @override
   bool operator ==(Object other) =>
@@ -1222,7 +1261,8 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           other.dueDate == this.dueDate &&
           other.responsiblePersonId == this.responsiblePersonId &&
           other.details == this.details &&
-          other.position == this.position);
+          other.position == this.position &&
+          other.isInbox == this.isInbox);
 }
 
 class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
@@ -1240,6 +1280,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
   final Value<String?> responsiblePersonId;
   final Value<String?> details;
   final Value<double> position;
+  final Value<bool> isInbox;
   final Value<int> rowid;
   const ProjectsCompanion({
     this.id = const Value.absent(),
@@ -1256,6 +1297,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     this.responsiblePersonId = const Value.absent(),
     this.details = const Value.absent(),
     this.position = const Value.absent(),
+    this.isInbox = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProjectsCompanion.insert({
@@ -1273,6 +1315,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     this.responsiblePersonId = const Value.absent(),
     this.details = const Value.absent(),
     required double position,
+    this.isInbox = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        createdAt = Value(createdAt),
@@ -1296,6 +1339,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     Expression<String>? responsiblePersonId,
     Expression<String>? details,
     Expression<double>? position,
+    Expression<bool>? isInbox,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1314,6 +1358,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
         'responsible_person_id': responsiblePersonId,
       if (details != null) 'details': details,
       if (position != null) 'position': position,
+      if (isInbox != null) 'is_inbox': isInbox,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1333,6 +1378,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     Value<String?>? responsiblePersonId,
     Value<String?>? details,
     Value<double>? position,
+    Value<bool>? isInbox,
     Value<int>? rowid,
   }) {
     return ProjectsCompanion(
@@ -1350,6 +1396,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
       responsiblePersonId: responsiblePersonId ?? this.responsiblePersonId,
       details: details ?? this.details,
       position: position ?? this.position,
+      isInbox: isInbox ?? this.isInbox,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1405,6 +1452,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     if (position.present) {
       map['position'] = Variable<double>(position.value);
     }
+    if (isInbox.present) {
+      map['is_inbox'] = Variable<bool>(isInbox.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1428,6 +1478,7 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
           ..write('responsiblePersonId: $responsiblePersonId, ')
           ..write('details: $details, ')
           ..write('position: $position, ')
+          ..write('isInbox: $isInbox, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2721,6 +2772,40 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _assigneePersonIdMeta = const VerificationMeta(
+    'assigneePersonId',
+  );
+  @override
+  late final GeneratedColumn<String> assigneePersonId = GeneratedColumn<String>(
+    'assignee_person_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES persons (id) ON DELETE SET NULL',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<Recurrence?, String> recurrence =
+      GeneratedColumn<String>(
+        'recurrence',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<Recurrence?>($CardsTable.$converterrecurrencen);
+  static const VerificationMeta _nextCardIdMeta = const VerificationMeta(
+    'nextCardId',
+  );
+  @override
+  late final GeneratedColumn<String> nextCardId = GeneratedColumn<String>(
+    'next_card_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2736,6 +2821,9 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
     dueDate,
     position,
     completedAt,
+    assigneePersonId,
+    recurrence,
+    nextCardId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2838,6 +2926,24 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
         ),
       );
     }
+    if (data.containsKey('assignee_person_id')) {
+      context.handle(
+        _assigneePersonIdMeta,
+        assigneePersonId.isAcceptableOrUnknown(
+          data['assignee_person_id']!,
+          _assigneePersonIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('next_card_id')) {
+      context.handle(
+        _nextCardIdMeta,
+        nextCardId.isAcceptableOrUnknown(
+          data['next_card_id']!,
+          _nextCardIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2901,6 +3007,20 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}completed_at'],
       ),
+      assigneePersonId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}assignee_person_id'],
+      ),
+      recurrence: $CardsTable.$converterrecurrencen.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}recurrence'],
+        ),
+      ),
+      nextCardId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}next_card_id'],
+      ),
     );
   }
 
@@ -2911,6 +3031,10 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
 
   static JsonTypeConverter2<Priority, String, String> $converterpriority =
       const EnumNameConverter<Priority>(Priority.values);
+  static JsonTypeConverter2<Recurrence, String, String> $converterrecurrence =
+      const EnumNameConverter<Recurrence>(Recurrence.values);
+  static JsonTypeConverter2<Recurrence?, String?, String?>
+  $converterrecurrencen = JsonTypeConverter2.asNullable($converterrecurrence);
 }
 
 class CardRow extends DataClass implements Insertable<CardRow> {
@@ -2930,6 +3054,15 @@ class CardRow extends DataClass implements Insertable<CardRow> {
   final DateTime? dueDate;
   final double position;
   final DateTime? completedAt;
+
+  /// Görevin sorumlusu (v2).
+  final String? assigneePersonId;
+
+  /// Tekrar kuralı (v2). Tamamlanınca bir sonraki kart oluşturulur.
+  final Recurrence? recurrence;
+
+  /// Bu karttan üretilen bir sonraki tekrarın id'si; tekrar tekrar üretmeyi önler (v2).
+  final String? nextCardId;
   const CardRow({
     required this.id,
     required this.createdAt,
@@ -2944,6 +3077,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     this.dueDate,
     required this.position,
     this.completedAt,
+    this.assigneePersonId,
+    this.recurrence,
+    this.nextCardId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2973,6 +3109,17 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     if (!nullToAbsent || completedAt != null) {
       map['completed_at'] = Variable<DateTime>(completedAt);
     }
+    if (!nullToAbsent || assigneePersonId != null) {
+      map['assignee_person_id'] = Variable<String>(assigneePersonId);
+    }
+    if (!nullToAbsent || recurrence != null) {
+      map['recurrence'] = Variable<String>(
+        $CardsTable.$converterrecurrencen.toSql(recurrence),
+      );
+    }
+    if (!nullToAbsent || nextCardId != null) {
+      map['next_card_id'] = Variable<String>(nextCardId);
+    }
     return map;
   }
 
@@ -2999,6 +3146,15 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       completedAt: completedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(completedAt),
+      assigneePersonId: assigneePersonId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assigneePersonId),
+      recurrence: recurrence == null && nullToAbsent
+          ? const Value.absent()
+          : Value(recurrence),
+      nextCardId: nextCardId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nextCardId),
     );
   }
 
@@ -3023,6 +3179,11 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
       position: serializer.fromJson<double>(json['position']),
       completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
+      assigneePersonId: serializer.fromJson<String?>(json['assigneePersonId']),
+      recurrence: $CardsTable.$converterrecurrencen.fromJson(
+        serializer.fromJson<String?>(json['recurrence']),
+      ),
+      nextCardId: serializer.fromJson<String?>(json['nextCardId']),
     );
   }
   @override
@@ -3044,6 +3205,11 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       'dueDate': serializer.toJson<DateTime?>(dueDate),
       'position': serializer.toJson<double>(position),
       'completedAt': serializer.toJson<DateTime?>(completedAt),
+      'assigneePersonId': serializer.toJson<String?>(assigneePersonId),
+      'recurrence': serializer.toJson<String?>(
+        $CardsTable.$converterrecurrencen.toJson(recurrence),
+      ),
+      'nextCardId': serializer.toJson<String?>(nextCardId),
     };
   }
 
@@ -3061,6 +3227,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     Value<DateTime?> dueDate = const Value.absent(),
     double? position,
     Value<DateTime?> completedAt = const Value.absent(),
+    Value<String?> assigneePersonId = const Value.absent(),
+    Value<Recurrence?> recurrence = const Value.absent(),
+    Value<String?> nextCardId = const Value.absent(),
   }) => CardRow(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -3075,6 +3244,11 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     dueDate: dueDate.present ? dueDate.value : this.dueDate,
     position: position ?? this.position,
     completedAt: completedAt.present ? completedAt.value : this.completedAt,
+    assigneePersonId: assigneePersonId.present
+        ? assigneePersonId.value
+        : this.assigneePersonId,
+    recurrence: recurrence.present ? recurrence.value : this.recurrence,
+    nextCardId: nextCardId.present ? nextCardId.value : this.nextCardId,
   );
   CardRow copyWithCompanion(CardsCompanion data) {
     return CardRow(
@@ -3095,6 +3269,15 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       completedAt: data.completedAt.present
           ? data.completedAt.value
           : this.completedAt,
+      assigneePersonId: data.assigneePersonId.present
+          ? data.assigneePersonId.value
+          : this.assigneePersonId,
+      recurrence: data.recurrence.present
+          ? data.recurrence.value
+          : this.recurrence,
+      nextCardId: data.nextCardId.present
+          ? data.nextCardId.value
+          : this.nextCardId,
     );
   }
 
@@ -3113,7 +3296,10 @@ class CardRow extends DataClass implements Insertable<CardRow> {
           ..write('priority: $priority, ')
           ..write('dueDate: $dueDate, ')
           ..write('position: $position, ')
-          ..write('completedAt: $completedAt')
+          ..write('completedAt: $completedAt, ')
+          ..write('assigneePersonId: $assigneePersonId, ')
+          ..write('recurrence: $recurrence, ')
+          ..write('nextCardId: $nextCardId')
           ..write(')'))
         .toString();
   }
@@ -3133,6 +3319,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     dueDate,
     position,
     completedAt,
+    assigneePersonId,
+    recurrence,
+    nextCardId,
   );
   @override
   bool operator ==(Object other) =>
@@ -3150,7 +3339,10 @@ class CardRow extends DataClass implements Insertable<CardRow> {
           other.priority == this.priority &&
           other.dueDate == this.dueDate &&
           other.position == this.position &&
-          other.completedAt == this.completedAt);
+          other.completedAt == this.completedAt &&
+          other.assigneePersonId == this.assigneePersonId &&
+          other.recurrence == this.recurrence &&
+          other.nextCardId == this.nextCardId);
 }
 
 class CardsCompanion extends UpdateCompanion<CardRow> {
@@ -3167,6 +3359,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
   final Value<DateTime?> dueDate;
   final Value<double> position;
   final Value<DateTime?> completedAt;
+  final Value<String?> assigneePersonId;
+  final Value<Recurrence?> recurrence;
+  final Value<String?> nextCardId;
   final Value<int> rowid;
   const CardsCompanion({
     this.id = const Value.absent(),
@@ -3182,6 +3377,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     this.dueDate = const Value.absent(),
     this.position = const Value.absent(),
     this.completedAt = const Value.absent(),
+    this.assigneePersonId = const Value.absent(),
+    this.recurrence = const Value.absent(),
+    this.nextCardId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CardsCompanion.insert({
@@ -3198,6 +3396,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     this.dueDate = const Value.absent(),
     required double position,
     this.completedAt = const Value.absent(),
+    this.assigneePersonId = const Value.absent(),
+    this.recurrence = const Value.absent(),
+    this.nextCardId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        createdAt = Value(createdAt),
@@ -3221,6 +3422,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     Expression<DateTime>? dueDate,
     Expression<double>? position,
     Expression<DateTime>? completedAt,
+    Expression<String>? assigneePersonId,
+    Expression<String>? recurrence,
+    Expression<String>? nextCardId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3237,6 +3441,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
       if (dueDate != null) 'due_date': dueDate,
       if (position != null) 'position': position,
       if (completedAt != null) 'completed_at': completedAt,
+      if (assigneePersonId != null) 'assignee_person_id': assigneePersonId,
+      if (recurrence != null) 'recurrence': recurrence,
+      if (nextCardId != null) 'next_card_id': nextCardId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3255,6 +3462,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     Value<DateTime?>? dueDate,
     Value<double>? position,
     Value<DateTime?>? completedAt,
+    Value<String?>? assigneePersonId,
+    Value<Recurrence?>? recurrence,
+    Value<String?>? nextCardId,
     Value<int>? rowid,
   }) {
     return CardsCompanion(
@@ -3271,6 +3481,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
       dueDate: dueDate ?? this.dueDate,
       position: position ?? this.position,
       completedAt: completedAt ?? this.completedAt,
+      assigneePersonId: assigneePersonId ?? this.assigneePersonId,
+      recurrence: recurrence ?? this.recurrence,
+      nextCardId: nextCardId ?? this.nextCardId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3319,6 +3532,17 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     if (completedAt.present) {
       map['completed_at'] = Variable<DateTime>(completedAt.value);
     }
+    if (assigneePersonId.present) {
+      map['assignee_person_id'] = Variable<String>(assigneePersonId.value);
+    }
+    if (recurrence.present) {
+      map['recurrence'] = Variable<String>(
+        $CardsTable.$converterrecurrencen.toSql(recurrence.value),
+      );
+    }
+    if (nextCardId.present) {
+      map['next_card_id'] = Variable<String>(nextCardId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3341,6 +3565,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
           ..write('dueDate: $dueDate, ')
           ..write('position: $position, ')
           ..write('completedAt: $completedAt, ')
+          ..write('assigneePersonId: $assigneePersonId, ')
+          ..write('recurrence: $recurrence, ')
+          ..write('nextCardId: $nextCardId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -4935,6 +5162,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_cards_due',
     'CREATE INDEX idx_cards_due ON cards (due_date)',
   );
+  late final Index idxCardsAssignee = Index(
+    'idx_cards_assignee',
+    'CREATE INDEX idx_cards_assignee ON cards (assignee_person_id)',
+  );
   late final Index idxChecklistCardPosition = Index(
     'idx_checklist_card_position',
     'CREATE INDEX idx_checklist_card_position ON checklist_items (card_id, position)',
@@ -4969,6 +5200,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     idxCardsColumnPosition,
     idxCardsProject,
     idxCardsDue,
+    idxCardsAssignee,
     idxChecklistCardPosition,
     idxLabelsProject,
     idxCardLabelsLabel,
@@ -5016,6 +5248,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('cards', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'persons',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('cards', kind: UpdateKind.update)],
     ),
     WritePropagation(
       on: TableUpdateQuery.onTableName(
@@ -5115,6 +5354,24 @@ final class $$PersonsTableReferences
     final cache = $_typedResult.readTableOrNull(
       _projectRequestersRefsTable($_db),
     );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$CardsTable, List<CardRow>> _cardsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.cards,
+    aliasName: 'persons__id__cards__assignee_person_id',
+  );
+
+  $$CardsTableProcessedTableManager get cardsRefs {
+    final manager = $$CardsTableTableManager($_db, $_db.cards).filter(
+      (f) => f.assigneePersonId.id.sqlEquals($_itemColumn<String>('id')!),
+    );
+
+    final cache = $_typedResult.readTableOrNull(_cardsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -5221,6 +5478,31 @@ class $$PersonsTableFilterComposer
           }) => $$ProjectRequestersTableFilterComposer(
             $db: $db,
             $table: $db.projectRequesters,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> cardsRefs(
+    Expression<bool> Function($$CardsTableFilterComposer f) f,
+  ) {
+    final $$CardsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.assigneePersonId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableFilterComposer(
+            $db: $db,
+            $table: $db.cards,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5380,6 +5662,31 @@ class $$PersonsTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> cardsRefs<T extends Object>(
+    Expression<T> Function($$CardsTableAnnotationComposer a) f,
+  ) {
+    final $$CardsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.cards,
+      getReferencedColumn: (t) => t.assigneePersonId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.cards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$PersonsTableTableManager
@@ -5398,6 +5705,7 @@ class $$PersonsTableTableManager
           PrefetchHooks Function({
             bool projectsRefs,
             bool projectRequestersRefs,
+            bool cardsRefs,
           })
         > {
   $$PersonsTableTableManager(_$AppDatabase db, $PersonsTable table)
@@ -5472,12 +5780,17 @@ class $$PersonsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({projectsRefs = false, projectRequestersRefs = false}) {
+              ({
+                projectsRefs = false,
+                projectRequestersRefs = false,
+                cardsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (projectsRefs) db.projects,
                     if (projectRequestersRefs) db.projectRequesters,
+                    if (cardsRefs) db.cards,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -5522,6 +5835,22 @@ class $$PersonsTableTableManager
                           referencedColumn: 'person_id',
                           typedResults: items,
                         ),
+                      if (cardsRefs)
+                        await $_getPrefetchedDataByColumns<
+                          PersonRow,
+                          $PersonsTable,
+                          CardRow,
+                          $CardsTable
+                        >(
+                          currentTable: table,
+                          referencedTable: $$PersonsTableReferences
+                              ._cardsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$PersonsTableReferences(db, table, p0).cardsRefs,
+                          currentColumn: 'id',
+                          referencedColumn: 'assignee_person_id',
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -5542,7 +5871,11 @@ typedef $$PersonsTableProcessedTableManager =
       $$PersonsTableUpdateCompanionBuilder,
       (PersonRow, $$PersonsTableReferences),
       PersonRow,
-      PrefetchHooks Function({bool projectsRefs, bool projectRequestersRefs})
+      PrefetchHooks Function({
+        bool projectsRefs,
+        bool projectRequestersRefs,
+        bool cardsRefs,
+      })
     >;
 typedef $$ProjectsTableCreateCompanionBuilder = ProjectsCompanion Function({
   required String id,
@@ -5559,6 +5892,7 @@ typedef $$ProjectsTableCreateCompanionBuilder = ProjectsCompanion Function({
   Value<String?> responsiblePersonId,
   Value<String?> details,
   required double position,
+  Value<bool> isInbox,
   Value<int> rowid,
 });
 typedef $$ProjectsTableUpdateCompanionBuilder = ProjectsCompanion Function({
@@ -5576,6 +5910,7 @@ typedef $$ProjectsTableUpdateCompanionBuilder = ProjectsCompanion Function({
   Value<String?> responsiblePersonId,
   Value<String?> details,
   Value<double> position,
+  Value<bool> isInbox,
   Value<int> rowid,
 });
 
@@ -5751,6 +6086,11 @@ class $$ProjectsTableFilterComposer
 
   ColumnFilters<double> get position => $composableBuilder(
     column: $table.position,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isInbox => $composableBuilder(
+    column: $table.isInbox,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5952,6 +6292,11 @@ class $$ProjectsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get isInbox => $composableBuilder(
+    column: $table.isInbox,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$PersonsTableOrderingComposer get responsiblePersonId {
     final $$PersonsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -6025,6 +6370,9 @@ class $$ProjectsTableAnnotationComposer
 
   GeneratedColumn<double> get position =>
       $composableBuilder(column: $table.position, builder: (column) => column);
+
+  GeneratedColumn<bool> get isInbox =>
+      $composableBuilder(column: $table.isInbox, builder: (column) => column);
 
   $$PersonsTableAnnotationComposer get responsiblePersonId {
     final $$PersonsTableAnnotationComposer composer = $composerBuilder(
@@ -6199,6 +6547,7 @@ class $$ProjectsTableTableManager
                 Value<String?> responsiblePersonId = const Value.absent(),
                 Value<String?> details = const Value.absent(),
                 Value<double> position = const Value.absent(),
+                Value<bool> isInbox = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProjectsCompanion(
                 id: id,
@@ -6215,6 +6564,7 @@ class $$ProjectsTableTableManager
                 responsiblePersonId: responsiblePersonId,
                 details: details,
                 position: position,
+                isInbox: isInbox,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6233,6 +6583,7 @@ class $$ProjectsTableTableManager
                 Value<String?> responsiblePersonId = const Value.absent(),
                 Value<String?> details = const Value.absent(),
                 required double position,
+                Value<bool> isInbox = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProjectsCompanion.insert(
                 id: id,
@@ -6249,6 +6600,7 @@ class $$ProjectsTableTableManager
                 responsiblePersonId: responsiblePersonId,
                 details: details,
                 position: position,
+                isInbox: isInbox,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -7403,6 +7755,9 @@ typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
   Value<DateTime?> dueDate,
   required double position,
   Value<DateTime?> completedAt,
+  Value<String?> assigneePersonId,
+  Value<Recurrence?> recurrence,
+  Value<String?> nextCardId,
   Value<int> rowid,
 });
 typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
@@ -7419,6 +7774,9 @@ typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
   Value<DateTime?> dueDate,
   Value<double> position,
   Value<DateTime?> completedAt,
+  Value<String?> assigneePersonId,
+  Value<Recurrence?> recurrence,
+  Value<String?> nextCardId,
   Value<int> rowid,
 });
 
@@ -7454,6 +7812,23 @@ final class $$CardsTableReferences
       $_db.projects,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_projectIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $PersonsTable _assigneePersonIdTable(_$AppDatabase db) =>
+      db.persons.createAlias('cards__assignee_person_id__persons__id');
+
+  $$PersonsTableProcessedTableManager? get assigneePersonId {
+    final $_column = $_itemColumn<String>('assignee_person_id');
+    if ($_column == null) return null;
+    final manager = $$PersonsTableTableManager(
+      $_db,
+      $_db.persons,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_assigneePersonIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -7561,6 +7936,17 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnWithTypeConverterFilters<Recurrence?, Recurrence, String>
+  get recurrence => $composableBuilder(
+    column: $table.recurrence,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnFilters<String> get nextCardId => $composableBuilder(
+    column: $table.nextCardId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$BoardColumnsTableFilterComposer get columnId {
     final $$BoardColumnsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -7598,6 +7984,29 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
           }) => $$ProjectsTableFilterComposer(
             $db: $db,
             $table: $db.projects,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PersonsTableFilterComposer get assigneePersonId {
+    final $$PersonsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assigneePersonId,
+      referencedTable: $db.persons,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PersonsTableFilterComposer(
+            $db: $db,
+            $table: $db.persons,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7722,6 +8131,16 @@ class $$CardsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get recurrence => $composableBuilder(
+    column: $table.recurrence,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get nextCardId => $composableBuilder(
+    column: $table.nextCardId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$BoardColumnsTableOrderingComposer get columnId {
     final $$BoardColumnsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -7759,6 +8178,29 @@ class $$CardsTableOrderingComposer
           }) => $$ProjectsTableOrderingComposer(
             $db: $db,
             $table: $db.projects,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PersonsTableOrderingComposer get assigneePersonId {
+    final $$PersonsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assigneePersonId,
+      referencedTable: $db.persons,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PersonsTableOrderingComposer(
+            $db: $db,
+            $table: $db.persons,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7815,6 +8257,17 @@ class $$CardsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumnWithTypeConverter<Recurrence?, String> get recurrence =>
+      $composableBuilder(
+        column: $table.recurrence,
+        builder: (column) => column,
+      );
+
+  GeneratedColumn<String> get nextCardId => $composableBuilder(
+    column: $table.nextCardId,
+    builder: (column) => column,
+  );
+
   $$BoardColumnsTableAnnotationComposer get columnId {
     final $$BoardColumnsTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -7852,6 +8305,29 @@ class $$CardsTableAnnotationComposer
           }) => $$ProjectsTableAnnotationComposer(
             $db: $db,
             $table: $db.projects,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PersonsTableAnnotationComposer get assigneePersonId {
+    final $$PersonsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assigneePersonId,
+      referencedTable: $db.persons,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PersonsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.persons,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7928,6 +8404,7 @@ class $$CardsTableTableManager
           PrefetchHooks Function({
             bool columnId,
             bool projectId,
+            bool assigneePersonId,
             bool checklistItemsRefs,
             bool cardLabelsRefs,
           })
@@ -7958,6 +8435,9 @@ class $$CardsTableTableManager
                 Value<DateTime?> dueDate = const Value.absent(),
                 Value<double> position = const Value.absent(),
                 Value<DateTime?> completedAt = const Value.absent(),
+                Value<String?> assigneePersonId = const Value.absent(),
+                Value<Recurrence?> recurrence = const Value.absent(),
+                Value<String?> nextCardId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CardsCompanion(
                 id: id,
@@ -7973,6 +8453,9 @@ class $$CardsTableTableManager
                 dueDate: dueDate,
                 position: position,
                 completedAt: completedAt,
+                assigneePersonId: assigneePersonId,
+                recurrence: recurrence,
+                nextCardId: nextCardId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7990,6 +8473,9 @@ class $$CardsTableTableManager
                 Value<DateTime?> dueDate = const Value.absent(),
                 required double position,
                 Value<DateTime?> completedAt = const Value.absent(),
+                Value<String?> assigneePersonId = const Value.absent(),
+                Value<Recurrence?> recurrence = const Value.absent(),
+                Value<String?> nextCardId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CardsCompanion.insert(
                 id: id,
@@ -8005,6 +8491,9 @@ class $$CardsTableTableManager
                 dueDate: dueDate,
                 position: position,
                 completedAt: completedAt,
+                assigneePersonId: assigneePersonId,
+                recurrence: recurrence,
+                nextCardId: nextCardId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -8019,6 +8508,7 @@ class $$CardsTableTableManager
               ({
                 columnId = false,
                 projectId = false,
+                assigneePersonId = false,
                 checklistItemsRefs = false,
                 cardLabelsRefs = false,
               }) {
@@ -8063,6 +8553,17 @@ class $$CardsTableTableManager
                                 ._projectIdTable(db),
                             referencedColumn: $$CardsTableReferences
                                 ._projectIdTable(db)
+                                .id,
+                          ) as T;
+                        }
+                        if (assigneePersonId) {
+                          state = state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.assigneePersonId,
+                            referencedTable: $$CardsTableReferences
+                                ._assigneePersonIdTable(db),
+                            referencedColumn: $$CardsTableReferences
+                                ._assigneePersonIdTable(db)
                                 .id,
                           ) as T;
                         }
@@ -8134,6 +8635,7 @@ typedef $$CardsTableProcessedTableManager =
       PrefetchHooks Function({
         bool columnId,
         bool projectId,
+        bool assigneePersonId,
         bool checklistItemsRefs,
         bool cardLabelsRefs,
       })

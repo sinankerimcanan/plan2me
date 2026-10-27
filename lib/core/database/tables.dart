@@ -41,6 +41,9 @@ class Projects extends Table with SyncColumns {
   TextColumn get details => text().nullable()();
   RealColumn get position => real()();
 
+  /// Projesiz hızlı görevlerin toplandığı özel "Gelen kutusu" projesi.
+  BoolColumn get isInbox => boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
@@ -84,6 +87,7 @@ class BoardColumns extends Table with SyncColumns {
 @TableIndex(name: 'idx_cards_column_position', columns: {#columnId, #position})
 @TableIndex(name: 'idx_cards_project', columns: {#projectId})
 @TableIndex(name: 'idx_cards_due', columns: {#dueDate})
+@TableIndex(name: 'idx_cards_assignee', columns: {#assigneePersonId})
 class Cards extends Table with SyncColumns {
   TextColumn get columnId =>
       text().references(BoardColumns, #id, onDelete: KeyAction.cascade)();
@@ -98,6 +102,16 @@ class Cards extends Table with SyncColumns {
   DateTimeColumn get dueDate => dateTime().nullable()();
   RealColumn get position => real()();
   DateTimeColumn get completedAt => dateTime().nullable()();
+
+  /// Görevin sorumlusu (v2).
+  TextColumn get assigneePersonId =>
+      text().nullable().references(Persons, #id, onDelete: KeyAction.setNull)();
+
+  /// Tekrar kuralı (v2). Tamamlanınca bir sonraki kart oluşturulur.
+  TextColumn get recurrence => textEnum<Recurrence>().nullable()();
+
+  /// Bu karttan üretilen bir sonraki tekrarın id'si; tekrar tekrar üretmeyi önler (v2).
+  TextColumn get nextCardId => text().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

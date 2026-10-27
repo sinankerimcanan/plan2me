@@ -5,6 +5,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
 
 import '../domain/enums.dart';
+import 'app_database.steps.dart';
 import 'tables.dart';
 
 part 'app_database.g.dart';
@@ -28,11 +29,22 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) => m.createAll(),
+    // Şema değişiklikleri: `fvm dart run drift_dev make-migrations` ile adım
+    // dosyası üretilir, her yeni sürüm için buraya bir fromXToY eklenir.
+    onUpgrade: stepByStep(
+      from1To2: (m, schema) async {
+        await m.addColumn(schema.projects, schema.projects.isInbox);
+        await m.addColumn(schema.cards, schema.cards.assigneePersonId);
+        await m.addColumn(schema.cards, schema.cards.recurrence);
+        await m.addColumn(schema.cards, schema.cards.nextCardId);
+        await m.createIndex(schema.idxCardsAssignee);
+      },
+    ),
     beforeOpen: (details) async {
       // SQLite'ta FK kontrolü varsayılan olarak kapalıdır.
       await customStatement('PRAGMA foreign_keys = ON');

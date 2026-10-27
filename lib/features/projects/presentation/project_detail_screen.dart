@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/domain/enums.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/services/device_calendar.dart';
 import '../../../core/theme/color_schemes.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
@@ -30,6 +31,22 @@ class ProjectDetailScreen extends ConsumerWidget {
 
     return LiquidScaffold(
       actions: [
+        if (overview.value?.project.dueDate case final due?)
+          IconButton(
+            tooltip: l.addToDeviceCalendar,
+            icon: const Icon(Icons.edit_calendar_rounded),
+            onPressed: () async {
+              final p = overview.value!.project;
+              final ok = await DeviceCalendar.addAllDayEvent(
+                title: l.deviceCalendarProjectDue(p.title),
+                date: due,
+                description: p.description,
+              );
+              if (!ok && context.mounted) {
+                showError(context, l.deviceCalendarFailed);
+              }
+            },
+          ),
         IconButton(
           tooltip: l.commonEdit,
           icon: const Icon(Icons.edit_rounded),

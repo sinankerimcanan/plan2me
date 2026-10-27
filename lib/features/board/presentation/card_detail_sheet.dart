@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/domain/enums.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/services/device_calendar.dart';
 import '../../../core/theme/color_schemes.dart';
 import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
@@ -213,12 +214,28 @@ class _Content extends ConsumerWidget {
                 },
               ),
             ),
-            if (card.dueDate != null)
+            if (card.dueDate != null) ...[
+              IconButton(
+                tooltip: l.addToDeviceCalendar,
+                icon: const Icon(Icons.edit_calendar_rounded),
+                onPressed: () async {
+                  final ok = await DeviceCalendar.addAllDayEvent(
+                    title: card.title,
+                    date: card.dueDate!,
+                    description: card.description,
+                    recurrence: card.recurrence,
+                  );
+                  if (!ok && context.mounted) {
+                    showError(context, l.deviceCalendarFailed);
+                  }
+                },
+              ),
               IconButton(
                 tooltip: l.commonClear,
                 icon: const Icon(Icons.close_rounded),
                 onPressed: () => vm.setDueDate(null),
               ),
+            ],
           ],
         ),
         SectionHeader(l.taskAssignee, icon: Icons.person_pin_rounded),

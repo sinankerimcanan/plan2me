@@ -5,7 +5,7 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>tr</string>
 	<key>CFBundleDisplayName</key>
 	<string>plan2me</string>
 	<key>CFBundleExecutable</key>
@@ -14,6 +14,10 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>tr</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>plan2me</string>
 	<key>CFBundlePackageType</key>
@@ -37,6 +41,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Görev ve proje son tarihlerini takvimine eklemek için.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Görev ve proje son tarihlerini takvimine eklemek için.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Görev ve proje son tarihlerini takvimine eklemek için.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Takvim etkinliği eklerken konum önerileri için.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

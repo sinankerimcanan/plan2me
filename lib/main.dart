@@ -15,6 +15,7 @@ import 'features/home_widget/data/home_widget_sync.dart';
 import 'features/people/data/people_providers.dart';
 import 'features/projects/data/projects_providers.dart';
 import 'features/settings/presentation/theme_mode_controller.dart';
+import 'features/tasks/data/tasks_providers.dart';
 import 'l10n/app_localizations_tr.dart';
 
 Future<void> main() async {
@@ -38,11 +39,13 @@ Future<void> main() async {
       people: container.read(personRepositoryProvider),
       projects: container.read(projectRepositoryProvider),
       board: container.read(boardRepositoryProvider),
+      tasks: container.read(taskRepositoryProvider),
       defaultColumns: [
         l.defaultColumnTodo,
         l.defaultColumnDoing,
         l.defaultColumnDone,
       ],
+      inboxTitle: l.inboxTitle,
     );
   }
 

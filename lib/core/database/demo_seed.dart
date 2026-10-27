@@ -1,8 +1,11 @@
+import '../../features/board/domain/board_models.dart';
 import '../../features/board/domain/board_repository.dart';
 import '../../features/people/domain/person.dart';
 import '../../features/people/domain/person_repository.dart';
 import '../../features/projects/domain/project.dart';
 import '../../features/projects/domain/project_repository.dart';
+import '../../features/tasks/domain/task_item.dart';
+import '../../features/tasks/domain/task_repository.dart';
 import '../domain/enums.dart';
 import '../utils/clock.dart';
 
@@ -14,7 +17,9 @@ Future<void> seedDemoData({
   required PersonRepository people,
   required ProjectRepository projects,
   required BoardRepository board,
+  required TaskRepository tasks,
   required List<String> defaultColumns,
+  required String inboxTitle,
 }) async {
   if ((await projects.watchOverviews().first).isNotEmpty) return;
 
@@ -98,12 +103,35 @@ Future<void> seedDemoData({
   final design = await board.createLabel(web, 'Tasarım', '#8E24AA');
   final backend = await board.createLabel(web, 'Backend', '#1E88E5');
 
-  final c1 = await board.addCard(todo, 'İletişim formu e-posta entegrasyonu');
+  final c1 = await board.addCard(
+    todo,
+    'İletişim formu e-posta entegrasyonu',
+    initial: CardPatch(
+      dueDate: now.subtract(const Duration(days: 1)),
+      assigneePersonId: me.id,
+      priority: Priority.high,
+    ),
+  );
   await board.setCardLabel(c1, backend.id, enabled: true);
-  final c2 = await board.addCard(todo, 'Ürün sayfası görselleri');
+  final c2 = await board.addCard(
+    todo,
+    'Ürün sayfası görselleri',
+    initial: CardPatch(
+      dueDate: now.add(const Duration(days: 3)),
+      assigneePersonId: zeynep.id,
+    ),
+  );
   await board.setCardLabel(c2, design.id, enabled: true);
   await board.addCard(todo, 'SEO meta etiketleri');
-  final c4 = await board.addCard(doing, 'Ana sayfa hero bölümü');
+  final c4 = await board.addCard(
+    doing,
+    'Ana sayfa hero bölümü',
+    initial: CardPatch(
+      dueDate: now,
+      assigneePersonId: me.id,
+      priority: Priority.critical,
+    ),
+  );
   await board.setCardLabel(c4, design.id, enabled: true);
   await board.setCardLabel(c4, urgent.id, enabled: true);
   for (final t in ['Mobil düzen', 'Animasyonlar', 'Metin onayı']) {
@@ -113,6 +141,32 @@ Future<void> seedDemoData({
   await board.setChecklistItemDone(detail.checklist.first.id, done: true);
   final c5 = await board.addCard(doing, 'CMS koleksiyonları');
   await board.setCardLabel(c5, backend.id, enabled: true);
+  await board.addCard(
+    todo,
+    'Haftalık ilerleme raporu',
+    initial: CardPatch(
+      dueDate: now.add(const Duration(days: 1)),
+      assigneePersonId: me.id,
+      recurrence: Recurrence.weekly,
+    ),
+  );
   await board.addCard(done, 'Tasarım sistemi');
   await board.addCard(done, 'Alan adı ve hosting');
+
+  // Projesiz hızlı görevler → Gelen kutusu
+  for (final (title, days) in [
+    ('Fatura ödemesi', 0),
+    ('Ayşe\'yi ara: kampanya brifi', 2),
+    ('Kitap önerilerini not al', null),
+  ]) {
+    await tasks.addTask(
+      QuickTaskInput(
+        title: title,
+        dueDate: days == null ? null : now.add(Duration(days: days)),
+        extra: CardPatch(assigneePersonId: me.id),
+      ),
+      inboxTitle: inboxTitle,
+      defaultColumns: defaultColumns,
+    );
+  }
 }

@@ -98,7 +98,7 @@ final class TasksViewModelProvider
   }
 }
 
-String _$tasksViewModelHash() => r'fbdc393b35943385c7766ed1c3a96dbd0a66073a';
+String _$tasksViewModelHash() => r'74bbf8823fdc72f467ac67cb488545af4b500293';
 
 /// "Görevlerim" ViewModel'i: tüm projelerdeki görevleri gruplar, niyetleri yönetir.
 

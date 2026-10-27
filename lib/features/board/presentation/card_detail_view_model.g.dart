@@ -51,7 +51,7 @@ final class CardDetailViewModelProvider
 }
 
 String _$cardDetailViewModelHash() =>
-    r'2e785012794091386c6de5ec0f626a9f37a26541';
+    r'ebb6b01f40cadcdc4fac0f10271d4eb277ed62ee';
 
 final class CardDetailViewModelFamily extends $Family
     with

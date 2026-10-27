@@ -5558,7 +5558,7 @@ class $CalendarLinksTable extends CalendarLinks
 }
 
 class CalendarLinkRow extends DataClass implements Insertable<CalendarLinkRow> {
-  /// "card:<id>" ya da "project:<id>".
+  /// `card:<id>` ya da `project:<id>`.
   final String entityKey;
 
   /// Telefon takvimindeki etkinliğin id'si.

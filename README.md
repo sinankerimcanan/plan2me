@@ -9,7 +9,11 @@ Kişisel proje, görev ve Kanban planlama uygulaması.
   kaydırarak tamamla veya ertele, "Bana atanan" filtresi, her işlemde "Geri al"
 - **Hızlı ekleme ve Gelen kutusu:** projesiz görevler için; Bugün / Yarın / Hafta sonu kısayolları
 - **Kart sorumlusu ve tekrarlayan görevler:** her gün / hafta / ay / yıl; tamamlanınca sonraki tekrar oluşur
-- **Takvim:** ay / 2 hafta / hafta görünümü; görev ve proje tarihini telefon takvimine ekleme
+- **Takvim:** ay / 2 hafta / hafta görünümü; telefondaki etkinlikler de görünür
+- **Telefon takvimiyle eşitleme:** tarihli görevler ve proje teslimleri telefonda "plan2me"
+  takviminde tutulur; değişince güncellenir, tamamlanınca kaldırılır
+- **Konum ve haritalar:** görev/projeye adresle ya da mevcut konumla yer ekleme; Apple Haritalar,
+  Google Haritalar, Yandex veya Waze'de açma ve yol tarifi
 - **Hatırlatıcılar:** son gün ve bir gün önce bildirim, günlük özet, seçilebilir saat
 - **Çöp kutusu ve yedek:** silineni geri alma, JSON yedek alma / geri yükleme
 - **iOS widget'ları:** proje özeti ve Görevlerim (widget'tan dokunarak tamamlama), kilit ekranı türleri

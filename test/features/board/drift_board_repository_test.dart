@@ -1,13 +1,37 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plan2me/core/database/app_database.dart';
+import 'package:plan2me/core/domain/enums.dart';
 import 'package:plan2me/features/board/data/drift_board_repository.dart';
 import 'package:plan2me/features/board/domain/board_models.dart';
+import 'package:plan2me/features/people/data/drift_person_repository.dart';
+import 'package:plan2me/features/people/domain/person.dart';
 import 'package:plan2me/features/projects/data/drift_project_repository.dart';
 import 'package:plan2me/features/projects/domain/project.dart';
 
 import '../../helpers.dart';
 
 void main() {
+  group('Recurrence.next', () {
+    test('ay sonu taşması kırpılır', () {
+      expect(
+        Recurrence.monthly.next(DateTime.utc(2026, 1, 31)),
+        DateTime.utc(2026, 2, 28),
+      );
+      expect(
+        Recurrence.yearly.next(DateTime.utc(2028, 2, 29)),
+        DateTime.utc(2029, 2, 28),
+      );
+      expect(
+        Recurrence.weekly.next(DateTime.utc(2026, 12, 28)),
+        DateTime.utc(2027, 1, 4),
+      );
+      expect(
+        Recurrence.daily.next(DateTime.utc(2026, 10, 31)),
+        DateTime.utc(2026, 11, 1),
+      );
+    });
+  });
+
   late AppDatabase db;
   late DriftBoardRepository board;
   late String projectId;
@@ -147,4 +171,90 @@ void main() {
     final back = moved.moveCard(k2, cols[0], beforeCardId: k1);
     expect(back.lanes[0].cards.map((c) => c.card.id), [k2, k1]);
   });
+
+  test('completeCard / reopenCard tamamlanma sütununu kullanır', () async {
+    final k = await board.addCard(cols[0], 'k');
+    await board.completeCard(k);
+    var d = (await board.watchCard(k).first)!;
+    expect(d.column?.isDoneColumn, isTrue);
+    expect(d.card.isCompleted, isTrue);
+    await board.reopenCard(k);
+    d = (await board.watchCard(k).first)!;
+    expect(d.card.columnId, cols[0]);
+    expect(d.card.isCompleted, isFalse);
+  });
+
+  test("kart sorumlusu atanır, board'da görünür ve kaldırılabilir", () async {
+    final me = await DriftPersonRepository(db)
+        .create(const PersonInput(name: 'Ben'));
+    final k = await board.addCard(cols[0], 'k');
+    await board.updateCard(k, CardPatch(assigneePersonId: me.id));
+    var lane = (await board.watchBoard(projectId).first).lanes.first;
+    expect(lane.cards.single.assignee?.name, 'Ben');
+    await board.updateCard(k, const CardPatch(clearAssignee: true));
+    lane = (await board.watchBoard(projectId).first).lanes.first;
+    expect(lane.cards.single.assignee, isNull);
+  });
+
+  test('tekrarlı kart tamamlanınca sonraki tekrar etiket, sorumlu ve checklist ile oluşur', () async {
+    final me = await DriftPersonRepository(db)
+        .create(const PersonInput(name: 'Ben'));
+    final now = DateTime.now();
+    final due = DateTime.utc(now.year, now.month, now.day + 2);
+    final k = await board.addCard(
+      cols[0],
+      'Haftalık rapor',
+      initial: CardPatch(
+        recurrence: Recurrence.weekly,
+        assigneePersonId: me.id,
+        priority: Priority.high,
+        dueDate: due,
+      ),
+    );
+    final label = await board.createLabel(projectId, 'Rapor', '#1E88E5');
+    await board.setCardLabel(k, label.id, enabled: true);
+    await board.addChecklistItem(k, 'Veri topla');
+    final item = (await board.watchCard(k).first)!.checklist.single;
+    await board.setChecklistItemDone(item.id, done: true);
+
+    await board.completeCard(k);
+    // Yeniden açıp tekrar tamamlamak ikinci bir kopya üretmez.
+    await board.reopenCard(k);
+    await board.completeCard(k);
+
+    final open = [
+      for (final lane in (await board.watchBoard(projectId).first).lanes)
+        for (final c in lane.cards)
+          if (!c.card.isCompleted) c,
+    ];
+    expect(open, hasLength(1));
+    final next = open.single;
+    expect(next.card.id, isNot(k));
+    expect(next.card.columnId, cols[0]);
+    expect(next.card.recurrence, Recurrence.weekly);
+    expect(next.card.priority, Priority.high);
+    expect(next.card.dueDate, Recurrence.weekly.next(due));
+    expect(next.assignee?.id, me.id);
+    expect(next.labels.single.name, 'Rapor');
+    expect((next.checklistTotal, next.checklistDone), (1, 0));
+  });
+
+  test(
+    'geç tamamlanan tekrar geçmişi atlar, sonraki tekrar yarına düşer',
+    () async {
+      // Bu dosyadaki sahte saat 2026-01-01 09:00 UTC'de başlar.
+      final k = await board.addCard(
+        cols[0],
+        'Günlük',
+        initial: CardPatch(
+          recurrence: Recurrence.daily,
+          dueDate: DateTime.utc(2020, 1, 1),
+        ),
+      );
+      await board.completeCard(k);
+      final next =
+          (await board.watchBoard(projectId).first).lanes.first.cards.single;
+      expect(next.card.dueDate, DateTime.utc(2026, 1, 2));
+    },
+  );
 }

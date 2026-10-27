@@ -16,7 +16,18 @@ abstract interface class BoardRepository {
   Future<void> deleteColumn(String columnId);
 
   // Kartlar
-  Future<String> addCard(String columnId, String title);
+  /// [initial] ile son tarih, öncelik, sorumlu, tekrar baştan verilebilir.
+  Future<String> addCard(
+    String columnId,
+    String title, {
+    CardPatch initial = const CardPatch(),
+  });
+
+  /// Kartı projenin tamamlanma sütununa taşır (tekrarlıysa sonraki tekrar oluşur).
+  Future<void> completeCard(String cardId);
+
+  /// Tamamlanmış kartı ilk açık sütunun sonuna geri taşır.
+  Future<void> reopenCard(String cardId);
   Future<void> updateCard(String cardId, CardPatch patch);
 
   /// [beforeCardId] null ise hedef sütunun sonuna taşır.

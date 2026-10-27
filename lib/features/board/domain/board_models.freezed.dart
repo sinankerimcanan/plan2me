@@ -304,7 +304,7 @@ as bool,
 /// @nodoc
 mixin _$KanbanCard {
 
- String get id; String get projectId; String get columnId; String get title; String? get description; Priority get priority; DateTime? get dueDate; double get position; DateTime? get completedAt; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String get projectId; String get columnId; String get title; String? get description; Priority get priority; DateTime? get dueDate; double get position; DateTime? get completedAt; String? get assigneePersonId; Recurrence? get recurrence; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of KanbanCard
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -318,20 +318,20 @@ $KanbanCardCopyWith<KanbanCard> get copyWith => _$KanbanCardCopyWithImpl<KanbanC
 @override
 bool operator ==(Object other) {
   final _this = this as KanbanCard;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is KanbanCard&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.projectId, _this.projectId) || other.projectId == _this.projectId)&&(identical(other.columnId, _this.columnId) || other.columnId == _this.columnId)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.completedAt, _this.completedAt) || other.completedAt == _this.completedAt)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KanbanCard&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.projectId, _this.projectId) || other.projectId == _this.projectId)&&(identical(other.columnId, _this.columnId) || other.columnId == _this.columnId)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.completedAt, _this.completedAt) || other.completedAt == _this.completedAt)&&(identical(other.assigneePersonId, _this.assigneePersonId) || other.assigneePersonId == _this.assigneePersonId)&&(identical(other.recurrence, _this.recurrence) || other.recurrence == _this.recurrence)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as KanbanCard;
-  return Object.hash(runtimeType,_this.id,_this.projectId,_this.columnId,_this.title,_this.description,_this.priority,_this.dueDate,_this.position,_this.completedAt,_this.createdAt,_this.updatedAt);
+  return Object.hash(runtimeType,_this.id,_this.projectId,_this.columnId,_this.title,_this.description,_this.priority,_this.dueDate,_this.position,_this.completedAt,_this.assigneePersonId,_this.recurrence,_this.createdAt,_this.updatedAt);
 }
 
 @override
 String toString() {
   final _this = this as KanbanCard;
-  return 'KanbanCard(id: ${_this.id}, projectId: ${_this.projectId}, columnId: ${_this.columnId}, title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, dueDate: ${_this.dueDate}, position: ${_this.position}, completedAt: ${_this.completedAt}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
+  return 'KanbanCard(id: ${_this.id}, projectId: ${_this.projectId}, columnId: ${_this.columnId}, title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, dueDate: ${_this.dueDate}, position: ${_this.position}, completedAt: ${_this.completedAt}, assigneePersonId: ${_this.assigneePersonId}, recurrence: ${_this.recurrence}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
 }
 
 
@@ -342,7 +342,7 @@ abstract mixin class $KanbanCardCopyWith<$Res>  {
   factory $KanbanCardCopyWith(KanbanCard value, $Res Function(KanbanCard) _then) = _$KanbanCardCopyWithImpl;
 @useResult
 $Res call({
- String id, String projectId, String columnId, String title, String? description, Priority priority, DateTime? dueDate, double position, DateTime? completedAt, DateTime createdAt, DateTime updatedAt
+ String id, String projectId, String columnId, String title, String? description, Priority priority, DateTime? dueDate, double position, DateTime? completedAt, String? assigneePersonId, Recurrence? recurrence, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -359,7 +359,7 @@ class _$KanbanCardCopyWithImpl<$Res>
 
 /// Create a copy of KanbanCard
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? projectId = null,Object? columnId = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? dueDate = freezed,Object? position = null,Object? completedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? projectId = null,Object? columnId = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? dueDate = freezed,Object? position = null,Object? completedAt = freezed,Object? assigneePersonId = freezed,Object? recurrence = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(KanbanCard(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
@@ -370,7 +370,9 @@ as String?,priority: null == priority ? _self.priority : priority // ignore: cas
 as Priority,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
 as double,completedAt: freezed == completedAt ? _self.completedAt : completedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,assigneePersonId: freezed == assigneePersonId ? _self.assigneePersonId : assigneePersonId // ignore: cast_nullable_to_non_nullable
+as String?,recurrence: freezed == recurrence ? _self.recurrence : recurrence // ignore: cast_nullable_to_non_nullable
+as Recurrence?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -457,10 +459,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  String? assigneePersonId,  Recurrence? recurrence,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _KanbanCard() when $default != null:
-return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.assigneePersonId,_that.recurrence,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -478,10 +480,10 @@ return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  String? assigneePersonId,  Recurrence? recurrence,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _KanbanCard():
-return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.assigneePersonId,_that.recurrence,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -498,10 +500,10 @@ return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String projectId,  String columnId,  String title,  String? description,  Priority priority,  DateTime? dueDate,  double position,  DateTime? completedAt,  String? assigneePersonId,  Recurrence? recurrence,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _KanbanCard() when $default != null:
-return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.description,_that.priority,_that.dueDate,_that.position,_that.completedAt,_that.assigneePersonId,_that.recurrence,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -513,7 +515,7 @@ return $default(_that.id,_that.projectId,_that.columnId,_that.title,_that.descri
 @JsonSerializable()
 
 class _KanbanCard extends KanbanCard {
-  const _KanbanCard({required this.id, required this.projectId, required this.columnId, required this.title, this.description, this.priority = Priority.medium, this.dueDate, required this.position, this.completedAt, required this.createdAt, required this.updatedAt}): super._();
+  const _KanbanCard({required this.id, required this.projectId, required this.columnId, required this.title, this.description, this.priority = Priority.medium, this.dueDate, required this.position, this.completedAt, this.assigneePersonId, this.recurrence, required this.createdAt, required this.updatedAt}): super._();
   factory _KanbanCard.fromJson(Map<String, dynamic> json) => _$KanbanCardFromJson(json);
 
 @override final  String id;
@@ -525,6 +527,8 @@ class _KanbanCard extends KanbanCard {
 @override final  DateTime? dueDate;
 @override final  double position;
 @override final  DateTime? completedAt;
+@override final  String? assigneePersonId;
+@override final  Recurrence? recurrence;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -541,18 +545,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _KanbanCard&&(identical(other.id, id) || other.id == id)&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.columnId, columnId) || other.columnId == columnId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.position, position) || other.position == position)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _KanbanCard&&(identical(other.id, id) || other.id == id)&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.columnId, columnId) || other.columnId == columnId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.position, position) || other.position == position)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt)&&(identical(other.assigneePersonId, assigneePersonId) || other.assigneePersonId == assigneePersonId)&&(identical(other.recurrence, recurrence) || other.recurrence == recurrence)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,projectId,columnId,title,description,priority,dueDate,position,completedAt,createdAt,updatedAt);
+    return Object.hash(runtimeType,id,projectId,columnId,title,description,priority,dueDate,position,completedAt,assigneePersonId,recurrence,createdAt,updatedAt);
 }
 
 @override
 String toString() {
-    return 'KanbanCard(id: $id, projectId: $projectId, columnId: $columnId, title: $title, description: $description, priority: $priority, dueDate: $dueDate, position: $position, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'KanbanCard(id: $id, projectId: $projectId, columnId: $columnId, title: $title, description: $description, priority: $priority, dueDate: $dueDate, position: $position, completedAt: $completedAt, assigneePersonId: $assigneePersonId, recurrence: $recurrence, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -563,7 +567,7 @@ abstract mixin class _$KanbanCardCopyWith<$Res> implements $KanbanCardCopyWith<$
   factory _$KanbanCardCopyWith(_KanbanCard value, $Res Function(_KanbanCard) _then) = __$KanbanCardCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String projectId, String columnId, String title, String? description, Priority priority, DateTime? dueDate, double position, DateTime? completedAt, DateTime createdAt, DateTime updatedAt
+ String id, String projectId, String columnId, String title, String? description, Priority priority, DateTime? dueDate, double position, DateTime? completedAt, String? assigneePersonId, Recurrence? recurrence, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -580,7 +584,7 @@ class __$KanbanCardCopyWithImpl<$Res>
 
 /// Create a copy of KanbanCard
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? projectId = null,Object? columnId = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? dueDate = freezed,Object? position = null,Object? completedAt = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? projectId = null,Object? columnId = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? dueDate = freezed,Object? position = null,Object? completedAt = freezed,Object? assigneePersonId = freezed,Object? recurrence = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_KanbanCard(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
@@ -591,7 +595,9 @@ as String?,priority: null == priority ? _self.priority : priority // ignore: cas
 as Priority,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
 as double,completedAt: freezed == completedAt ? _self.completedAt : completedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,assigneePersonId: freezed == assigneePersonId ? _self.assigneePersonId : assigneePersonId // ignore: cast_nullable_to_non_nullable
+as String?,recurrence: freezed == recurrence ? _self.recurrence : recurrence // ignore: cast_nullable_to_non_nullable
+as Recurrence?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -1164,7 +1170,7 @@ as String,
 /// @nodoc
 mixin _$BoardCard {
 
- KanbanCard get card; List<Label> get labels; int get checklistTotal; int get checklistDone;
+ KanbanCard get card; List<Label> get labels; int get checklistTotal; int get checklistDone; Person? get assignee;
 /// Create a copy of BoardCard
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1176,20 +1182,20 @@ $BoardCardCopyWith<BoardCard> get copyWith => _$BoardCardCopyWithImpl<BoardCard>
 @override
 bool operator ==(Object other) {
   final _this = this as BoardCard;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BoardCard&&(identical(other.card, _this.card) || other.card == _this.card)&&const DeepCollectionEquality().equals(other.labels, _this.labels)&&(identical(other.checklistTotal, _this.checklistTotal) || other.checklistTotal == _this.checklistTotal)&&(identical(other.checklistDone, _this.checklistDone) || other.checklistDone == _this.checklistDone));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BoardCard&&(identical(other.card, _this.card) || other.card == _this.card)&&const DeepCollectionEquality().equals(other.labels, _this.labels)&&(identical(other.checklistTotal, _this.checklistTotal) || other.checklistTotal == _this.checklistTotal)&&(identical(other.checklistDone, _this.checklistDone) || other.checklistDone == _this.checklistDone)&&(identical(other.assignee, _this.assignee) || other.assignee == _this.assignee));
 }
 
 
 @override
 int get hashCode {
   final _this = this as BoardCard;
-  return Object.hash(runtimeType,_this.card,const DeepCollectionEquality().hash(_this.labels),_this.checklistTotal,_this.checklistDone);
+  return Object.hash(runtimeType,_this.card,const DeepCollectionEquality().hash(_this.labels),_this.checklistTotal,_this.checklistDone,_this.assignee);
 }
 
 @override
 String toString() {
   final _this = this as BoardCard;
-  return 'BoardCard(card: ${_this.card}, labels: ${_this.labels}, checklistTotal: ${_this.checklistTotal}, checklistDone: ${_this.checklistDone})';
+  return 'BoardCard(card: ${_this.card}, labels: ${_this.labels}, checklistTotal: ${_this.checklistTotal}, checklistDone: ${_this.checklistDone}, assignee: ${_this.assignee})';
 }
 
 
@@ -1200,11 +1206,11 @@ abstract mixin class $BoardCardCopyWith<$Res>  {
   factory $BoardCardCopyWith(BoardCard value, $Res Function(BoardCard) _then) = _$BoardCardCopyWithImpl;
 @useResult
 $Res call({
- KanbanCard card, List<Label> labels, int checklistTotal, int checklistDone
+ KanbanCard card, List<Label> labels, int checklistTotal, int checklistDone, Person? assignee
 });
 
 
-$KanbanCardCopyWith<$Res> get card;
+$KanbanCardCopyWith<$Res> get card;$PersonCopyWith<$Res>? get assignee;
 
 }
 /// @nodoc
@@ -1217,13 +1223,14 @@ class _$BoardCardCopyWithImpl<$Res>
 
 /// Create a copy of BoardCard
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? card = null,Object? labels = null,Object? checklistTotal = null,Object? checklistDone = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? card = null,Object? labels = null,Object? checklistTotal = null,Object? checklistDone = null,Object? assignee = freezed,}) {
   return _then(BoardCard(
 card: null == card ? _self.card : card // ignore: cast_nullable_to_non_nullable
 as KanbanCard,labels: null == labels ? _self.labels : labels // ignore: cast_nullable_to_non_nullable
 as List<Label>,checklistTotal: null == checklistTotal ? _self.checklistTotal : checklistTotal // ignore: cast_nullable_to_non_nullable
 as int,checklistDone: null == checklistDone ? _self.checklistDone : checklistDone // ignore: cast_nullable_to_non_nullable
-as int,
+as int,assignee: freezed == assignee ? _self.assignee : assignee // ignore: cast_nullable_to_non_nullable
+as Person?,
   ));
 }
 /// Create a copy of BoardCard
@@ -1234,6 +1241,18 @@ $KanbanCardCopyWith<$Res> get card {
   
   return $KanbanCardCopyWith<$Res>(_self.card, (value) {
     return _then(_self.copyWith(card: value));
+  });
+}/// Create a copy of BoardCard
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PersonCopyWith<$Res>? get assignee {
+    if (_self.assignee == null) {
+    return null;
+  }
+
+  return $PersonCopyWith<$Res>(_self.assignee!, (value) {
+    return _then(_self.copyWith(assignee: value));
   });
 }
 }
@@ -1317,10 +1336,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone,  Person? assignee)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BoardCard() when $default != null:
-return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone);case _:
+return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone,_that.assignee);case _:
   return orElse();
 
 }
@@ -1338,10 +1357,10 @@ return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone,  Person? assignee)  $default,) {final _that = this;
 switch (_that) {
 case _BoardCard():
-return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone);case _:
+return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone,_that.assignee);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1358,10 +1377,10 @@ return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( KanbanCard card,  List<Label> labels,  int checklistTotal,  int checklistDone,  Person? assignee)?  $default,) {final _that = this;
 switch (_that) {
 case _BoardCard() when $default != null:
-return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone);case _:
+return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone,_that.assignee);case _:
   return null;
 
 }
@@ -1373,7 +1392,7 @@ return $default(_that.card,_that.labels,_that.checklistTotal,_that.checklistDone
 
 
 class _BoardCard implements BoardCard {
-  const _BoardCard({required this.card,  List<Label> labels = const <Label>[], this.checklistTotal = 0, this.checklistDone = 0}): _labels = labels;
+  const _BoardCard({required this.card,  List<Label> labels = const <Label>[], this.checklistTotal = 0, this.checklistDone = 0, this.assignee}): _labels = labels;
   
 
 @override final  KanbanCard card;
@@ -1386,6 +1405,7 @@ class _BoardCard implements BoardCard {
 
 @override@JsonKey() final  int checklistTotal;
 @override@JsonKey() final  int checklistDone;
+@override final  Person? assignee;
 
 /// Create a copy of BoardCard
 /// with the given fields replaced by the non-null parameter values.
@@ -1397,18 +1417,18 @@ _$BoardCardCopyWith<_BoardCard> get copyWith => __$BoardCardCopyWithImpl<_BoardC
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BoardCard&&(identical(other.card, card) || other.card == card)&&const DeepCollectionEquality().equals(other.labels, _labels)&&(identical(other.checklistTotal, checklistTotal) || other.checklistTotal == checklistTotal)&&(identical(other.checklistDone, checklistDone) || other.checklistDone == checklistDone));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BoardCard&&(identical(other.card, card) || other.card == card)&&const DeepCollectionEquality().equals(other.labels, _labels)&&(identical(other.checklistTotal, checklistTotal) || other.checklistTotal == checklistTotal)&&(identical(other.checklistDone, checklistDone) || other.checklistDone == checklistDone)&&(identical(other.assignee, assignee) || other.assignee == assignee));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,card,const DeepCollectionEquality().hash(_labels),checklistTotal,checklistDone);
+    return Object.hash(runtimeType,card,const DeepCollectionEquality().hash(_labels),checklistTotal,checklistDone,assignee);
 }
 
 @override
 String toString() {
-    return 'BoardCard(card: $card, labels: $labels, checklistTotal: $checklistTotal, checklistDone: $checklistDone)';
+    return 'BoardCard(card: $card, labels: $labels, checklistTotal: $checklistTotal, checklistDone: $checklistDone, assignee: $assignee)';
 }
 
 
@@ -1419,11 +1439,11 @@ abstract mixin class _$BoardCardCopyWith<$Res> implements $BoardCardCopyWith<$Re
   factory _$BoardCardCopyWith(_BoardCard value, $Res Function(_BoardCard) _then) = __$BoardCardCopyWithImpl;
 @override @useResult
 $Res call({
- KanbanCard card, List<Label> labels, int checklistTotal, int checklistDone
+ KanbanCard card, List<Label> labels, int checklistTotal, int checklistDone, Person? assignee
 });
 
 
-@override $KanbanCardCopyWith<$Res> get card;
+@override $KanbanCardCopyWith<$Res> get card;@override $PersonCopyWith<$Res>? get assignee;
 
 }
 /// @nodoc
@@ -1436,13 +1456,14 @@ class __$BoardCardCopyWithImpl<$Res>
 
 /// Create a copy of BoardCard
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? card = null,Object? labels = null,Object? checklistTotal = null,Object? checklistDone = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? card = null,Object? labels = null,Object? checklistTotal = null,Object? checklistDone = null,Object? assignee = freezed,}) {
   return _then(_BoardCard(
 card: null == card ? _self.card : card // ignore: cast_nullable_to_non_nullable
 as KanbanCard,labels: null == labels ? _self._labels : labels // ignore: cast_nullable_to_non_nullable
 as List<Label>,checklistTotal: null == checklistTotal ? _self.checklistTotal : checklistTotal // ignore: cast_nullable_to_non_nullable
 as int,checklistDone: null == checklistDone ? _self.checklistDone : checklistDone // ignore: cast_nullable_to_non_nullable
-as int,
+as int,assignee: freezed == assignee ? _self.assignee : assignee // ignore: cast_nullable_to_non_nullable
+as Person?,
   ));
 }
 
@@ -1454,6 +1475,18 @@ $KanbanCardCopyWith<$Res> get card {
   
   return $KanbanCardCopyWith<$Res>(_self.card, (value) {
     return _then(_self.copyWith(card: value));
+  });
+}/// Create a copy of BoardCard
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PersonCopyWith<$Res>? get assignee {
+    if (_self.assignee == null) {
+    return null;
+  }
+
+  return $PersonCopyWith<$Res>(_self.assignee!, (value) {
+    return _then(_self.copyWith(assignee: value));
   });
 }
 }
@@ -2352,7 +2385,7 @@ $KanbanCardCopyWith<$Res> get card {
 /// @nodoc
 mixin _$CardPatch {
 
- String? get title; String? get description; Priority? get priority; DateTime? get dueDate; bool get clearDueDate;
+ String? get title; String? get description; Priority? get priority; DateTime? get dueDate; bool get clearDueDate; String? get assigneePersonId; bool get clearAssignee; Recurrence? get recurrence; bool get clearRecurrence;
 /// Create a copy of CardPatch
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2364,20 +2397,20 @@ $CardPatchCopyWith<CardPatch> get copyWith => _$CardPatchCopyWithImpl<CardPatch>
 @override
 bool operator ==(Object other) {
   final _this = this as CardPatch;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CardPatch&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.clearDueDate, _this.clearDueDate) || other.clearDueDate == _this.clearDueDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CardPatch&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.clearDueDate, _this.clearDueDate) || other.clearDueDate == _this.clearDueDate)&&(identical(other.assigneePersonId, _this.assigneePersonId) || other.assigneePersonId == _this.assigneePersonId)&&(identical(other.clearAssignee, _this.clearAssignee) || other.clearAssignee == _this.clearAssignee)&&(identical(other.recurrence, _this.recurrence) || other.recurrence == _this.recurrence)&&(identical(other.clearRecurrence, _this.clearRecurrence) || other.clearRecurrence == _this.clearRecurrence));
 }
 
 
 @override
 int get hashCode {
   final _this = this as CardPatch;
-  return Object.hash(runtimeType,_this.title,_this.description,_this.priority,_this.dueDate,_this.clearDueDate);
+  return Object.hash(runtimeType,_this.title,_this.description,_this.priority,_this.dueDate,_this.clearDueDate,_this.assigneePersonId,_this.clearAssignee,_this.recurrence,_this.clearRecurrence);
 }
 
 @override
 String toString() {
   final _this = this as CardPatch;
-  return 'CardPatch(title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, dueDate: ${_this.dueDate}, clearDueDate: ${_this.clearDueDate})';
+  return 'CardPatch(title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, dueDate: ${_this.dueDate}, clearDueDate: ${_this.clearDueDate}, assigneePersonId: ${_this.assigneePersonId}, clearAssignee: ${_this.clearAssignee}, recurrence: ${_this.recurrence}, clearRecurrence: ${_this.clearRecurrence})';
 }
 
 
@@ -2388,7 +2421,7 @@ abstract mixin class $CardPatchCopyWith<$Res>  {
   factory $CardPatchCopyWith(CardPatch value, $Res Function(CardPatch) _then) = _$CardPatchCopyWithImpl;
 @useResult
 $Res call({
- String? title, String? description, Priority? priority, DateTime? dueDate, bool clearDueDate
+ String? title, String? description, Priority? priority, DateTime? dueDate, bool clearDueDate, String? assigneePersonId, bool clearAssignee, Recurrence? recurrence, bool clearRecurrence
 });
 
 
@@ -2405,13 +2438,17 @@ class _$CardPatchCopyWithImpl<$Res>
 
 /// Create a copy of CardPatch
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = freezed,Object? description = freezed,Object? priority = freezed,Object? dueDate = freezed,Object? clearDueDate = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = freezed,Object? description = freezed,Object? priority = freezed,Object? dueDate = freezed,Object? clearDueDate = null,Object? assigneePersonId = freezed,Object? clearAssignee = null,Object? recurrence = freezed,Object? clearRecurrence = null,}) {
   return _then(CardPatch(
 title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,priority: freezed == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as Priority?,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,clearDueDate: null == clearDueDate ? _self.clearDueDate : clearDueDate // ignore: cast_nullable_to_non_nullable
+as bool,assigneePersonId: freezed == assigneePersonId ? _self.assigneePersonId : assigneePersonId // ignore: cast_nullable_to_non_nullable
+as String?,clearAssignee: null == clearAssignee ? _self.clearAssignee : clearAssignee // ignore: cast_nullable_to_non_nullable
+as bool,recurrence: freezed == recurrence ? _self.recurrence : recurrence // ignore: cast_nullable_to_non_nullable
+as Recurrence?,clearRecurrence: null == clearRecurrence ? _self.clearRecurrence : clearRecurrence // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -2497,10 +2534,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate,  String? assigneePersonId,  bool clearAssignee,  Recurrence? recurrence,  bool clearRecurrence)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CardPatch() when $default != null:
-return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate);case _:
+return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate,_that.assigneePersonId,_that.clearAssignee,_that.recurrence,_that.clearRecurrence);case _:
   return orElse();
 
 }
@@ -2518,10 +2555,10 @@ return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate,  String? assigneePersonId,  bool clearAssignee,  Recurrence? recurrence,  bool clearRecurrence)  $default,) {final _that = this;
 switch (_that) {
 case _CardPatch():
-return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate);case _:
+return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate,_that.assigneePersonId,_that.clearAssignee,_that.recurrence,_that.clearRecurrence);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -2538,10 +2575,10 @@ return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? title,  String? description,  Priority? priority,  DateTime? dueDate,  bool clearDueDate,  String? assigneePersonId,  bool clearAssignee,  Recurrence? recurrence,  bool clearRecurrence)?  $default,) {final _that = this;
 switch (_that) {
 case _CardPatch() when $default != null:
-return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate);case _:
+return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that.clearDueDate,_that.assigneePersonId,_that.clearAssignee,_that.recurrence,_that.clearRecurrence);case _:
   return null;
 
 }
@@ -2553,7 +2590,7 @@ return $default(_that.title,_that.description,_that.priority,_that.dueDate,_that
 
 
 class _CardPatch implements CardPatch {
-  const _CardPatch({this.title, this.description, this.priority, this.dueDate, this.clearDueDate = false});
+  const _CardPatch({this.title, this.description, this.priority, this.dueDate, this.clearDueDate = false, this.assigneePersonId, this.clearAssignee = false, this.recurrence, this.clearRecurrence = false});
   
 
 @override final  String? title;
@@ -2561,6 +2598,10 @@ class _CardPatch implements CardPatch {
 @override final  Priority? priority;
 @override final  DateTime? dueDate;
 @override@JsonKey() final  bool clearDueDate;
+@override final  String? assigneePersonId;
+@override@JsonKey() final  bool clearAssignee;
+@override final  Recurrence? recurrence;
+@override@JsonKey() final  bool clearRecurrence;
 
 /// Create a copy of CardPatch
 /// with the given fields replaced by the non-null parameter values.
@@ -2572,18 +2613,18 @@ _$CardPatchCopyWith<_CardPatch> get copyWith => __$CardPatchCopyWithImpl<_CardPa
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CardPatch&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.clearDueDate, clearDueDate) || other.clearDueDate == clearDueDate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CardPatch&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.clearDueDate, clearDueDate) || other.clearDueDate == clearDueDate)&&(identical(other.assigneePersonId, assigneePersonId) || other.assigneePersonId == assigneePersonId)&&(identical(other.clearAssignee, clearAssignee) || other.clearAssignee == clearAssignee)&&(identical(other.recurrence, recurrence) || other.recurrence == recurrence)&&(identical(other.clearRecurrence, clearRecurrence) || other.clearRecurrence == clearRecurrence));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,title,description,priority,dueDate,clearDueDate);
+    return Object.hash(runtimeType,title,description,priority,dueDate,clearDueDate,assigneePersonId,clearAssignee,recurrence,clearRecurrence);
 }
 
 @override
 String toString() {
-    return 'CardPatch(title: $title, description: $description, priority: $priority, dueDate: $dueDate, clearDueDate: $clearDueDate)';
+    return 'CardPatch(title: $title, description: $description, priority: $priority, dueDate: $dueDate, clearDueDate: $clearDueDate, assigneePersonId: $assigneePersonId, clearAssignee: $clearAssignee, recurrence: $recurrence, clearRecurrence: $clearRecurrence)';
 }
 
 
@@ -2594,7 +2635,7 @@ abstract mixin class _$CardPatchCopyWith<$Res> implements $CardPatchCopyWith<$Re
   factory _$CardPatchCopyWith(_CardPatch value, $Res Function(_CardPatch) _then) = __$CardPatchCopyWithImpl;
 @override @useResult
 $Res call({
- String? title, String? description, Priority? priority, DateTime? dueDate, bool clearDueDate
+ String? title, String? description, Priority? priority, DateTime? dueDate, bool clearDueDate, String? assigneePersonId, bool clearAssignee, Recurrence? recurrence, bool clearRecurrence
 });
 
 
@@ -2611,13 +2652,17 @@ class __$CardPatchCopyWithImpl<$Res>
 
 /// Create a copy of CardPatch
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = freezed,Object? description = freezed,Object? priority = freezed,Object? dueDate = freezed,Object? clearDueDate = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = freezed,Object? description = freezed,Object? priority = freezed,Object? dueDate = freezed,Object? clearDueDate = null,Object? assigneePersonId = freezed,Object? clearAssignee = null,Object? recurrence = freezed,Object? clearRecurrence = null,}) {
   return _then(_CardPatch(
 title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,priority: freezed == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
 as Priority?,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,clearDueDate: null == clearDueDate ? _self.clearDueDate : clearDueDate // ignore: cast_nullable_to_non_nullable
+as bool,assigneePersonId: freezed == assigneePersonId ? _self.assigneePersonId : assigneePersonId // ignore: cast_nullable_to_non_nullable
+as String?,clearAssignee: null == clearAssignee ? _self.clearAssignee : clearAssignee // ignore: cast_nullable_to_non_nullable
+as bool,recurrence: freezed == recurrence ? _self.recurrence : recurrence // ignore: cast_nullable_to_non_nullable
+as Recurrence?,clearRecurrence: null == clearRecurrence ? _self.clearRecurrence : clearRecurrence // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

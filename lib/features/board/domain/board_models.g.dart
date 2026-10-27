@@ -43,6 +43,8 @@ _KanbanCard _$KanbanCardFromJson(Map<String, dynamic> json) => _KanbanCard(
   completedAt: json['completedAt'] == null
       ? null
       : DateTime.parse(json['completedAt'] as String),
+  assigneePersonId: json['assigneePersonId'] as String?,
+  recurrence: $enumDecodeNullable(_$RecurrenceEnumMap, json['recurrence']),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -58,6 +60,8 @@ Map<String, dynamic> _$KanbanCardToJson(_KanbanCard instance) =>
       'dueDate': instance.dueDate?.toIso8601String(),
       'position': instance.position,
       'completedAt': instance.completedAt?.toIso8601String(),
+      'assigneePersonId': instance.assigneePersonId,
+      'recurrence': _$RecurrenceEnumMap[instance.recurrence],
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
     };
@@ -67,6 +71,13 @@ const _$PriorityEnumMap = {
   Priority.medium: 'medium',
   Priority.high: 'high',
   Priority.critical: 'critical',
+};
+
+const _$RecurrenceEnumMap = {
+  Recurrence.daily: 'daily',
+  Recurrence.weekly: 'weekly',
+  Recurrence.monthly: 'monthly',
+  Recurrence.yearly: 'yearly',
 };
 
 _ChecklistItem _$ChecklistItemFromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/domain/enums.dart';
+import '../../people/domain/person.dart';
 
 part 'board_models.freezed.dart';
 part 'board_models.g.dart';
@@ -36,6 +37,8 @@ abstract class KanbanCard with _$KanbanCard {
     DateTime? dueDate,
     required double position,
     DateTime? completedAt,
+    String? assigneePersonId,
+    Recurrence? recurrence,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _KanbanCard;
@@ -80,6 +83,7 @@ abstract class BoardCard with _$BoardCard {
     @Default(<Label>[]) List<Label> labels,
     @Default(0) int checklistTotal,
     @Default(0) int checklistDone,
+    Person? assignee,
   }) = _BoardCard;
 }
 
@@ -181,6 +185,10 @@ abstract class CardPatch with _$CardPatch {
     Priority? priority,
     DateTime? dueDate,
     @Default(false) bool clearDueDate,
+    String? assigneePersonId,
+    @Default(false) bool clearAssignee,
+    Recurrence? recurrence,
+    @Default(false) bool clearRecurrence,
   }) = _CardPatch;
 }
 

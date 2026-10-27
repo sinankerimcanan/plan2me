@@ -5,6 +5,7 @@ import '../../../core/domain/enums.dart';
 import '../../../core/utils/clock.dart';
 import '../../../core/utils/ids.dart';
 import '../../../core/utils/positioning.dart';
+import '../../people/data/drift_person_repository.dart';
 import '../domain/board_models.dart';
 import '../domain/board_repository.dart';
 
@@ -28,6 +29,8 @@ KanbanCard cardFromRow(CardRow r) => KanbanCard(
   dueDate: r.dueDate,
   position: r.position,
   completedAt: r.completedAt,
+  assigneePersonId: r.assigneePersonId,
+  recurrence: r.recurrence,
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 );
@@ -127,14 +130,28 @@ class DriftBoardRepository implements BoardRepository {
       );
     }
 
+    final assigneeIds = {for (final c in cards) ?c.assigneePersonId};
+    final people = assigneeIds.isEmpty
+        ? const <String, PersonRow>{}
+        : {
+            for (final r
+                in await (_db.select(_db.persons)..where(
+                      (t) => t.id.isIn(assigneeIds) & t.deletedAt.isNull(),
+                    ))
+                    .get())
+              r.id: r,
+          };
+
     final byColumn = <String, List<BoardCard>>{};
     for (final c in cards) {
+      final assignee = people[c.assigneePersonId];
       (byColumn[c.columnId] ??= []).add(
         BoardCard(
           card: cardFromRow(c),
           labels: cardLabels[c.id] ?? const [],
           checklistTotal: checklist[c.id]?.$1 ?? 0,
           checklistDone: checklist[c.id]?.$2 ?? 0,
+          assignee: assignee == null ? null : personFromRow(assignee),
         ),
       );
     }
@@ -358,29 +375,146 @@ class DriftBoardRepository implements BoardRepository {
   // ---------------------------------------------------------------- kartlar
 
   @override
-  Future<String> addCard(String columnId, String title) =>
-      _db.transaction(() async {
-        final now = _clock();
-        final col = await _aliveColumn(columnId);
-        final siblings = await _cardSiblings(columnId);
-        final id = newId();
-        await _db
-            .into(_db.cards)
-            .insert(
-              CardsCompanion.insert(
-                id: id,
-                createdAt: now,
-                updatedAt: now,
-                columnId: columnId,
-                projectId: col.projectId,
-                title: title.trim(),
-                priority: Priority.medium,
-                position: positionAtEnd(siblings.map((s) => s.position)),
-                completedAt: Value(col.isDoneColumn ? now : null),
-              ),
-            );
-        return id;
-      });
+  Future<String> addCard(
+    String columnId,
+    String title, {
+    CardPatch initial = const CardPatch(),
+  }) => _db.transaction(() async {
+    final now = _clock();
+    final col = await _aliveColumn(columnId);
+    final siblings = await _cardSiblings(columnId);
+    final id = newId();
+    await _db
+        .into(_db.cards)
+        .insert(
+          CardsCompanion.insert(
+            id: id,
+            createdAt: now,
+            updatedAt: now,
+            columnId: columnId,
+            projectId: col.projectId,
+            title: title.trim(),
+            description: Value(_blankToNull(initial.description)),
+            priority: initial.priority ?? Priority.medium,
+            dueDate: Value(initial.dueDate),
+            assigneePersonId: Value(initial.assigneePersonId),
+            recurrence: Value(initial.recurrence),
+            position: positionAtEnd(siblings.map((s) => s.position)),
+            completedAt: Value(col.isDoneColumn ? now : null),
+          ),
+        );
+    return id;
+  });
+
+  @override
+  Future<void> completeCard(String cardId) async {
+    final card = await _aliveCard(cardId);
+    if (card == null) throw BoardRuleException('Kart bulunamadı: $cardId');
+    final columns = await _aliveColumns(card.projectId);
+    if (columns.isEmpty) return;
+    final done = columns.lastWhere(
+      (c) => c.isDoneColumn,
+      orElse: () => columns.last,
+    );
+    if (done.id == card.columnId && card.completedAt != null) return;
+    await moveCard(cardId, done.id);
+  }
+
+  @override
+  Future<void> reopenCard(String cardId) async {
+    final card = await _aliveCard(cardId);
+    if (card == null) throw BoardRuleException('Kart bulunamadı: $cardId');
+    final columns = await _aliveColumns(card.projectId);
+    final open = columns.where((c) => !c.isDoneColumn).firstOrNull;
+    if (open == null) return;
+    await moveCard(cardId, open.id);
+  }
+
+  Future<List<BoardColumnRow>> _aliveColumns(String projectId) =>
+      (_db.select(_db.boardColumns)
+            ..where((t) => t.projectId.equals(projectId) & t.deletedAt.isNull())
+            ..orderBy([(t) => OrderingTerm.asc(t.position)]))
+          .get();
+
+  /// Tekrarlı kart tamamlanınca bir sonraki tekrarı ilk açık sütuna ekler.
+  /// Etiketler ve sorumlu kopyalanır, kontrol listesi işaretsiz olarak kopyalanır.
+  Future<void> _spawnNextOccurrence(CardRow card, DateTime now) async {
+    final recurrence = card.recurrence;
+    if (recurrence == null || card.nextCardId != null) return;
+    final columns = await _aliveColumns(card.projectId);
+    final target = columns.where((c) => !c.isDoneColumn).firstOrNull;
+    if (target == null) return;
+
+    final base = card.dueDate ?? DateTime.utc(now.year, now.month, now.day);
+    var nextDue = recurrence.next(base);
+    // Geç tamamlanan görevlerde geçmişte (ve bugünde) kalan tekrarları atla:
+    // sonraki tekrar her zaman gelecekte olur.
+    final todayUtc = DateTime.utc(
+      now.toLocal().year,
+      now.toLocal().month,
+      now.toLocal().day,
+    );
+    while (!nextDue.isAfter(todayUtc)) {
+      nextDue = recurrence.next(nextDue);
+    }
+
+    final siblings = await _cardSiblings(target.id);
+    final id = newId();
+    await _db
+        .into(_db.cards)
+        .insert(
+          CardsCompanion.insert(
+            id: id,
+            createdAt: now,
+            updatedAt: now,
+            columnId: target.id,
+            projectId: card.projectId,
+            title: card.title,
+            description: Value(card.description),
+            priority: card.priority,
+            dueDate: Value(nextDue),
+            assigneePersonId: Value(card.assigneePersonId),
+            recurrence: Value(recurrence),
+            position: positionAtEnd(siblings.map((s) => s.position)),
+          ),
+        );
+    final links = await (_db.select(
+      _db.cardLabels,
+    )..where((t) => t.cardId.equals(card.id) & t.deletedAt.isNull())).get();
+    for (final link in links) {
+      await _db
+          .into(_db.cardLabels)
+          .insert(
+            CardLabelsCompanion.insert(
+              id: newId(),
+              createdAt: now,
+              updatedAt: now,
+              cardId: id,
+              labelId: link.labelId,
+            ),
+          );
+    }
+    final items =
+        await (_db.select(_db.checklistItems)
+              ..where((t) => t.cardId.equals(card.id) & t.deletedAt.isNull())
+              ..orderBy([(t) => OrderingTerm.asc(t.position)]))
+            .get();
+    for (final item in items) {
+      await _db
+          .into(_db.checklistItems)
+          .insert(
+            ChecklistItemsCompanion.insert(
+              id: newId(),
+              createdAt: now,
+              updatedAt: now,
+              cardId: id,
+              title: item.title,
+              position: item.position,
+            ),
+          );
+    }
+    await _writeCard(card.id, CardsCompanion(nextCardId: Value(id)), now);
+  }
 
   @override
   Future<void> updateCard(String cardId, CardPatch patch) =>
@@ -402,6 +536,16 @@ class DriftBoardRepository implements BoardRepository {
                 : (patch.dueDate == null
                       ? const Value.absent()
                       : Value(patch.dueDate)),
+            assigneePersonId: patch.clearAssignee
+                ? const Value(null)
+                : (patch.assigneePersonId == null
+                      ? const Value.absent()
+                      : Value(patch.assigneePersonId)),
+            recurrence: patch.clearRecurrence
+                ? const Value(null)
+                : (patch.recurrence == null
+                      ? const Value.absent()
+                      : Value(patch.recurrence)),
           ),
           _clock(),
         );
@@ -426,6 +570,7 @@ class DriftBoardRepository implements BoardRepository {
         if (s.id != cardId) s,
     ];
     final completedAt = target.isDoneColumn ? (card.completedAt ?? now) : null;
+    final justCompleted = completedAt != null && card.completedAt == null;
     await _writeCard(
       cardId,
       CardsCompanion(
@@ -447,6 +592,7 @@ class DriftBoardRepository implements BoardRepository {
         );
       }
     }
+    if (justCompleted) await _spawnNextOccurrence(card, now);
   });
 
   @override

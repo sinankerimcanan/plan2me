@@ -168,3 +168,21 @@ class CardLabels extends Table with SyncColumns {
     {cardId, labelId},
   ];
 }
+
+/// Telefon takvimiyle eşitleme kaydı (v4). Yalnızca bu cihaza aittir:
+/// yedeğe girmez, ileride backend'e senkronlanmaz.
+@DataClassName('CalendarLinkRow')
+class CalendarLinks extends Table {
+  /// `card:<id>` ya da `project:<id>`.
+  TextColumn get entityKey => text()();
+
+  /// Telefon takvimindeki etkinliğin id'si.
+  TextColumn get eventId => text()();
+
+  /// Etkinliğin yazıldığı andaki içerik özeti; değişince etkinlik yenilenir.
+  TextColumn get signature => text()();
+  DateTimeColumn get syncedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {entityKey};
+}

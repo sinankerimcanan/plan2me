@@ -101,4 +101,21 @@ void main() {
     expect((await db.select(db.projects).getSingle()).locationName, isNull);
     await db.close();
   });
+
+  test('v3 → v4: takvim eşleşme tablosu oluşur, veri korunur', () async {
+    final schema = await verifier.schemaAt(3);
+    final old = v3.DatabaseAtV3(schema.newConnection());
+    const ts = '2026-10-27T10:00:00.000Z';
+    await old.customStatement(
+      'INSERT INTO persons (id, created_at, updated_at, name) '
+      "VALUES ('u1', '$ts', '$ts', 'Ali')",
+    );
+    await old.close();
+
+    final db = AppDatabase(schema.newConnection());
+    await verifier.migrateAndValidate(db, 4);
+    expect((await db.select(db.persons).getSingle()).name, 'Ali');
+    expect(await db.select(db.calendarLinks).get(), isEmpty);
+    await db.close();
+  });
 }

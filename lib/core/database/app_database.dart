@@ -20,6 +20,7 @@ part 'app_database.g.dart';
     ChecklistItems,
     Labels,
     CardLabels,
+    CalendarLinks,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -29,7 +30,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -59,6 +60,9 @@ class AppDatabase extends _$AppDatabase {
         ]) {
           await m.addColumn(schema.cards, column);
         }
+      },
+      from3To4: (m, schema) async {
+        await m.createTable(schema.calendarLinks);
       },
     ),
     beforeOpen: (details) async {

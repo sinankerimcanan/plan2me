@@ -25,6 +25,7 @@ _Project _$ProjectFromJson(Map<String, dynamic> json) => _Project(
   responsiblePersonId: json['responsiblePersonId'] as String?,
   details: json['details'] as String?,
   position: (json['position'] as num?)?.toDouble() ?? 0,
+  isInbox: json['isInbox'] as bool? ?? false,
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -40,6 +41,7 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
   'responsiblePersonId': instance.responsiblePersonId,
   'details': instance.details,
   'position': instance.position,
+  'isInbox': instance.isInbox,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
 };

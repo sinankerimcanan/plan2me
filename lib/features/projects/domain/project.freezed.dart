@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Project {
 
- String get id; String get title; String? get description; Priority get priority; ProjectStatus get status; DateTime? get startDate; DateTime? get dueDate; String? get responsiblePersonId; String? get details; double get position; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String get title; String? get description; Priority get priority; ProjectStatus get status; DateTime? get startDate; DateTime? get dueDate; String? get responsiblePersonId; String? get details; double get position; bool get isInbox; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $ProjectCopyWith<Project> get copyWith => _$ProjectCopyWithImpl<Project>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as Project;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Project&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.startDate, _this.startDate) || other.startDate == _this.startDate)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.responsiblePersonId, _this.responsiblePersonId) || other.responsiblePersonId == _this.responsiblePersonId)&&(identical(other.details, _this.details) || other.details == _this.details)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Project&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.startDate, _this.startDate) || other.startDate == _this.startDate)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate)&&(identical(other.responsiblePersonId, _this.responsiblePersonId) || other.responsiblePersonId == _this.responsiblePersonId)&&(identical(other.details, _this.details) || other.details == _this.details)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.isInbox, _this.isInbox) || other.isInbox == _this.isInbox)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as Project;
-  return Object.hash(runtimeType,_this.id,_this.title,_this.description,_this.priority,_this.status,_this.startDate,_this.dueDate,_this.responsiblePersonId,_this.details,_this.position,_this.createdAt,_this.updatedAt);
+  return Object.hash(runtimeType,_this.id,_this.title,_this.description,_this.priority,_this.status,_this.startDate,_this.dueDate,_this.responsiblePersonId,_this.details,_this.position,_this.isInbox,_this.createdAt,_this.updatedAt);
 }
 
 @override
 String toString() {
   final _this = this as Project;
-  return 'Project(id: ${_this.id}, title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, status: ${_this.status}, startDate: ${_this.startDate}, dueDate: ${_this.dueDate}, responsiblePersonId: ${_this.responsiblePersonId}, details: ${_this.details}, position: ${_this.position}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
+  return 'Project(id: ${_this.id}, title: ${_this.title}, description: ${_this.description}, priority: ${_this.priority}, status: ${_this.status}, startDate: ${_this.startDate}, dueDate: ${_this.dueDate}, responsiblePersonId: ${_this.responsiblePersonId}, details: ${_this.details}, position: ${_this.position}, isInbox: ${_this.isInbox}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $ProjectCopyWith<$Res>  {
   factory $ProjectCopyWith(Project value, $Res Function(Project) _then) = _$ProjectCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String? description, Priority priority, ProjectStatus status, DateTime? startDate, DateTime? dueDate, String? responsiblePersonId, String? details, double position, DateTime createdAt, DateTime updatedAt
+ String id, String title, String? description, Priority priority, ProjectStatus status, DateTime? startDate, DateTime? dueDate, String? responsiblePersonId, String? details, double position, bool isInbox, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -71,7 +71,7 @@ class _$ProjectCopyWithImpl<$Res>
 
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? status = null,Object? startDate = freezed,Object? dueDate = freezed,Object? responsiblePersonId = freezed,Object? details = freezed,Object? position = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? status = null,Object? startDate = freezed,Object? dueDate = freezed,Object? responsiblePersonId = freezed,Object? details = freezed,Object? position = null,Object? isInbox = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(Project(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -83,7 +83,8 @@ as DateTime?,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: ca
 as DateTime?,responsiblePersonId: freezed == responsiblePersonId ? _self.responsiblePersonId : responsiblePersonId // ignore: cast_nullable_to_non_nullable
 as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
-as double,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as double,isInbox: null == isInbox ? _self.isInbox : isInbox // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -170,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  bool isInbox,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Project() when $default != null:
-return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.isInbox,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -191,10 +192,10 @@ return $default(_that.id,_that.title,_that.description,_that.priority,_that.stat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  bool isInbox,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Project():
-return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.isInbox,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +212,10 @@ return $default(_that.id,_that.title,_that.description,_that.priority,_that.stat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String? description,  Priority priority,  ProjectStatus status,  DateTime? startDate,  DateTime? dueDate,  String? responsiblePersonId,  String? details,  double position,  bool isInbox,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Project() when $default != null:
-return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.title,_that.description,_that.priority,_that.status,_that.startDate,_that.dueDate,_that.responsiblePersonId,_that.details,_that.position,_that.isInbox,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -226,7 +227,7 @@ return $default(_that.id,_that.title,_that.description,_that.priority,_that.stat
 @JsonSerializable()
 
 class _Project implements Project {
-  const _Project({required this.id, required this.title, this.description, this.priority = Priority.medium, this.status = ProjectStatus.backlog, this.startDate, this.dueDate, this.responsiblePersonId, this.details, this.position = 0, required this.createdAt, required this.updatedAt});
+  const _Project({required this.id, required this.title, this.description, this.priority = Priority.medium, this.status = ProjectStatus.backlog, this.startDate, this.dueDate, this.responsiblePersonId, this.details, this.position = 0, this.isInbox = false, required this.createdAt, required this.updatedAt});
   factory _Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
 @override final  String id;
@@ -239,6 +240,7 @@ class _Project implements Project {
 @override final  String? responsiblePersonId;
 @override final  String? details;
 @override@JsonKey() final  double position;
+@override@JsonKey() final  bool isInbox;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -255,18 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Project&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.status, status) || other.status == status)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.responsiblePersonId, responsiblePersonId) || other.responsiblePersonId == responsiblePersonId)&&(identical(other.details, details) || other.details == details)&&(identical(other.position, position) || other.position == position)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Project&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.status, status) || other.status == status)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate)&&(identical(other.responsiblePersonId, responsiblePersonId) || other.responsiblePersonId == responsiblePersonId)&&(identical(other.details, details) || other.details == details)&&(identical(other.position, position) || other.position == position)&&(identical(other.isInbox, isInbox) || other.isInbox == isInbox)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,title,description,priority,status,startDate,dueDate,responsiblePersonId,details,position,createdAt,updatedAt);
+    return Object.hash(runtimeType,id,title,description,priority,status,startDate,dueDate,responsiblePersonId,details,position,isInbox,createdAt,updatedAt);
 }
 
 @override
 String toString() {
-    return 'Project(id: $id, title: $title, description: $description, priority: $priority, status: $status, startDate: $startDate, dueDate: $dueDate, responsiblePersonId: $responsiblePersonId, details: $details, position: $position, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Project(id: $id, title: $title, description: $description, priority: $priority, status: $status, startDate: $startDate, dueDate: $dueDate, responsiblePersonId: $responsiblePersonId, details: $details, position: $position, isInbox: $isInbox, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -277,7 +279,7 @@ abstract mixin class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
   factory _$ProjectCopyWith(_Project value, $Res Function(_Project) _then) = __$ProjectCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String? description, Priority priority, ProjectStatus status, DateTime? startDate, DateTime? dueDate, String? responsiblePersonId, String? details, double position, DateTime createdAt, DateTime updatedAt
+ String id, String title, String? description, Priority priority, ProjectStatus status, DateTime? startDate, DateTime? dueDate, String? responsiblePersonId, String? details, double position, bool isInbox, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -294,7 +296,7 @@ class __$ProjectCopyWithImpl<$Res>
 
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? status = null,Object? startDate = freezed,Object? dueDate = freezed,Object? responsiblePersonId = freezed,Object? details = freezed,Object? position = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? priority = null,Object? status = null,Object? startDate = freezed,Object? dueDate = freezed,Object? responsiblePersonId = freezed,Object? details = freezed,Object? position = null,Object? isInbox = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Project(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -306,7 +308,8 @@ as DateTime?,dueDate: freezed == dueDate ? _self.dueDate : dueDate // ignore: ca
 as DateTime?,responsiblePersonId: freezed == responsiblePersonId ? _self.responsiblePersonId : responsiblePersonId // ignore: cast_nullable_to_non_nullable
 as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
-as double,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as double,isInbox: null == isInbox ? _self.isInbox : isInbox // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

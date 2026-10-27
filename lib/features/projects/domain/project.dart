@@ -19,6 +19,7 @@ abstract class Project with _$Project {
     String? responsiblePersonId,
     String? details,
     @Default(0) double position,
+    @Default(false) bool isInbox,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Project;

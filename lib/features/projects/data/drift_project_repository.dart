@@ -21,6 +21,7 @@ Project projectFromRow(ProjectRow r) => Project(
   responsiblePersonId: r.responsiblePersonId,
   details: r.details,
   position: r.position,
+  isInbox: r.isInbox,
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 );
@@ -56,7 +57,11 @@ class DriftProjectRepository implements ProjectRepository {
     final projectQuery = _db.select(_db.projects)
       ..where((t) => t.deletedAt.isNull())
       ..orderBy([(t) => OrderingTerm.asc(t.position)]);
-    if (onlyId != null) projectQuery.where((t) => t.id.equals(onlyId));
+    if (onlyId != null) {
+      projectQuery.where((t) => t.id.equals(onlyId));
+    } else {
+      projectQuery.where((t) => t.isInbox.equals(false));
+    }
     final projects = await projectQuery.get();
     if (projects.isEmpty) return const [];
 
@@ -151,6 +156,27 @@ class DriftProjectRepository implements ProjectRepository {
             ),
           );
     }
+    return id;
+  });
+
+  @override
+  Future<String> ensureInbox({
+    required String title,
+    required List<String> columns,
+  }) => _db.transaction(() async {
+    final existing =
+        await (_db.select(_db.projects)
+              ..where((t) => t.isInbox.equals(true) & t.deletedAt.isNull())
+              ..limit(1))
+            .getSingleOrNull();
+    if (existing != null) return existing.id;
+    final id = await create(
+      ProjectDraft(title: title, status: ProjectStatus.inProgress),
+      defaultColumns: columns,
+    );
+    await (_db.update(_db.projects)..where((t) => t.id.equals(id))).write(
+      const ProjectsCompanion(isInbox: Value(true)),
+    );
     return id;
   });
 

@@ -2,7 +2,7 @@ import '../../../core/domain/enums.dart';
 import 'project.dart';
 
 abstract interface class ProjectRepository {
-  /// Pozisyona göre sıralı, silinmemiş projeler.
+  /// Pozisyona göre sıralı, silinmemiş projeler ("Gelen kutusu" hariç).
   Stream<List<ProjectOverview>> watchOverviews();
   Stream<ProjectOverview?> watchOverview(String id);
   Future<ProjectOverview?> getOverview(String id);
@@ -18,6 +18,12 @@ abstract interface class ProjectRepository {
 
   /// [beforeId] null ise sona taşır.
   Future<void> move(String id, {String? beforeId});
+
+  /// "Gelen kutusu" projesinin id'si; yoksa [title] ve [columns] ile oluşturur.
+  Future<String> ensureInbox({
+    required String title,
+    required List<String> columns,
+  });
 
   /// Proje ve tüm board içeriğini (soft) siler.
   Future<void> delete(String id);

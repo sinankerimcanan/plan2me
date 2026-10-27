@@ -1,0 +1,15 @@
+# Kaynak ikonlar tool/generate_icon.py ile üretilir.
+# Yeniden üretmek için:  python3 tool/generate_icon.py && fvm dart run flutter_launcher_icons
+flutter_launcher_icons:
+  image_path: assets/icon/app_icon.png
+  ios: true
+  remove_alpha_ios: true
+  android: true
+  min_sdk_android: 21
+  adaptive_icon_background: assets/icon/app_icon_background.png
+  adaptive_icon_foreground: assets/icon/app_icon_foreground.png
+  web:
+    generate: true
+    image_path: assets/icon/app_icon.png
+    background_color: "#F8FBEE"
+    theme_color: "#4E7A0B"

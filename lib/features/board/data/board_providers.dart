@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/database/database_provider.dart';
+import '../domain/board_models.dart';
 import '../domain/board_repository.dart';
 import 'drift_board_repository.dart';
 
@@ -11,3 +12,7 @@ BoardRepository boardRepository(Ref ref) => DriftBoardRepository(
   ref.watch(appDatabaseProvider),
   clock: ref.watch(clockProvider),
 );
+
+@riverpod
+Stream<List<UpcomingCard>> upcomingCards(Ref ref) =>
+    ref.watch(boardRepositoryProvider).watchUpcomingCards();

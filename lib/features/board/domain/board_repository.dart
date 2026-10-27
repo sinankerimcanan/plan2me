@@ -6,6 +6,9 @@ abstract interface class BoardRepository {
   Stream<BoardData> watchBoard(String projectId);
   Stream<CardDetail?> watchCard(String cardId);
 
+  /// Açık projelerdeki, son tarihi olan ve tamamlanmamış kartlar (en yakın tarih önce).
+  Stream<List<UpcomingCard>> watchUpcomingCards({int limit = 8});
+
   // Sütunlar
   Future<String> addColumn(String projectId, String name);
   Future<void> updateColumn(String columnId, ColumnPatch patch);

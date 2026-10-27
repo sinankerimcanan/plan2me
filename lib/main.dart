@@ -11,6 +11,7 @@ import 'app.dart';
 import 'core/database/demo_seed.dart';
 import 'core/router/app_router.dart';
 import 'features/board/data/board_providers.dart';
+import 'features/home_widget/data/home_widget_sync.dart';
 import 'features/people/data/people_providers.dart';
 import 'features/projects/data/projects_providers.dart';
 import 'features/settings/presentation/theme_mode_controller.dart';
@@ -43,6 +44,14 @@ Future<void> main() async {
         l.defaultColumnDone,
       ],
     );
+  }
+
+  // iOS ana ekran widget'ı: App Group'u ayarla ve veri senkronunu başlat.
+  // Not: Riverpod 3 dinleyicisi olmayan provider'ları duraklatır; bu yüzden
+  // read değil, uygulama ömrü boyunca açık kalan bir listen kullanılıyor.
+  if (container.read(widgetBridgeProvider) != null) {
+    await HomeWidgetBridge.initialize();
+    container.listen(homeWidgetSyncProvider, (_, _) {});
   }
 
   runApp(

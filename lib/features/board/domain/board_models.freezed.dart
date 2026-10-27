@@ -2898,4 +2898,283 @@ as bool,
 
 }
 
+/// @nodoc
+mixin _$UpcomingCard {
+
+ String get cardId; String get projectId; String get projectTitle; String get title; Priority get priority; DateTime get dueDate;
+/// Create a copy of UpcomingCard
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpcomingCardCopyWith<UpcomingCard> get copyWith => _$UpcomingCardCopyWithImpl<UpcomingCard>(this as UpcomingCard, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as UpcomingCard;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpcomingCard&&(identical(other.cardId, _this.cardId) || other.cardId == _this.cardId)&&(identical(other.projectId, _this.projectId) || other.projectId == _this.projectId)&&(identical(other.projectTitle, _this.projectTitle) || other.projectTitle == _this.projectTitle)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.dueDate, _this.dueDate) || other.dueDate == _this.dueDate));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as UpcomingCard;
+  return Object.hash(runtimeType,_this.cardId,_this.projectId,_this.projectTitle,_this.title,_this.priority,_this.dueDate);
+}
+
+@override
+String toString() {
+  final _this = this as UpcomingCard;
+  return 'UpcomingCard(cardId: ${_this.cardId}, projectId: ${_this.projectId}, projectTitle: ${_this.projectTitle}, title: ${_this.title}, priority: ${_this.priority}, dueDate: ${_this.dueDate})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpcomingCardCopyWith<$Res>  {
+  factory $UpcomingCardCopyWith(UpcomingCard value, $Res Function(UpcomingCard) _then) = _$UpcomingCardCopyWithImpl;
+@useResult
+$Res call({
+ String cardId, String projectId, String projectTitle, String title, Priority priority, DateTime dueDate
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpcomingCardCopyWithImpl<$Res>
+    implements $UpcomingCardCopyWith<$Res> {
+  _$UpcomingCardCopyWithImpl(this._self, this._then);
+
+  final UpcomingCard _self;
+  final $Res Function(UpcomingCard) _then;
+
+/// Create a copy of UpcomingCard
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? cardId = null,Object? projectId = null,Object? projectTitle = null,Object? title = null,Object? priority = null,Object? dueDate = null,}) {
+  return _then(UpcomingCard(
+cardId: null == cardId ? _self.cardId : cardId // ignore: cast_nullable_to_non_nullable
+as String,projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
+as String,projectTitle: null == projectTitle ? _self.projectTitle : projectTitle // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
+as Priority,dueDate: null == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpcomingCard].
+extension UpcomingCardPatterns on UpcomingCard {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpcomingCard value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpcomingCard() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpcomingCard value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpcomingCard():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpcomingCard value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpcomingCard() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String cardId,  String projectId,  String projectTitle,  String title,  Priority priority,  DateTime dueDate)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpcomingCard() when $default != null:
+return $default(_that.cardId,_that.projectId,_that.projectTitle,_that.title,_that.priority,_that.dueDate);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String cardId,  String projectId,  String projectTitle,  String title,  Priority priority,  DateTime dueDate)  $default,) {final _that = this;
+switch (_that) {
+case _UpcomingCard():
+return $default(_that.cardId,_that.projectId,_that.projectTitle,_that.title,_that.priority,_that.dueDate);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String cardId,  String projectId,  String projectTitle,  String title,  Priority priority,  DateTime dueDate)?  $default,) {final _that = this;
+switch (_that) {
+case _UpcomingCard() when $default != null:
+return $default(_that.cardId,_that.projectId,_that.projectTitle,_that.title,_that.priority,_that.dueDate);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _UpcomingCard implements UpcomingCard {
+  const _UpcomingCard({required this.cardId, required this.projectId, required this.projectTitle, required this.title, required this.priority, required this.dueDate});
+  
+
+@override final  String cardId;
+@override final  String projectId;
+@override final  String projectTitle;
+@override final  String title;
+@override final  Priority priority;
+@override final  DateTime dueDate;
+
+/// Create a copy of UpcomingCard
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpcomingCardCopyWith<_UpcomingCard> get copyWith => __$UpcomingCardCopyWithImpl<_UpcomingCard>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpcomingCard&&(identical(other.cardId, cardId) || other.cardId == cardId)&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.projectTitle, projectTitle) || other.projectTitle == projectTitle)&&(identical(other.title, title) || other.title == title)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.dueDate, dueDate) || other.dueDate == dueDate));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,cardId,projectId,projectTitle,title,priority,dueDate);
+}
+
+@override
+String toString() {
+    return 'UpcomingCard(cardId: $cardId, projectId: $projectId, projectTitle: $projectTitle, title: $title, priority: $priority, dueDate: $dueDate)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpcomingCardCopyWith<$Res> implements $UpcomingCardCopyWith<$Res> {
+  factory _$UpcomingCardCopyWith(_UpcomingCard value, $Res Function(_UpcomingCard) _then) = __$UpcomingCardCopyWithImpl;
+@override @useResult
+$Res call({
+ String cardId, String projectId, String projectTitle, String title, Priority priority, DateTime dueDate
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpcomingCardCopyWithImpl<$Res>
+    implements _$UpcomingCardCopyWith<$Res> {
+  __$UpcomingCardCopyWithImpl(this._self, this._then);
+
+  final _UpcomingCard _self;
+  final $Res Function(_UpcomingCard) _then;
+
+/// Create a copy of UpcomingCard
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? cardId = null,Object? projectId = null,Object? projectTitle = null,Object? title = null,Object? priority = null,Object? dueDate = null,}) {
+  return _then(_UpcomingCard(
+cardId: null == cardId ? _self.cardId : cardId // ignore: cast_nullable_to_non_nullable
+as String,projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
+as String,projectTitle: null == projectTitle ? _self.projectTitle : projectTitle // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,priority: null == priority ? _self.priority : priority // ignore: cast_nullable_to_non_nullable
+as Priority,dueDate: null == dueDate ? _self.dueDate : dueDate // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+
+}
+
 // dart format on

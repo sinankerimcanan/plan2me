@@ -54,7 +54,7 @@ final class ProjectFormViewModelProvider
 }
 
 String _$projectFormViewModelHash() =>
-    r'487a43c73d9a02fda8d55423e354ab95cf014491';
+    r'2f120279a8e008fb0568b8e48b84514bf18d91db';
 
 /// Yeni/düzenle proje formu. [projectId] null ise yeni proje.
 

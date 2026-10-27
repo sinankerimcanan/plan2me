@@ -78,6 +78,32 @@ Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
 ```
 
+## iOS ana ekran widget'ı
+
+`ios/Plan2meWidget` altında SwiftUI/WidgetKit widget'ı (iOS 17+):
+
+- Ana ekran: küçük (aktif proje + gecikmiş), orta (öncelikli 3 proje), büyük (projeler + yaklaşan kartlar).
+- Kilit ekranı: dairesel, dikdörtgen ve satır içi.
+- Her proje ve karta dokununca uygulamada ilgili ekran açılır (`plan2me://app/...`).
+
+Veri akışı: `lib/features/home_widget` proje/kart verisi değişince özet JSON'u
+App Group'a (`group.krx.plan2me.app`) yazar ve widget'ı yeniler. Göreli tarihler
+("2 gün kaldı") widget tarafında hesaplanır ve gece yarısı kendiliğinden güncellenir.
+
+Gerçek cihazda ilk kurulumdan önce Xcode'da `ios/Runner.xcworkspace` açılıp
+Runner ve Plan2meWidget hedeflerinde **Signing & Capabilities > App Groups**
+altında `group.krx.plan2me.app` grubunun etkin olduğu bir kez kontrol edilmelidir
+(otomatik imzalama grubu Apple Developer hesabına kaydeder).
+
+Widget hedefi `tool/ios/add_widget_target.rb` ile eklendi; proje sıfırdan
+oluşturulursa bu betik tekrar çalıştırılabilir.
+
+## Uygulama ikonu
+
+```bash
+python3 tool/generate_icon.py && fvm dart run flutter_launcher_icons
+```
+
 ## Test
 
 ```bash

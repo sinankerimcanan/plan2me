@@ -1,0 +1,2 @@
+// Uygulama ile aynı sürüm numarası (FLUTTER_BUILD_NAME / FLUTTER_BUILD_NUMBER) için.
+#include "../Flutter/Generated.xcconfig"

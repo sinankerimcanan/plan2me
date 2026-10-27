@@ -193,3 +193,16 @@ abstract class ColumnPatch with _$ColumnPatch {
     @Default(false) bool isDoneColumn,
   }) = _ColumnPatch;
 }
+
+/// Projeler arası, son tarihi olan ve tamamlanmamış kart (ana ekran widget'ı için).
+@freezed
+abstract class UpcomingCard with _$UpcomingCard {
+  const factory UpcomingCard({
+    required String cardId,
+    required String projectId,
+    required String projectTitle,
+    required String title,
+    required Priority priority,
+    required DateTime dueDate,
+  }) = _UpcomingCard;
+}

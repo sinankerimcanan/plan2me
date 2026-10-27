@@ -191,6 +191,43 @@ class DriftBoardRepository implements BoardRepository {
     );
   }
 
+  @override
+  Stream<List<UpcomingCard>> watchUpcomingCards({int limit = 8}) {
+    final c = _db.cards;
+    final p = _db.projects;
+    final query =
+        _db.select(c).join([innerJoin(p, p.id.equalsExp(c.projectId))])
+          ..where(
+            c.deletedAt.isNull() &
+                p.deletedAt.isNull() &
+                c.completedAt.isNull() &
+                c.dueDate.isNotNull() &
+                p.status.isNotInValues(const [
+                  ProjectStatus.done,
+                  ProjectStatus.cancelled,
+                ]),
+          )
+          ..orderBy([OrderingTerm.asc(c.dueDate), OrderingTerm.asc(c.position)])
+          ..limit(limit);
+    return query.watch().map(
+      (rows) => [
+        for (final r in rows)
+          () {
+            final card = r.readTable(c);
+            final project = r.readTable(p);
+            return UpcomingCard(
+              cardId: card.id,
+              projectId: project.id,
+              projectTitle: project.title,
+              title: card.title,
+              priority: card.priority,
+              dueDate: card.dueDate!,
+            );
+          }(),
+      ],
+    );
+  }
+
   Future<CardRow?> _aliveCard(String id) => (_db.select(
     _db.cards,
   )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();

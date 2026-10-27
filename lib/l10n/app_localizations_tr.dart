@@ -587,4 +587,61 @@ class AppLocalizationsTr extends AppLocalizations {
   String deviceCalendarTaskFrom(String project) {
     return '$project projesinden görev';
   }
+
+  @override
+  String get remindersTitle => 'Hatırlatıcılar';
+
+  @override
+  String get remindersEnable => 'Hatırlatıcıları aç';
+
+  @override
+  String get remindersEnableHelp =>
+      'Son tarihi gelen görev ve projeler için bildirim.';
+
+  @override
+  String get remindersTime => 'Bildirim saati';
+
+  @override
+  String get remindersDayBefore => 'Bir gün önce de hatırlat';
+
+  @override
+  String get remindersDigest => 'Günlük özet';
+
+  @override
+  String get remindersDigestHelp =>
+      'O günün görevleri tek bildirimde toplanır.';
+
+  @override
+  String get remindersDenied =>
+      'Bildirim izni verilmedi. Ayarlar > plan2me\'den açabilirsin.';
+
+  @override
+  String reminderTaskToday(String title) {
+    return 'Bugün: $title';
+  }
+
+  @override
+  String reminderTaskTomorrow(String title) {
+    return 'Yarın: $title';
+  }
+
+  @override
+  String reminderProjectToday(String title) {
+    return 'Proje teslimi bugün: $title';
+  }
+
+  @override
+  String reminderProjectTomorrow(String title) {
+    return 'Proje teslimi yarın: $title';
+  }
+
+  @override
+  String reminderDigestTitle(int count) {
+    return 'Bugün $count görevin var';
+  }
+
+  @override
+  String reminderDigestMore(int count) {
+    return 've $count görev daha';
+  }
 }

@@ -1185,6 +1185,90 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{project} projesinden görev'**
   String deviceCalendarTaskFrom(String project);
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcılar'**
+  String get remindersTitle;
+
+  /// No description provided for @remindersEnable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcıları aç'**
+  String get remindersEnable;
+
+  /// No description provided for @remindersEnableHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son tarihi gelen görev ve projeler için bildirim.'**
+  String get remindersEnableHelp;
+
+  /// No description provided for @remindersTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim saati'**
+  String get remindersTime;
+
+  /// No description provided for @remindersDayBefore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir gün önce de hatırlat'**
+  String get remindersDayBefore;
+
+  /// No description provided for @remindersDigest.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük özet'**
+  String get remindersDigest;
+
+  /// No description provided for @remindersDigestHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'O günün görevleri tek bildirimde toplanır.'**
+  String get remindersDigestHelp;
+
+  /// No description provided for @remindersDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim izni verilmedi. Ayarlar > plan2me\'den açabilirsin.'**
+  String get remindersDenied;
+
+  /// No description provided for @reminderTaskToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün: {title}'**
+  String reminderTaskToday(String title);
+
+  /// No description provided for @reminderTaskTomorrow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yarın: {title}'**
+  String reminderTaskTomorrow(String title);
+
+  /// No description provided for @reminderProjectToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje teslimi bugün: {title}'**
+  String reminderProjectToday(String title);
+
+  /// No description provided for @reminderProjectTomorrow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje teslimi yarın: {title}'**
+  String reminderProjectTomorrow(String title);
+
+  /// No description provided for @reminderDigestTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün {count} görevin var'**
+  String reminderDigestTitle(int count);
+
+  /// No description provided for @reminderDigestMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'ve {count} görev daha'**
+  String reminderDigestMore(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -288,5 +288,61 @@
         "type": "String"
       }
     }
+  },
+  "remindersTitle": "Hatırlatıcılar",
+  "remindersEnable": "Hatırlatıcıları aç",
+  "remindersEnableHelp": "Son tarihi gelen görev ve projeler için bildirim.",
+  "remindersTime": "Bildirim saati",
+  "remindersDayBefore": "Bir gün önce de hatırlat",
+  "remindersDigest": "Günlük özet",
+  "remindersDigestHelp": "O günün görevleri tek bildirimde toplanır.",
+  "remindersDenied": "Bildirim izni verilmedi. Ayarlar > plan2me'den açabilirsin.",
+  "reminderTaskToday": "Bugün: {title}",
+  "reminderTaskTomorrow": "Yarın: {title}",
+  "reminderProjectToday": "Proje teslimi bugün: {title}",
+  "reminderProjectTomorrow": "Proje teslimi yarın: {title}",
+  "reminderDigestTitle": "Bugün {count} görevin var",
+  "reminderDigestMore": "ve {count} görev daha",
+  "@reminderTaskToday": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminderTaskTomorrow": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminderProjectToday": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminderProjectTomorrow": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@reminderDigestTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@reminderDigestMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

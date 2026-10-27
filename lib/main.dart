@@ -22,6 +22,10 @@ import 'features/trash/data/trash_providers.dart';
 import 'l10n/app_localizations.dart';
 import 'l10n/app_localizations_tr.dart';
 
+/// Uygulama ömrü boyunca açık kalan yaşam döngüsü dinleyicisi.
+// ignore: unused_element
+AppLifecycleListener? _lifecycle;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('tr');
@@ -68,6 +72,10 @@ Future<void> main() async {
   if (container.read(widgetBridgeProvider) != null) {
     await HomeWidgetBridge.initialize();
     container.listen(homeWidgetSyncProvider, (_, _) {});
+    // Widget'tan tamamlanan görevler: açılışta ve uygulama her öne geldiğinde işle.
+    final sync = container.read(homeWidgetSyncProvider.notifier);
+    await sync.processPendingCompletions();
+    _lifecycle = AppLifecycleListener(onResume: sync.processPendingCompletions);
   }
 
   // Hatırlatıcılar: bildirime dokununca ilgili ekranı aç, verilere göre yeniden kur.

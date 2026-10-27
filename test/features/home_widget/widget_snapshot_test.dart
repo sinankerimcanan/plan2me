@@ -39,8 +39,15 @@ ProjectOverview _o(
 
 class FakeBridge implements WidgetBridge {
   final published = <String>[];
+  List<String> pending = [];
   @override
   Future<void> publish(String json) async => published.add(json);
+  @override
+  Future<List<String>> takePendingCompletions() async {
+    final out = pending;
+    pending = [];
+    return out;
+  }
 }
 
 void main() {
@@ -167,5 +174,42 @@ void main() {
     container.invalidate(projectOverviewsProvider);
     await Future<void>.delayed(HomeWidgetSync.debounce * 2);
     expect(bridge.published, hasLength(3));
+  });
+
+  test('widget\'tan tamamlanan görevler veritabanına işlenir, silinmiş kart atlanır', () async {
+    final db = memoryDb();
+    final bridge = FakeBridge();
+    final container = ProviderContainer(
+      overrides: [
+        appDatabaseProvider.overrideWithValue(db),
+        widgetBridgeProvider.overrideWithValue(bridge),
+      ],
+      retry: (_, _) => null,
+    );
+    addTearDown(() async {
+      container.dispose();
+      await db.close();
+    });
+    final pid = await container
+        .read(projectRepositoryProvider)
+        .create(const ProjectDraft(title: 'P'), defaultColumns: ['A', 'Bitti']);
+    final board = container.read(boardRepositoryProvider);
+    final col = (await board.watchBoard(pid).first).lanes.first.column.id;
+    final k = await board.addCard(col, 'Widget görevi');
+    final gone = await board.addCard(col, 'Silinen');
+    await board.deleteCard(gone);
+
+    bridge.pending = [k, gone, 'olmayan'];
+    final done = await container
+        .read(homeWidgetSyncProvider.notifier)
+        .processPendingCompletions();
+    expect(done, 1);
+    expect((await board.watchCard(k).first)!.card.isCompleted, isTrue);
+    expect(
+      await container
+          .read(homeWidgetSyncProvider.notifier)
+          .processPendingCompletions(),
+      0,
+    );
   });
 }

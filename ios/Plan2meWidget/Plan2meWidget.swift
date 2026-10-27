@@ -4,6 +4,7 @@
 // UserDefaults'una yazar ve bu widget'ın zaman çizelgesini yeniler.
 // JSON şeması lib/features/home_widget/domain/widget_snapshot.dart ile aynıdır.
 
+import AppIntents
 import SwiftUI
 import WidgetKit
 
@@ -12,6 +13,9 @@ import WidgetKit
 private let appGroupId = "group.krx.plan2me.app"
 private let snapshotKey = "snapshot"
 private let widgetKind = "Plan2meWidget"
+private let tasksWidgetKind = "Plan2meTasksWidget"
+/// Widget'tan tamamlanan kartlar; uygulama açılınca işlenir (lib/features/home_widget).
+private let pendingCompletionsKey = "pendingCompletions"
 
 // MARK: - Model
 
@@ -35,6 +39,21 @@ struct Snapshot: Codable {
               let data = json.data(using: .utf8)
         else { return nil }
         return try? JSONDecoder().decode(Snapshot.self, from: data)
+    }
+
+    func save() {
+        guard let data = try? JSONEncoder().encode(self), let json = String(data: data, encoding: .utf8) else { return }
+        UserDefaults(suiteName: appGroupId)?.set(json, forKey: snapshotKey)
+    }
+
+    /// Widget'ta anında görünmesi için kartı listeden çıkarır (iyimser güncelleme).
+    func removingCard(_ id: String) -> Snapshot {
+        Snapshot(v: v, generatedAt: generatedAt, stats: stats, activeDueDates: activeDueDates, projects: projects, cards: cards.filter { $0.id != id })
+    }
+
+    /// Bugün son tarihi olan ya da gecikmiş görevler.
+    func dueTodayOrOverdue(now: Date) -> [WCard] {
+        cards.filter { (Dates.days(until: $0.due, from: now) ?? 1) <= 0 }
     }
 
     /// Bugüne göre gecikmiş açık proje sayısı (render anında hesaplanır).
@@ -76,10 +95,42 @@ struct WCard: Codable, Identifiable {
     var url: URL { DeepLink.card(projectId: projectId, cardId: id) }
 }
 
+// MARK: - Etkileşim (iOS 17 App Intent)
+
+/// Widget'taki daireye dokununca görevi tamamlar. Uygulama açılmaz:
+/// kart widget'tan hemen kalkar, uygulama bir sonraki açılışta veritabanına işler.
+struct CompleteTaskIntent: AppIntent {
+    static var title: LocalizedStringResource = "Görevi tamamla"
+    static var isDiscoverable = false
+
+    @Parameter(title: "Görev") var cardId: String
+
+    init() {}
+    init(cardId: String) { self.cardId = cardId }
+
+    func perform() async throws -> some IntentResult {
+        guard let defaults = UserDefaults(suiteName: appGroupId) else { return .result() }
+        var pending: [String] = []
+        if let raw = defaults.string(forKey: pendingCompletionsKey),
+           let data = raw.data(using: .utf8),
+           let decoded = try? JSONDecoder().decode([String].self, from: data) {
+            pending = decoded
+        }
+        if !pending.contains(cardId) { pending.append(cardId) }
+        if let data = try? JSONEncoder().encode(pending), let raw = String(data: data, encoding: .utf8) {
+            defaults.set(raw, forKey: pendingCompletionsKey)
+        }
+        Snapshot.load()?.removingCard(cardId).save()
+        return .result()
+    }
+}
+
 // MARK: - Yardımcılar
 
 enum DeepLink {
     static let projects = URL(string: "plan2me://app/projects")!
+    static let tasks = URL(string: "plan2me://app/tasks")!
+    static let newTask = URL(string: "plan2me://app/tasks?add=1")!
     static let newProject = URL(string: "plan2me://app/projects/new")!
     static func project(_ id: String) -> URL { URL(string: "plan2me://app/projects/\(id)")! }
     static func card(projectId: String, cardId: String) -> URL {
@@ -336,9 +387,29 @@ struct CardRow: View {
     let palette: Palette
 
     var body: some View {
-        Link(destination: card.url) {
-            CardRowContent(card: card, now: now, palette: palette)
+        HStack(spacing: 6) {
+            CompleteButton(card: card, palette: palette)
+            Link(destination: card.url) {
+                CardRowContent(card: card, now: now, palette: palette, showDot: false)
+            }
         }
+    }
+}
+
+/// Dokununca görevi tamamlayan daire.
+struct CompleteButton: View {
+    let card: WCard
+    let palette: Palette
+
+    var body: some View {
+        Button(intent: CompleteTaskIntent(cardId: card.id)) {
+            Image(systemName: "circle")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(Color(hex: card.priorityColor))
+                .frame(width: 24, height: 24)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -346,10 +417,13 @@ struct CardRowContent: View {
     let card: WCard
     let now: Date
     let palette: Palette
+    var showDot = true
 
     var body: some View {
             HStack(spacing: 8) {
-                Circle().fill(Color(hex: card.priorityColor)).frame(width: 7, height: 7)
+                if showDot {
+                    Circle().fill(Color(hex: card.priorityColor)).frame(width: 7, height: 7)
+                }
                 VStack(alignment: .leading, spacing: 1) {
                     Text(card.title)
                         .font(.system(size: 12, weight: .semibold))
@@ -522,6 +596,109 @@ struct LargeView: View {
     }
 }
 
+// MARK: - Görevlerim widget'ı
+
+struct TasksWidgetView: View {
+    let snapshot: Snapshot?
+    let now: Date
+    let family: WidgetFamily
+    let palette: Palette
+
+    private var limit: Int {
+        switch family {
+        case .systemSmall: return 2
+        case .systemLarge, .systemExtraLarge: return 7
+        default: return 3
+        }
+    }
+
+    var body: some View {
+        let cards = snapshot?.cards ?? []
+        let urgent = snapshot?.dueTodayOrOverdue(now: now).count ?? 0
+        VStack(alignment: .leading, spacing: family == .systemSmall ? 6 : 8) {
+            HStack(spacing: 6) {
+                Image(systemName: "checklist")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(palette.accent)
+                Text(family == .systemSmall ? "Görevler" : "Görevlerim")
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .foregroundStyle(palette.text)
+                    .lineLimit(1)
+                Spacer(minLength: 0)
+                if urgent > 0 {
+                    Text("\(urgent)")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(palette.danger))
+                }
+                Link(destination: DeepLink.newTask) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 18))
+                        .foregroundStyle(palette.accent)
+                }
+            }
+            if cards.isEmpty {
+                Spacer(minLength: 0)
+                Text("Yaklaşan görev yok 🎉")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(palette.secondary)
+                Spacer(minLength: 0)
+            } else {
+                ForEach(cards.prefix(limit)) { card in
+                    if family == .systemSmall {
+                        HStack(spacing: 6) {
+                            CompleteButton(card: card, palette: palette)
+                            Link(destination: card.url) {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(card.title)
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundStyle(palette.text)
+                                        .lineLimit(1)
+                                    if let due = Dates.relative(card.due, now: now) {
+                                        Text(due)
+                                            .font(.system(size: 10, weight: .medium))
+                                            .foregroundStyle(Dates.isOverdue(card.due, now: now) ? palette.danger : palette.secondary)
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        CardRow(card: card, now: now, palette: palette)
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .widgetURL(DeepLink.tasks)
+    }
+}
+
+struct Plan2meTasksWidget: Widget {
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: tasksWidgetKind, provider: Provider()) { entry in
+            TasksWidgetEntryView(entry: entry)
+        }
+        .configurationDisplayName("Görevlerim")
+        .description("Yaklaşan görevler; daireye dokunarak tamamla.")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+    }
+}
+
+struct TasksWidgetEntryView: View {
+    @Environment(\.widgetFamily) private var family
+    @Environment(\.colorScheme) private var colorScheme
+    let entry: Entry
+
+    var body: some View {
+        let palette = Palette.of(colorScheme)
+        TasksWidgetView(snapshot: entry.snapshot, now: entry.date, family: family, palette: palette)
+            .containerBackground(for: .widget) { LiquidBackground(palette: palette) }
+    }
+}
+
 // MARK: - Kilit ekranı
 
 struct CircularView: View {
@@ -645,6 +822,7 @@ struct Plan2meWidget: Widget {
 struct Plan2meWidgetBundle: WidgetBundle {
     var body: some Widget {
         Plan2meWidget()
+        Plan2meTasksWidget()
     }
 }
 

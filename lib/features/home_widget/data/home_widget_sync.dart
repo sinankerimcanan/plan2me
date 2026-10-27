@@ -9,6 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/utils/clock.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../board/data/board_providers.dart';
+import '../../board/domain/board_repository.dart';
 import '../../projects/data/projects_providers.dart';
 import 'widget_snapshot_builder.dart';
 
@@ -17,20 +18,38 @@ part 'home_widget_sync.g.dart';
 /// Widget'a veri yayınlayan platform köprüsü (testlerde sahtesi verilir).
 abstract interface class WidgetBridge {
   Future<void> publish(String snapshotJson);
+
+  /// Widget'tan (iOS App Intent) tamamlanan kart id'lerini alır ve listeyi boşaltır.
+  Future<List<String>> takePendingCompletions();
 }
 
 /// iOS WidgetKit köprüsü. App Group ve kind, Xcode tarafıyla aynı olmalı.
 class HomeWidgetBridge implements WidgetBridge {
   static const appGroupId = 'group.krx.plan2me.app';
-  static const iOSWidgetKind = 'Plan2meWidget';
+  static const iOSWidgetKinds = ['Plan2meWidget', 'Plan2meTasksWidget'];
   static const snapshotKey = 'snapshot';
+  static const pendingCompletionsKey = 'pendingCompletions';
 
   static Future<void> initialize() => HomeWidget.setAppGroupId(appGroupId);
 
   @override
   Future<void> publish(String snapshotJson) async {
     await HomeWidget.saveWidgetData<String>(snapshotKey, snapshotJson);
-    await HomeWidget.updateWidget(iOSName: iOSWidgetKind);
+    for (final kind in iOSWidgetKinds) {
+      await HomeWidget.updateWidget(iOSName: kind);
+    }
+  }
+
+  @override
+  Future<List<String>> takePendingCompletions() async {
+    final raw = await HomeWidget.getWidgetData<String>(pendingCompletionsKey);
+    if (raw == null || raw.isEmpty) return const [];
+    await HomeWidget.saveWidgetData<String>(pendingCompletionsKey, null);
+    try {
+      return [for (final id in jsonDecode(raw) as List) id as String];
+    } catch (_) {
+      return const [];
+    }
   }
 }
 
@@ -65,6 +84,25 @@ class HomeWidgetSync extends _$HomeWidgetSync {
       fireImmediately: true,
     );
     ref.onDispose(() => _timer?.cancel());
+  }
+
+  /// Widget'tan tamamlanan görevleri veritabanına işler (açılışta ve öne gelişte).
+  /// Silinmiş ya da zaten tamamlanmış kartlar sessizce atlanır.
+  Future<int> processPendingCompletions() async {
+    final bridge = ref.read(widgetBridgeProvider);
+    if (bridge == null) return 0;
+    final ids = await bridge.takePendingCompletions();
+    final board = ref.read(boardRepositoryProvider);
+    var done = 0;
+    for (final id in ids) {
+      try {
+        await board.completeCard(id);
+        done++;
+      } on BoardRuleException {
+        // kart silinmiş
+      }
+    }
+    return done;
   }
 
   void _schedule(WidgetBridge bridge) {

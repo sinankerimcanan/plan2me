@@ -93,7 +93,7 @@ final class HomeWidgetSyncProvider
   }
 }
 
-String _$homeWidgetSyncHash() => r'920e3b8901ca8b9cefe11605c6412cb8d4ca125c';
+String _$homeWidgetSyncHash() => r'43c99f582a21b8f96633b73e9debd8f895c67fd6';
 
 /// Proje ve kart verisini izler; değişince (kısa gecikmeyle) widget'ı günceller.
 /// Mutlaka `listen` ile canlı tutulmalı (Riverpod 3 dinleyicisiz provider'ı duraklatır).

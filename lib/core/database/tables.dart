@@ -36,9 +36,8 @@ class Projects extends Table with SyncColumns {
   TextColumn get status => textEnum<ProjectStatus>()();
   DateTimeColumn get startDate => dateTime().nullable()();
   DateTimeColumn get dueDate => dateTime().nullable()();
-  TextColumn get responsiblePersonId => text()
-      .nullable()
-      .references(Persons, #id, onDelete: KeyAction.setNull)();
+  TextColumn get responsiblePersonId =>
+      text().nullable().references(Persons, #id, onDelete: KeyAction.setNull)();
   TextColumn get details => text().nullable()();
   RealColumn get position => real()();
 
@@ -64,7 +63,10 @@ class ProjectRequesters extends Table with SyncColumns {
 }
 
 @DataClassName('BoardColumnRow')
-@TableIndex(name: 'idx_columns_project_position', columns: {#projectId, #position})
+@TableIndex(
+  name: 'idx_columns_project_position',
+  columns: {#projectId, #position},
+)
 class BoardColumns extends Table with SyncColumns {
   TextColumn get projectId =>
       text().references(Projects, #id, onDelete: KeyAction.cascade)();

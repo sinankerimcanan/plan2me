@@ -8,14 +8,15 @@ const double kPositionStep = 1024;
 const double kMinPositionGap = 1e-6;
 
 /// Pozisyonu olan bir kardeş öğe.
-typedef Positioned = ({String id, double position});
+typedef Ordered = ({String id, double position});
 
 /// [siblings] taşınan öğe HARİÇ, pozisyona göre sıralı kardeşlerdir.
 /// [beforeId] null ise öğe sona eklenir, aksi halde o öğenin hemen önüne.
-double positionBefore(List<Positioned> siblings, String? beforeId) {
+double positionBefore(List<Ordered> siblings, String? beforeId) {
   if (siblings.isEmpty) return kPositionStep;
-  final index =
-      beforeId == null ? -1 : siblings.indexWhere((s) => s.id == beforeId);
+  final index = beforeId == null
+      ? -1
+      : siblings.indexWhere((s) => s.id == beforeId);
   if (index < 0) return siblings.last.position + kPositionStep;
   if (index == 0) return siblings.first.position - kPositionStep;
   return (siblings[index - 1].position + siblings[index].position) / 2;
@@ -44,8 +45,9 @@ bool needsRenormalize(List<double> sortedPositions) {
 }
 
 /// [count] öğe için eşit aralıklı yeni pozisyonlar.
-List<double> renormalized(int count) =>
-    [for (var i = 0; i < count; i++) (i + 1) * kPositionStep];
+List<double> renormalized(int count) => [
+  for (var i = 0; i < count; i++) (i + 1) * kPositionStep,
+];
 
 /// ReorderableListView (oldIndex, newIndex) çiftini "şu id'nin önüne" biçimine çevirir.
 /// [ids] taşımadan önceki sıradır. Dönen null, "sona taşı" demektir.

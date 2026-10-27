@@ -1,0 +1,43 @@
+import 'board_models.dart';
+
+/// Proje board'u (sütun, kart, checklist, etiket) için sözleşme.
+/// Agregat kökü projedir; tüm yazımlar kartın/sütunun projesini korur.
+abstract interface class BoardRepository {
+  Stream<BoardData> watchBoard(String projectId);
+  Stream<CardDetail?> watchCard(String cardId);
+
+  // Sütunlar
+  Future<String> addColumn(String projectId, String name);
+  Future<void> updateColumn(String columnId, ColumnPatch patch);
+  Future<void> moveColumn(String columnId, {String? beforeColumnId});
+  Future<void> deleteColumn(String columnId);
+
+  // Kartlar
+  Future<String> addCard(String columnId, String title);
+  Future<void> updateCard(String cardId, CardPatch patch);
+
+  /// [beforeCardId] null ise hedef sütunun sonuna taşır.
+  Future<void> moveCard(
+    String cardId,
+    String toColumnId, {
+    String? beforeCardId,
+  });
+  Future<void> deleteCard(String cardId);
+
+  // Etiketler
+  Future<Label> createLabel(String projectId, String name, String colorHex);
+  Future<void> updateLabel(String labelId, String name, String colorHex);
+  Future<void> deleteLabel(String labelId);
+  Future<void> setCardLabel(
+    String cardId,
+    String labelId, {
+    required bool enabled,
+  });
+
+  // Checklist
+  Future<void> addChecklistItem(String cardId, String title);
+  Future<void> setChecklistItemDone(String itemId, {required bool done});
+  Future<void> renameChecklistItem(String itemId, String title);
+  Future<void> moveChecklistItem(String itemId, {String? beforeItemId});
+  Future<void> deleteChecklistItem(String itemId);
+}

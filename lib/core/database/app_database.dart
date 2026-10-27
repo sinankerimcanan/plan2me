@@ -77,13 +77,15 @@ class AppDatabase extends _$AppDatabase {
   }
 
   /// `version` kolonunu artırır (senkron için değişiklik sayacı).
-  Future<void> bumpVersion(TableInfo<Table, Object?> table, String id) =>
-      customUpdate(
-        'UPDATE ${table.actualTableName} SET version = version + 1 WHERE id = ?',
-        variables: [Variable<String>(id)],
-        updates: {table},
-        updateKind: UpdateKind.update,
-      );
+  Future<void> bumpVersion(
+    TableInfo<Table, Object?> table,
+    String id,
+  ) => customUpdate(
+    'UPDATE ${table.actualTableName} SET version = version + 1 WHERE id = ?',
+    variables: [Variable<String>(id)],
+    updates: {table},
+    updateKind: UpdateKind.update,
+  );
 
   /// Soft delete: [whereSql] koşuluna uyan ve henüz silinmemiş satırları işaretler.
   Future<int> softDeleteWhere(

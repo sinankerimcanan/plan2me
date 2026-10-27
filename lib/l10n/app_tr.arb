@@ -394,5 +394,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "shortcutNewTask": "Görev ekle",
+  "shortcutTasks": "Görevlerim",
+  "shortcutCalendar": "Takvim",
+  "shortcutNewProject": "Yeni proje",
+  "securityTitle": "Güvenlik",
+  "appLockEnable": "Face ID / şifre ile kilitle",
+  "appLockHelp": "Açılışta ve 30 saniyeden uzun arka planda kaldıktan sonra kilit ister.",
+  "appLockUnsupported": "Bu cihazda biyometrik kilit veya ekran şifresi ayarlı değil.",
+  "appLockReason": "plan2me'yi açmak için kimliğini doğrula",
+  "appLockLocked": "plan2me kilitli",
+  "appLockUnlock": "Kilidi aç"
 }

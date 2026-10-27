@@ -1407,6 +1407,72 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'plan2me yedeği'**
   String get backupShareSubject;
+
+  /// No description provided for @shortcutNewTask.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev ekle'**
+  String get shortcutNewTask;
+
+  /// No description provided for @shortcutTasks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görevlerim'**
+  String get shortcutTasks;
+
+  /// No description provided for @shortcutCalendar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim'**
+  String get shortcutCalendar;
+
+  /// No description provided for @shortcutNewProject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni proje'**
+  String get shortcutNewProject;
+
+  /// No description provided for @securityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik'**
+  String get securityTitle;
+
+  /// No description provided for @appLockEnable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Face ID / şifre ile kilitle'**
+  String get appLockEnable;
+
+  /// No description provided for @appLockHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açılışta ve 30 saniyeden uzun arka planda kaldıktan sonra kilit ister.'**
+  String get appLockHelp;
+
+  /// No description provided for @appLockUnsupported.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu cihazda biyometrik kilit veya ekran şifresi ayarlı değil.'**
+  String get appLockUnsupported;
+
+  /// No description provided for @appLockReason.
+  ///
+  /// In tr, this message translates to:
+  /// **'plan2me\'yi açmak için kimliğini doğrula'**
+  String get appLockReason;
+
+  /// No description provided for @appLockLocked.
+  ///
+  /// In tr, this message translates to:
+  /// **'plan2me kilitli'**
+  String get appLockLocked;
+
+  /// No description provided for @appLockUnlock.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilidi aç'**
+  String get appLockUnlock;
 }
 
 class _AppLocalizationsDelegate

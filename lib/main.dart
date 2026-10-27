@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
 import 'core/database/demo_seed.dart';
 import 'core/router/app_router.dart';
+import 'core/services/quick_actions_service.dart';
 import 'features/board/data/board_providers.dart';
 import 'features/home_widget/data/home_widget_sync.dart';
 import 'features/people/data/people_providers.dart';
@@ -18,6 +19,7 @@ import 'features/reminders/data/reminders_providers.dart';
 import 'features/settings/presentation/theme_mode_controller.dart';
 import 'features/tasks/data/tasks_providers.dart';
 import 'features/trash/data/trash_providers.dart';
+import 'l10n/app_localizations.dart';
 import 'l10n/app_localizations_tr.dart';
 
 Future<void> main() async {
@@ -78,6 +80,12 @@ Future<void> main() async {
     launchRoute = await notifications.launchRoute();
     container.listen(reminderSyncProvider, (_, _) {});
   }
+
+  // Ana ekran kısayolları (uygulama simgesine uzun basınca).
+  await AppShortcuts.setup(
+    lookupAppLocalizations(const Locale('tr')),
+    onOpen: (route) => container.read(appRouterProvider).go(route),
+  );
 
   runApp(
     UncontrolledProviderScope(container: container, child: const Plan2MeApp()),

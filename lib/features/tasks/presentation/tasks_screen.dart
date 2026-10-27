@@ -16,11 +16,29 @@ import 'quick_add_sheet.dart';
 import 'tasks_view_model.dart';
 import 'widgets/task_tile.dart';
 
-class TasksScreen extends ConsumerWidget {
-  const TasksScreen({super.key});
+class TasksScreen extends ConsumerStatefulWidget {
+  const TasksScreen({super.key, this.openQuickAdd = false});
+
+  /// Ana ekran kısayolundan gelindiyse hızlı ekleme kendiliğinden açılır.
+  final bool openQuickAdd;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends ConsumerState<TasksScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.openQuickAdd) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) showQuickAddSheet(context);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l = context.l10n;
     final filter = ref.watch(taskFilterControllerProvider);
     final ctrl = ref.read(taskFilterControllerProvider.notifier);
@@ -101,7 +119,7 @@ class TasksScreen extends ConsumerWidget {
               else
                 for (final group in TaskGroup.values)
                   if (s.groups[group]!.isNotEmpty)
-                    ..._section(context, ref, group, s.groups[group]!),
+                    ..._section(context, group, s.groups[group]!),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: MediaQuery.paddingOf(context).bottom + 96,
@@ -116,7 +134,6 @@ class TasksScreen extends ConsumerWidget {
 
   List<Widget> _section(
     BuildContext context,
-    WidgetRef ref,
     TaskGroup group,
     List<TaskItem> items,
   ) {

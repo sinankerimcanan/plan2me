@@ -112,7 +112,9 @@ GoRouter appRouter(Ref ref) {
                 path: Routes.tasks,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
-                  child: const TasksScreen(),
+                  child: TasksScreen(
+                    openQuickAdd: state.uri.queryParameters['add'] == '1',
+                  ),
                 ),
               ),
             ],

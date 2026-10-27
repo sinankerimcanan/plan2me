@@ -722,4 +722,39 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get backupShareSubject => 'plan2me yedeği';
+
+  @override
+  String get shortcutNewTask => 'Görev ekle';
+
+  @override
+  String get shortcutTasks => 'Görevlerim';
+
+  @override
+  String get shortcutCalendar => 'Takvim';
+
+  @override
+  String get shortcutNewProject => 'Yeni proje';
+
+  @override
+  String get securityTitle => 'Güvenlik';
+
+  @override
+  String get appLockEnable => 'Face ID / şifre ile kilitle';
+
+  @override
+  String get appLockHelp =>
+      'Açılışta ve 30 saniyeden uzun arka planda kaldıktan sonra kilit ister.';
+
+  @override
+  String get appLockUnsupported =>
+      'Bu cihazda biyometrik kilit veya ekran şifresi ayarlı değil.';
+
+  @override
+  String get appLockReason => 'plan2me\'yi açmak için kimliğini doğrula';
+
+  @override
+  String get appLockLocked => 'plan2me kilitli';
+
+  @override
+  String get appLockUnlock => 'Kilidi aç';
 }

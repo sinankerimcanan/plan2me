@@ -55,14 +55,17 @@ final class WidgetBridgeProvider
 String _$widgetBridgeHash() => r'9acc14724d253d23fce4ecc84f0598c8672e3de9';
 
 /// Proje ve kart verisini izler; değişince (kısa gecikmeyle) widget'ı günceller.
+/// Mutlaka `listen` ile canlı tutulmalı (Riverpod 3 dinleyicisiz provider'ı duraklatır).
 
 @ProviderFor(HomeWidgetSync)
 final homeWidgetSyncProvider = HomeWidgetSyncProvider._();
 
 /// Proje ve kart verisini izler; değişince (kısa gecikmeyle) widget'ı günceller.
+/// Mutlaka `listen` ile canlı tutulmalı (Riverpod 3 dinleyicisiz provider'ı duraklatır).
 final class HomeWidgetSyncProvider
     extends $NotifierProvider<HomeWidgetSync, void> {
   /// Proje ve kart verisini izler; değişince (kısa gecikmeyle) widget'ı günceller.
+  /// Mutlaka `listen` ile canlı tutulmalı (Riverpod 3 dinleyicisiz provider'ı duraklatır).
   HomeWidgetSyncProvider._()
     : super(
         from: null,
@@ -93,6 +96,7 @@ final class HomeWidgetSyncProvider
 String _$homeWidgetSyncHash() => r'920e3b8901ca8b9cefe11605c6412cb8d4ca125c';
 
 /// Proje ve kart verisini izler; değişince (kısa gecikmeyle) widget'ı günceller.
+/// Mutlaka `listen` ile canlı tutulmalı (Riverpod 3 dinleyicisiz provider'ı duraklatır).
 
 abstract class _$HomeWidgetSync extends $Notifier<void> {
   void build();

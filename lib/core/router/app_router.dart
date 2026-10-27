@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/board/presentation/board_screen.dart';
 import '../../features/board/presentation/card_detail_sheet.dart';
+import '../../features/calendar/presentation/calendar_screen.dart';
 import '../../features/people/presentation/people_screen.dart';
 import '../../features/projects/presentation/project_detail_screen.dart';
 import '../../features/projects/presentation/project_form_screen.dart';
@@ -111,6 +112,17 @@ GoRouter appRouter(Ref ref) {
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   child: const TasksScreen(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.calendar,
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const CalendarScreen(),
                 ),
               ),
             ],

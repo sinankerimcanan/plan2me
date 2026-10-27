@@ -39,6 +39,11 @@ class AppShell extends StatelessWidget {
                 label: l.navTasks,
               ),
               NavigationDestination(
+                icon: const Icon(Icons.calendar_month_outlined),
+                selectedIcon: const Icon(Icons.calendar_month_rounded),
+                label: l.navCalendar,
+              ),
+              NavigationDestination(
                 icon: const Icon(Icons.groups_outlined),
                 selectedIcon: const Icon(Icons.groups_rounded),
                 label: l.navPeople,

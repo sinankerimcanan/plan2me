@@ -12,6 +12,7 @@ abstract final class Routes {
       '/projects/$projectId/board/cards/$cardId';
 
   static const tasks = '/tasks';
+  static const calendar = '/calendar';
 
   /// Board bağlamı olmadan kart detayı (görevler ve takvimden açılır).
   static String taskCard(String cardId) => '/cards/$cardId';

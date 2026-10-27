@@ -1107,6 +1107,84 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Geri al'**
   String get undo;
+
+  /// No description provided for @navCalendar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim'**
+  String get navCalendar;
+
+  /// No description provided for @calendarTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim'**
+  String get calendarTitle;
+
+  /// No description provided for @calendarToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get calendarToday;
+
+  /// No description provided for @calendarEmptyDay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu gün için plan yok.'**
+  String get calendarEmptyDay;
+
+  /// No description provided for @calendarTasks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görevler'**
+  String get calendarTasks;
+
+  /// No description provided for @calendarProjectsDue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje teslimleri'**
+  String get calendarProjectsDue;
+
+  /// No description provided for @calendarFormatMonth.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ay'**
+  String get calendarFormatMonth;
+
+  /// No description provided for @calendarFormatTwoWeeks.
+  ///
+  /// In tr, this message translates to:
+  /// **'2 hafta'**
+  String get calendarFormatTwoWeeks;
+
+  /// No description provided for @calendarFormatWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta'**
+  String get calendarFormatWeek;
+
+  /// No description provided for @addToDeviceCalendar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon takvimine ekle'**
+  String get addToDeviceCalendar;
+
+  /// No description provided for @deviceCalendarFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim uygulaması açılamadı.'**
+  String get deviceCalendarFailed;
+
+  /// No description provided for @deviceCalendarProjectDue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje teslimi: {title}'**
+  String deviceCalendarProjectDue(String title);
+
+  /// No description provided for @deviceCalendarTaskFrom.
+  ///
+  /// In tr, this message translates to:
+  /// **'{project} projesinden görev'**
+  String deviceCalendarTaskFrom(String project);
 }
 
 class _AppLocalizationsDelegate

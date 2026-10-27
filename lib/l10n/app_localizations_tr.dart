@@ -544,4 +544,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get undo => 'Geri al';
+
+  @override
+  String get navCalendar => 'Takvim';
+
+  @override
+  String get calendarTitle => 'Takvim';
+
+  @override
+  String get calendarToday => 'Bugün';
+
+  @override
+  String get calendarEmptyDay => 'Bu gün için plan yok.';
+
+  @override
+  String get calendarTasks => 'Görevler';
+
+  @override
+  String get calendarProjectsDue => 'Proje teslimleri';
+
+  @override
+  String get calendarFormatMonth => 'Ay';
+
+  @override
+  String get calendarFormatTwoWeeks => '2 hafta';
+
+  @override
+  String get calendarFormatWeek => 'Hafta';
+
+  @override
+  String get addToDeviceCalendar => 'Telefon takvimine ekle';
+
+  @override
+  String get deviceCalendarFailed => 'Takvim uygulaması açılamadı.';
+
+  @override
+  String deviceCalendarProjectDue(String title) {
+    return 'Proje teslimi: $title';
+  }
+
+  @override
+  String deviceCalendarTaskFrom(String project) {
+    return '$project projesinden görev';
+  }
 }

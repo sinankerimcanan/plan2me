@@ -261,5 +261,32 @@
   "recurrenceWeekly": "Her hafta",
   "recurrenceMonthly": "Her ay",
   "recurrenceYearly": "Her yıl",
-  "undo": "Geri al"
+  "undo": "Geri al",
+  "navCalendar": "Takvim",
+  "calendarTitle": "Takvim",
+  "calendarToday": "Bugün",
+  "calendarEmptyDay": "Bu gün için plan yok.",
+  "calendarTasks": "Görevler",
+  "calendarProjectsDue": "Proje teslimleri",
+  "calendarFormatMonth": "Ay",
+  "calendarFormatTwoWeeks": "2 hafta",
+  "calendarFormatWeek": "Hafta",
+  "addToDeviceCalendar": "Telefon takvimine ekle",
+  "deviceCalendarFailed": "Takvim uygulaması açılamadı.",
+  "deviceCalendarProjectDue": "Proje teslimi: {title}",
+  "deviceCalendarTaskFrom": "{project} projesinden görev",
+  "@deviceCalendarProjectDue": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@deviceCalendarTaskFrom": {
+    "placeholders": {
+      "project": {
+        "type": "String"
+      }
+    }
+  }
 }

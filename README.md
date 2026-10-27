@@ -1,8 +1,20 @@
 # plan2me
 
-Kişisel proje takibi ve Kanban planlama uygulaması. Jira mantığında projeler
-(öncelik, aşama, talep edenler, sorumlu, tarihler, detay) ve her projeye bağlı
-Trello benzeri bir board.
+Kişisel proje, görev ve Kanban planlama uygulaması.
+
+**Özellikler**
+- **Projeler:** öncelik, aşama, talep edenler, sorumlu, tarihler, detaylar; filtre, arama, elle sıralama
+- **Kanban board:** sürükle-bırak, WIP limiti, tamamlanma sütunu, etiketler, kontrol listesi
+- **Görevlerim:** tüm projelerdeki görevler gecikmiş / bugün / yarın / bu hafta / sonra gruplarında;
+  kaydırarak tamamla veya ertele, "Bana atanan" filtresi, her işlemde "Geri al"
+- **Hızlı ekleme ve Gelen kutusu:** projesiz görevler için; Bugün / Yarın / Hafta sonu kısayolları
+- **Kart sorumlusu ve tekrarlayan görevler:** her gün / hafta / ay / yıl; tamamlanınca sonraki tekrar oluşur
+- **Takvim:** ay / 2 hafta / hafta görünümü; görev ve proje tarihini telefon takvimine ekleme
+- **Hatırlatıcılar:** son gün ve bir gün önce bildirim, günlük özet, seçilebilir saat
+- **Çöp kutusu ve yedek:** silineni geri alma, JSON yedek alma / geri yükleme
+- **iOS widget'ları:** proje özeti ve Görevlerim (widget'tan dokunarak tamamlama), kilit ekranı türleri
+- **Ana ekran kısayolları** ve **Face ID / şifre kilidi**
+- Liquid cam arayüz, açık (yeşil-sarımtırak) ve koyu tema, Türkçe
 
 **Faz 1:** Mobil öncelikli (iOS/Android), veriler cihazda SQLite'ta.
 **Faz 2 (planlı):** Backend senkronizasyonu ve web arayüzü.
@@ -82,7 +94,9 @@ Cross-Origin-Embedder-Policy: require-corp
 
 `ios/Plan2meWidget` altında SwiftUI/WidgetKit widget'ı (iOS 17+):
 
-- Ana ekran: küçük (aktif proje + gecikmiş), orta (öncelikli 3 proje), büyük (projeler + yaklaşan kartlar).
+- plan2me: küçük (aktif proje + gecikmiş), orta (öncelikli 3 proje), büyük (projeler + yaklaşan kartlar).
+- Görevlerim: yaklaşan ve gecikmiş görevler; daireye dokununca görev uygulama açılmadan tamamlanır
+  (iOS App Intent). Tamamlama uygulama bir sonraki açılışta/öne gelişte veritabanına işlenir.
 - Kilit ekranı: dairesel, dikdörtgen ve satır içi.
 - Her proje ve karta dokununca uygulamada ilgili ekran açılır (`plan2me://app/...`).
 
@@ -98,11 +112,25 @@ altında `group.krx.plan2me.app` grubunun etkin olduğu bir kez kontrol edilmeli
 Widget hedefi `tool/ios/add_widget_target.rb` ile eklendi; proje sıfırdan
 oluşturulursa bu betik tekrar çalıştırılabilir.
 
-## Uygulama ikonu
+## Uygulama ikonu ve kısayol simgeleri
 
 ```bash
 python3 tool/generate_icon.py && fvm dart run flutter_launcher_icons
+python3 tool/generate_shortcut_icons.py
 ```
+
+## Veritabanı şeması değişikliği
+
+Tablolarda değişiklik yaptıktan sonra `schemaVersion`'ı artırın ve:
+
+```bash
+fvm dart run build_runner build
+fvm dart run drift_dev make-migrations
+```
+
+Bu komut şema anlık görüntüsünü, adım adım migration yardımcısını ve
+migration testlerini üretir. Yeni adımı `app_database.dart` içindeki
+`stepByStep`'e ekleyin.
 
 ## Test
 

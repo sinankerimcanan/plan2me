@@ -8,6 +8,8 @@ import '../../../core/theme/glass.dart';
 import '../../../core/widgets/chips.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/person_avatar.dart';
+import '../../../core/widgets/toast.dart';
+import '../../trash/data/trash_providers.dart';
 import '../domain/person.dart';
 import 'people_view_model.dart';
 import 'person_form_sheet.dart';
@@ -85,7 +87,13 @@ class _PersonTile extends ConsumerWidget {
 
     Future<void> delete() async {
       if (await confirmDelete(context, l.personDeleteBody(p.name))) {
+        final trash = ref.read(trashRepositoryProvider);
         await vm.delete(p.id);
+        showToast(
+          l.personDeletedToast,
+          undoLabel: l.undo,
+          onUndo: () => trash.restorePerson(p.id),
+        );
       }
     }
 

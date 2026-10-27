@@ -13,6 +13,8 @@ import '../../../core/theme/semantic_colors.dart';
 import '../../../core/widgets/chips.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/person_avatar.dart';
+import '../../../core/widgets/toast.dart';
+import '../../trash/data/trash_providers.dart';
 import '../../board/presentation/board_view_model.dart';
 import '../../people/domain/person.dart';
 import '../domain/project.dart';
@@ -58,8 +60,14 @@ class ProjectDetailScreen extends ConsumerWidget {
           onPressed: () async {
             final title = overview.value?.project.title ?? '';
             if (await confirmDelete(context, l.projectDeleteBody(title))) {
+              final trash = ref.read(trashRepositoryProvider);
               await ref.read(provider.notifier).delete();
               if (context.mounted) context.pop();
+              showToast(
+                l.projectDeletedToast,
+                undoLabel: l.undo,
+                onUndo: () => trash.restoreProject(projectId),
+              );
             }
           },
         ),

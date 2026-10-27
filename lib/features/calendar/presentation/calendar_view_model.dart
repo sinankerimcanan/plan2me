@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../calendar_sync/data/calendar_sync_providers.dart';
+import '../../calendar_sync/data/device_calendar_gateway.dart';
 import '../../projects/data/projects_providers.dart';
 import '../../projects/domain/project.dart';
 import '../../tasks/data/tasks_providers.dart';
@@ -52,10 +54,14 @@ abstract class DayAgenda with _$DayAgenda {
   const factory DayAgenda({
     @Default(<TaskItem>[]) List<TaskItem> tasks,
     @Default(<ProjectOverview>[]) List<ProjectOverview> projects,
+
+    /// Telefon takvimindeki (plan2me dışı) etkinlikler.
+    @Default(<DeviceEvent>[]) List<DeviceEvent> deviceEvents,
   }) = _DayAgenda;
 
-  bool get isEmpty => tasks.isEmpty && projects.isEmpty;
-  int get count => tasks.length + projects.length;
+  bool get isEmpty =>
+      tasks.isEmpty && projects.isEmpty && this.deviceEvents.isEmpty;
+  int get count => tasks.length + projects.length + this.deviceEvents.length;
 }
 
 /// Takvim ViewModel'i: tarihe göre gruplanmış ajanda.
@@ -84,12 +90,55 @@ class CalendarViewModel extends _$CalendarViewModel {
         (projectMap[calendarDay(due)] ??= []).add(o);
       }
     }
+    // Telefon etkinlikleri yüklenirken takvimi bekletme; gelince eklenir.
+    final focused = ref.watch(calendarControllerProvider).focusedDay;
+    final device =
+        ref
+            .watch(deviceEventsProvider(DateTime(focused.year, focused.month)))
+            .value ??
+        const [];
+    final deviceMap = <DateTime, List<DeviceEvent>>{};
+    for (final e in device) {
+      for (final day in eventDays(e)) {
+        (deviceMap[day] ??= []).add(e);
+      }
+    }
+    for (final list in deviceMap.values) {
+      list.sort(
+        (a, b) => a.allDay == b.allDay
+            ? a.start.compareTo(b.start)
+            : (a.allDay ? -1 : 1),
+      );
+    }
+
     return AsyncData({
-      for (final day in {...taskMap.keys, ...projectMap.keys})
+      for (final day in {
+        ...taskMap.keys,
+        ...projectMap.keys,
+        ...deviceMap.keys,
+      })
         day: DayAgenda(
           tasks: taskMap[day] ?? const [],
           projects: projectMap[day] ?? const [],
+          deviceEvents: deviceMap[day] ?? const [],
         ),
     });
+  }
+}
+
+/// Etkinliğin kapladığı günler (tüm gün etkinliklerinde bitiş hariçtir).
+Iterable<DateTime> eventDays(DeviceEvent e) sync* {
+  final start = DateTime(e.start.year, e.start.month, e.start.day);
+  var end = DateTime(e.end.year, e.end.month, e.end.day);
+  if (e.allDay ||
+      (e.end.hour == 0 && e.end.minute == 0 && end.isAfter(start))) {
+    end = end.subtract(const Duration(days: 1));
+  }
+  for (
+    var d = start;
+    !d.isAfter(end);
+    d = DateTime(d.year, d.month, d.day + 1)
+  ) {
+    yield calendarDay(d);
   }
 }

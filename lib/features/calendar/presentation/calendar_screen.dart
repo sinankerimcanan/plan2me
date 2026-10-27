@@ -11,6 +11,9 @@ import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
 import '../../../core/widgets/chips.dart';
 import '../../../core/widgets/common.dart';
+import '../../../core/theme/color_schemes.dart';
+import '../../calendar_sync/data/calendar_sync_providers.dart';
+import '../../calendar_sync/data/device_calendar_gateway.dart';
 import '../../projects/domain/project.dart';
 import '../../tasks/presentation/quick_add_sheet.dart';
 import '../../tasks/presentation/tasks_screen.dart';
@@ -109,6 +112,22 @@ class CalendarScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
+                if (day.deviceEvents.isNotEmpty) ...[
+                  _subheader(
+                    context,
+                    l.calendarDeviceEvents,
+                    Icons.event_rounded,
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverList.separated(
+                      itemCount: day.deviceEvents.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (_, i) =>
+                          _DeviceEventTile(day.deviceEvents[i]),
+                    ),
+                  ),
+                ],
                 if (day.projects.isNotEmpty) ...[
                   _subheader(
                     context,
@@ -209,7 +228,9 @@ class _MonthCard extends ConsumerWidget {
         daysOfWeekHeight: 22,
         eventLoader: (d) {
           final a = events[calendarDay(d)];
-          return a == null ? const [] : [...a.projects, ...a.tasks];
+          return a == null
+              ? const []
+              : [...a.projects, ...a.tasks, ...a.deviceEvents];
         },
         onDaySelected: ctrl.select,
         onPageChanged: ctrl.focus,
@@ -270,6 +291,8 @@ class _MonthCard extends ConsumerWidget {
               for (final p in agenda.projects) s.priority(p.project.priority),
               for (final t in agenda.tasks)
                 t.isCompleted ? scheme.outline : s.priority(t.card.priority),
+              for (final e in agenda.deviceEvents)
+                colorFromHex(e.colorHex, fallback: scheme.outline),
             ];
             return Positioned(
               bottom: 4,
@@ -356,6 +379,85 @@ class _ProjectDueTile extends StatelessWidget {
           ),
         ),
         trailing: const Icon(Icons.chevron_right_rounded),
+      ),
+    );
+  }
+}
+
+/// Telefon takvimindeki etkinlik: saat, başlık, konum; dokununca sistemde açılır.
+class _DeviceEventTile extends ConsumerWidget {
+  const _DeviceEventTile(this.event);
+
+  final DeviceEvent event;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l = context.l10n;
+    final color = colorFromHex(
+      event.colorHex,
+      fallback: theme.colorScheme.outline,
+    );
+    final fmt = DateFormat.Hm(Localizations.localeOf(context).toLanguageTag());
+    final time = event.allDay
+        ? l.calendarAllDay
+        : '${fmt.format(event.start)} – ${fmt.format(event.end)}';
+    return GlassSurface(
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: () => ref
+            .read(deviceCalendarGatewayProvider)
+            ?.openEvent(event.instanceId),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
+          child: Row(
+            children: [
+              Container(
+                width: 4,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 92,
+                child: Text(
+                  time,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    if (event.location?.isNotEmpty ?? false)
+                      Text(
+                        event.location!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

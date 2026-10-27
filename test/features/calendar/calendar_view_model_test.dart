@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:plan2me/core/database/database_provider.dart';
 import 'package:plan2me/core/domain/enums.dart';
 import 'package:plan2me/features/calendar/presentation/calendar_view_model.dart';
+import 'package:plan2me/features/calendar_sync/data/device_calendar_gateway.dart';
 import 'package:plan2me/features/projects/data/projects_providers.dart';
 import 'package:plan2me/features/projects/domain/project.dart';
 import 'package:plan2me/features/tasks/data/tasks_providers.dart';
@@ -77,5 +78,44 @@ void main() {
       container.read(calendarControllerProvider).selectedDay,
       DateTime.utc(now.year, now.month, now.day),
     );
+  });
+
+  group('eventDays', () {
+    DeviceEvent ev(DateTime start, DateTime end, {bool allDay = false}) =>
+        DeviceEvent(
+          instanceId: 'i',
+          calendarId: 'c',
+          title: 't',
+          start: start,
+          end: end,
+          allDay: allDay,
+        );
+
+    test('saatli tek günlük etkinlik kendi gününde', () {
+      expect(
+        eventDays(ev(DateTime(2026, 11, 3, 9), DateTime(2026, 11, 3, 10))),
+        [DateTime.utc(2026, 11, 3)],
+      );
+    });
+
+    test('tüm gün etkinlikte bitiş günü dahil değil', () {
+      expect(
+        eventDays(
+          ev(DateTime(2026, 11, 3), DateTime(2026, 11, 5), allDay: true),
+        ),
+        [DateTime.utc(2026, 11, 3), DateTime.utc(2026, 11, 4)],
+      );
+    });
+
+    test('gece yarısını geçen etkinlik iki güne yayılır, tam gece yarısı biten yayılmaz', () {
+      expect(
+        eventDays(ev(DateTime(2026, 11, 3, 22), DateTime(2026, 11, 4, 1)))
+            .length,
+        2,
+      );
+      expect(eventDays(ev(DateTime(2026, 11, 3, 22), DateTime(2026, 11, 4))), [
+        DateTime.utc(2026, 11, 3),
+      ]);
+    });
   });
 }

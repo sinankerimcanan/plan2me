@@ -285,7 +285,8 @@ as CalendarSpan,
 /// @nodoc
 mixin _$DayAgenda {
 
- List<TaskItem> get tasks; List<ProjectOverview> get projects;
+ List<TaskItem> get tasks; List<ProjectOverview> get projects;/// Telefon takvimindeki (plan2me dışı) etkinlikler.
+ List<DeviceEvent> get deviceEvents;
 /// Create a copy of DayAgenda
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -297,20 +298,20 @@ $DayAgendaCopyWith<DayAgenda> get copyWith => _$DayAgendaCopyWithImpl<DayAgenda>
 @override
 bool operator ==(Object other) {
   final _this = this as DayAgenda;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayAgenda&&const DeepCollectionEquality().equals(other.tasks, _this.tasks)&&const DeepCollectionEquality().equals(other.projects, _this.projects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DayAgenda&&const DeepCollectionEquality().equals(other.tasks, _this.tasks)&&const DeepCollectionEquality().equals(other.projects, _this.projects)&&const DeepCollectionEquality().equals(other.deviceEvents, _this.deviceEvents));
 }
 
 
 @override
 int get hashCode {
   final _this = this as DayAgenda;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.tasks),const DeepCollectionEquality().hash(_this.projects));
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.tasks),const DeepCollectionEquality().hash(_this.projects),const DeepCollectionEquality().hash(_this.deviceEvents));
 }
 
 @override
 String toString() {
   final _this = this as DayAgenda;
-  return 'DayAgenda(tasks: ${_this.tasks}, projects: ${_this.projects})';
+  return 'DayAgenda(tasks: ${_this.tasks}, projects: ${_this.projects}, deviceEvents: ${_this.deviceEvents})';
 }
 
 
@@ -321,7 +322,7 @@ abstract mixin class $DayAgendaCopyWith<$Res>  {
   factory $DayAgendaCopyWith(DayAgenda value, $Res Function(DayAgenda) _then) = _$DayAgendaCopyWithImpl;
 @useResult
 $Res call({
- List<TaskItem> tasks, List<ProjectOverview> projects
+ List<TaskItem> tasks, List<ProjectOverview> projects, List<DeviceEvent> deviceEvents
 });
 
 
@@ -338,11 +339,12 @@ class _$DayAgendaCopyWithImpl<$Res>
 
 /// Create a copy of DayAgenda
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tasks = null,Object? projects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? tasks = null,Object? projects = null,Object? deviceEvents = null,}) {
   return _then(DayAgenda(
 tasks: null == tasks ? _self.tasks : tasks // ignore: cast_nullable_to_non_nullable
 as List<TaskItem>,projects: null == projects ? _self.projects : projects // ignore: cast_nullable_to_non_nullable
-as List<ProjectOverview>,
+as List<ProjectOverview>,deviceEvents: null == deviceEvents ? _self.deviceEvents : deviceEvents // ignore: cast_nullable_to_non_nullable
+as List<DeviceEvent>,
   ));
 }
 
@@ -427,10 +429,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TaskItem> tasks,  List<ProjectOverview> projects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TaskItem> tasks,  List<ProjectOverview> projects,  List<DeviceEvent> deviceEvents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DayAgenda() when $default != null:
-return $default(_that.tasks,_that.projects);case _:
+return $default(_that.tasks,_that.projects,_that.deviceEvents);case _:
   return orElse();
 
 }
@@ -448,10 +450,10 @@ return $default(_that.tasks,_that.projects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TaskItem> tasks,  List<ProjectOverview> projects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TaskItem> tasks,  List<ProjectOverview> projects,  List<DeviceEvent> deviceEvents)  $default,) {final _that = this;
 switch (_that) {
 case _DayAgenda():
-return $default(_that.tasks,_that.projects);case _:
+return $default(_that.tasks,_that.projects,_that.deviceEvents);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -468,10 +470,10 @@ return $default(_that.tasks,_that.projects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TaskItem> tasks,  List<ProjectOverview> projects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TaskItem> tasks,  List<ProjectOverview> projects,  List<DeviceEvent> deviceEvents)?  $default,) {final _that = this;
 switch (_that) {
 case _DayAgenda() when $default != null:
-return $default(_that.tasks,_that.projects);case _:
+return $default(_that.tasks,_that.projects,_that.deviceEvents);case _:
   return null;
 
 }
@@ -483,7 +485,7 @@ return $default(_that.tasks,_that.projects);case _:
 
 
 class _DayAgenda extends DayAgenda {
-  const _DayAgenda({ List<TaskItem> tasks = const <TaskItem>[],  List<ProjectOverview> projects = const <ProjectOverview>[]}): _tasks = tasks,_projects = projects,super._();
+  const _DayAgenda({ List<TaskItem> tasks = const <TaskItem>[],  List<ProjectOverview> projects = const <ProjectOverview>[],  List<DeviceEvent> deviceEvents = const <DeviceEvent>[]}): _tasks = tasks,_projects = projects,_deviceEvents = deviceEvents,super._();
   
 
  final  List<TaskItem> _tasks;
@@ -500,6 +502,15 @@ class _DayAgenda extends DayAgenda {
   return EqualUnmodifiableListView(_projects);
 }
 
+/// Telefon takvimindeki (plan2me dışı) etkinlikler.
+ final  List<DeviceEvent> _deviceEvents;
+/// Telefon takvimindeki (plan2me dışı) etkinlikler.
+@override@JsonKey() List<DeviceEvent> get deviceEvents {
+  if (_deviceEvents is EqualUnmodifiableListView) return _deviceEvents;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_deviceEvents);
+}
+
 
 /// Create a copy of DayAgenda
 /// with the given fields replaced by the non-null parameter values.
@@ -511,18 +522,18 @@ _$DayAgendaCopyWith<_DayAgenda> get copyWith => __$DayAgendaCopyWithImpl<_DayAge
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayAgenda&&const DeepCollectionEquality().equals(other.tasks, _tasks)&&const DeepCollectionEquality().equals(other.projects, _projects));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DayAgenda&&const DeepCollectionEquality().equals(other.tasks, _tasks)&&const DeepCollectionEquality().equals(other.projects, _projects)&&const DeepCollectionEquality().equals(other.deviceEvents, _deviceEvents));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_tasks),const DeepCollectionEquality().hash(_projects));
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_tasks),const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_deviceEvents));
 }
 
 @override
 String toString() {
-    return 'DayAgenda(tasks: $tasks, projects: $projects)';
+    return 'DayAgenda(tasks: $tasks, projects: $projects, deviceEvents: $deviceEvents)';
 }
 
 
@@ -533,7 +544,7 @@ abstract mixin class _$DayAgendaCopyWith<$Res> implements $DayAgendaCopyWith<$Re
   factory _$DayAgendaCopyWith(_DayAgenda value, $Res Function(_DayAgenda) _then) = __$DayAgendaCopyWithImpl;
 @override @useResult
 $Res call({
- List<TaskItem> tasks, List<ProjectOverview> projects
+ List<TaskItem> tasks, List<ProjectOverview> projects, List<DeviceEvent> deviceEvents
 });
 
 
@@ -550,11 +561,12 @@ class __$DayAgendaCopyWithImpl<$Res>
 
 /// Create a copy of DayAgenda
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? tasks = null,Object? projects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? tasks = null,Object? projects = null,Object? deviceEvents = null,}) {
   return _then(_DayAgenda(
 tasks: null == tasks ? _self._tasks : tasks // ignore: cast_nullable_to_non_nullable
 as List<TaskItem>,projects: null == projects ? _self._projects : projects // ignore: cast_nullable_to_non_nullable
-as List<ProjectOverview>,
+as List<ProjectOverview>,deviceEvents: null == deviceEvents ? _self._deviceEvents : deviceEvents // ignore: cast_nullable_to_non_nullable
+as List<DeviceEvent>,
   ));
 }
 

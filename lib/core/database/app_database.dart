@@ -29,7 +29,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -43,6 +43,22 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(schema.cards, schema.cards.recurrence);
         await m.addColumn(schema.cards, schema.cards.nextCardId);
         await m.createIndex(schema.idxCardsAssignee);
+      },
+      from2To3: (m, schema) async {
+        for (final column in [
+          schema.projects.locationName,
+          schema.projects.latitude,
+          schema.projects.longitude,
+        ]) {
+          await m.addColumn(schema.projects, column);
+        }
+        for (final column in [
+          schema.cards.locationName,
+          schema.cards.latitude,
+          schema.cards.longitude,
+        ]) {
+          await m.addColumn(schema.cards, column);
+        }
       },
     ),
     beforeOpen: (details) async {

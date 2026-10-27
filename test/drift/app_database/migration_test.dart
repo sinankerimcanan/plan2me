@@ -9,6 +9,7 @@ import 'generated/schema.dart';
 
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
+import 'generated/schema_v3.dart' as v3;
 
 void main() {
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
@@ -69,4 +70,35 @@ void main() {
       await db.close();
     },
   );
+
+  test('v2 → v3: konum alanları boş gelir, mevcut kart korunur', () async {
+    final schema = await verifier.schemaAt(2);
+    final old = v2.DatabaseAtV2(schema.newConnection());
+    const ts = '2026-10-27T10:00:00.000Z';
+    await old.customStatement(
+      'INSERT INTO projects (id, created_at, updated_at, title, priority, status, position) '
+      "VALUES ('p1', '$ts', '$ts', 'Proje', 'high', 'inProgress', 1024)",
+    );
+    await old.customStatement(
+      'INSERT INTO board_columns (id, created_at, updated_at, project_id, name, position) '
+      "VALUES ('c1', '$ts', '$ts', 'p1', 'A', 1024)",
+    );
+    await old.customStatement(
+      'INSERT INTO cards (id, created_at, updated_at, column_id, project_id, title, priority, position, recurrence) '
+      "VALUES ('k1', '$ts', '$ts', 'c1', 'p1', 'Kart', 'medium', 1024, 'weekly')",
+    );
+    await old.close();
+
+    final db = AppDatabase(schema.newConnection());
+    await verifier.migrateAndValidate(db, 3);
+    final card = await db.select(db.cards).getSingle();
+    expect(card.title, 'Kart');
+    expect(card.recurrence?.name, 'weekly');
+    expect(
+      (card.locationName, card.latitude, card.longitude),
+      (null, null, null),
+    );
+    expect((await db.select(db.projects).getSingle()).locationName, isNull);
+    await db.close();
+  });
 }

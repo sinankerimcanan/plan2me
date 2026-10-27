@@ -44,6 +44,11 @@ class Projects extends Table with SyncColumns {
   /// Projesiz hızlı görevlerin toplandığı özel "Gelen kutusu" projesi.
   BoolColumn get isInbox => boolean().withDefault(const Constant(false))();
 
+  /// Konum (v3): görünen ad/adres ve haritada açmak için koordinatlar.
+  TextColumn get locationName => text().nullable()();
+  RealColumn get latitude => real().nullable()();
+  RealColumn get longitude => real().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
@@ -112,6 +117,11 @@ class Cards extends Table with SyncColumns {
 
   /// Bu karttan üretilen bir sonraki tekrarın id'si; tekrar tekrar üretmeyi önler (v2).
   TextColumn get nextCardId => text().nullable()();
+
+  /// Konum (v3): görünen ad/adres ve haritada açmak için koordinatlar.
+  TextColumn get locationName => text().nullable()();
+  RealColumn get latitude => real().nullable()();
+  RealColumn get longitude => real().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

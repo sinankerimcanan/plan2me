@@ -774,6 +774,39 @@ class $ProjectsTable extends Projects
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _locationNameMeta = const VerificationMeta(
+    'locationName',
+  );
+  @override
+  late final GeneratedColumn<String> locationName = GeneratedColumn<String>(
+    'location_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _latitudeMeta = const VerificationMeta(
+    'latitude',
+  );
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+    'latitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _longitudeMeta = const VerificationMeta(
+    'longitude',
+  );
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+    'longitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -791,6 +824,9 @@ class $ProjectsTable extends Projects
     details,
     position,
     isInbox,
+    locationName,
+    latitude,
+    longitude,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -895,6 +931,27 @@ class $ProjectsTable extends Projects
         isInbox.isAcceptableOrUnknown(data['is_inbox']!, _isInboxMeta),
       );
     }
+    if (data.containsKey('location_name')) {
+      context.handle(
+        _locationNameMeta,
+        locationName.isAcceptableOrUnknown(
+          data['location_name']!,
+          _locationNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(
+        _latitudeMeta,
+        latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta),
+      );
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(
+        _longitudeMeta,
+        longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta),
+      );
+    }
     return context;
   }
 
@@ -968,6 +1025,18 @@ class $ProjectsTable extends Projects
         DriftSqlType.bool,
         data['${effectivePrefix}is_inbox'],
       )!,
+      locationName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}location_name'],
+      ),
+      latitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}latitude'],
+      ),
+      longitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}longitude'],
+      ),
     );
   }
 
@@ -1000,6 +1069,11 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
 
   /// Projesiz hızlı görevlerin toplandığı özel "Gelen kutusu" projesi.
   final bool isInbox;
+
+  /// Konum (v3): görünen ad/adres ve haritada açmak için koordinatlar.
+  final String? locationName;
+  final double? latitude;
+  final double? longitude;
   const ProjectRow({
     required this.id,
     required this.createdAt,
@@ -1016,6 +1090,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     this.details,
     required this.position,
     required this.isInbox,
+    this.locationName,
+    this.latitude,
+    this.longitude,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1055,6 +1132,15 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     }
     map['position'] = Variable<double>(position);
     map['is_inbox'] = Variable<bool>(isInbox);
+    if (!nullToAbsent || locationName != null) {
+      map['location_name'] = Variable<String>(locationName);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
     return map;
   }
 
@@ -1087,6 +1173,15 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           : Value(details),
       position: Value(position),
       isInbox: Value(isInbox),
+      locationName: locationName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(locationName),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
     );
   }
 
@@ -1117,6 +1212,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       details: serializer.fromJson<String?>(json['details']),
       position: serializer.fromJson<double>(json['position']),
       isInbox: serializer.fromJson<bool>(json['isInbox']),
+      locationName: serializer.fromJson<String?>(json['locationName']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
     );
   }
   @override
@@ -1142,6 +1240,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       'details': serializer.toJson<String?>(details),
       'position': serializer.toJson<double>(position),
       'isInbox': serializer.toJson<bool>(isInbox),
+      'locationName': serializer.toJson<String?>(locationName),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
     };
   }
 
@@ -1161,6 +1262,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     Value<String?> details = const Value.absent(),
     double? position,
     bool? isInbox,
+    Value<String?> locationName = const Value.absent(),
+    Value<double?> latitude = const Value.absent(),
+    Value<double?> longitude = const Value.absent(),
   }) => ProjectRow(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -1179,6 +1283,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     details: details.present ? details.value : this.details,
     position: position ?? this.position,
     isInbox: isInbox ?? this.isInbox,
+    locationName: locationName.present ? locationName.value : this.locationName,
+    latitude: latitude.present ? latitude.value : this.latitude,
+    longitude: longitude.present ? longitude.value : this.longitude,
   );
   ProjectRow copyWithCompanion(ProjectsCompanion data) {
     return ProjectRow(
@@ -1201,6 +1308,11 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
       details: data.details.present ? data.details.value : this.details,
       position: data.position.present ? data.position.value : this.position,
       isInbox: data.isInbox.present ? data.isInbox.value : this.isInbox,
+      locationName: data.locationName.present
+          ? data.locationName.value
+          : this.locationName,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
     );
   }
 
@@ -1221,7 +1333,10 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           ..write('responsiblePersonId: $responsiblePersonId, ')
           ..write('details: $details, ')
           ..write('position: $position, ')
-          ..write('isInbox: $isInbox')
+          ..write('isInbox: $isInbox, ')
+          ..write('locationName: $locationName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
           ..write(')'))
         .toString();
   }
@@ -1243,6 +1358,9 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
     details,
     position,
     isInbox,
+    locationName,
+    latitude,
+    longitude,
   );
   @override
   bool operator ==(Object other) =>
@@ -1262,7 +1380,10 @@ class ProjectRow extends DataClass implements Insertable<ProjectRow> {
           other.responsiblePersonId == this.responsiblePersonId &&
           other.details == this.details &&
           other.position == this.position &&
-          other.isInbox == this.isInbox);
+          other.isInbox == this.isInbox &&
+          other.locationName == this.locationName &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude);
 }
 
 class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
@@ -1281,6 +1402,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
   final Value<String?> details;
   final Value<double> position;
   final Value<bool> isInbox;
+  final Value<String?> locationName;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
   final Value<int> rowid;
   const ProjectsCompanion({
     this.id = const Value.absent(),
@@ -1298,6 +1422,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     this.details = const Value.absent(),
     this.position = const Value.absent(),
     this.isInbox = const Value.absent(),
+    this.locationName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProjectsCompanion.insert({
@@ -1316,6 +1443,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     this.details = const Value.absent(),
     required double position,
     this.isInbox = const Value.absent(),
+    this.locationName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        createdAt = Value(createdAt),
@@ -1340,6 +1470,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     Expression<String>? details,
     Expression<double>? position,
     Expression<bool>? isInbox,
+    Expression<String>? locationName,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1359,6 +1492,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
       if (details != null) 'details': details,
       if (position != null) 'position': position,
       if (isInbox != null) 'is_inbox': isInbox,
+      if (locationName != null) 'location_name': locationName,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1379,6 +1515,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     Value<String?>? details,
     Value<double>? position,
     Value<bool>? isInbox,
+    Value<String?>? locationName,
+    Value<double?>? latitude,
+    Value<double?>? longitude,
     Value<int>? rowid,
   }) {
     return ProjectsCompanion(
@@ -1397,6 +1536,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
       details: details ?? this.details,
       position: position ?? this.position,
       isInbox: isInbox ?? this.isInbox,
+      locationName: locationName ?? this.locationName,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1455,6 +1597,15 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
     if (isInbox.present) {
       map['is_inbox'] = Variable<bool>(isInbox.value);
     }
+    if (locationName.present) {
+      map['location_name'] = Variable<String>(locationName.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1479,6 +1630,9 @@ class ProjectsCompanion extends UpdateCompanion<ProjectRow> {
           ..write('details: $details, ')
           ..write('position: $position, ')
           ..write('isInbox: $isInbox, ')
+          ..write('locationName: $locationName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2806,6 +2960,39 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _locationNameMeta = const VerificationMeta(
+    'locationName',
+  );
+  @override
+  late final GeneratedColumn<String> locationName = GeneratedColumn<String>(
+    'location_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _latitudeMeta = const VerificationMeta(
+    'latitude',
+  );
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+    'latitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _longitudeMeta = const VerificationMeta(
+    'longitude',
+  );
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+    'longitude',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2824,6 +3011,9 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
     assigneePersonId,
     recurrence,
     nextCardId,
+    locationName,
+    latitude,
+    longitude,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2944,6 +3134,27 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
         ),
       );
     }
+    if (data.containsKey('location_name')) {
+      context.handle(
+        _locationNameMeta,
+        locationName.isAcceptableOrUnknown(
+          data['location_name']!,
+          _locationNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(
+        _latitudeMeta,
+        latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta),
+      );
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(
+        _longitudeMeta,
+        longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta),
+      );
+    }
     return context;
   }
 
@@ -3021,6 +3232,18 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardRow> {
         DriftSqlType.string,
         data['${effectivePrefix}next_card_id'],
       ),
+      locationName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}location_name'],
+      ),
+      latitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}latitude'],
+      ),
+      longitude: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}longitude'],
+      ),
     );
   }
 
@@ -3063,6 +3286,11 @@ class CardRow extends DataClass implements Insertable<CardRow> {
 
   /// Bu karttan üretilen bir sonraki tekrarın id'si; tekrar tekrar üretmeyi önler (v2).
   final String? nextCardId;
+
+  /// Konum (v3): görünen ad/adres ve haritada açmak için koordinatlar.
+  final String? locationName;
+  final double? latitude;
+  final double? longitude;
   const CardRow({
     required this.id,
     required this.createdAt,
@@ -3080,6 +3308,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     this.assigneePersonId,
     this.recurrence,
     this.nextCardId,
+    this.locationName,
+    this.latitude,
+    this.longitude,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3120,6 +3351,15 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     if (!nullToAbsent || nextCardId != null) {
       map['next_card_id'] = Variable<String>(nextCardId);
     }
+    if (!nullToAbsent || locationName != null) {
+      map['location_name'] = Variable<String>(locationName);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
     return map;
   }
 
@@ -3155,6 +3395,15 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       nextCardId: nextCardId == null && nullToAbsent
           ? const Value.absent()
           : Value(nextCardId),
+      locationName: locationName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(locationName),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
     );
   }
 
@@ -3184,6 +3433,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
         serializer.fromJson<String?>(json['recurrence']),
       ),
       nextCardId: serializer.fromJson<String?>(json['nextCardId']),
+      locationName: serializer.fromJson<String?>(json['locationName']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
     );
   }
   @override
@@ -3210,6 +3462,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
         $CardsTable.$converterrecurrencen.toJson(recurrence),
       ),
       'nextCardId': serializer.toJson<String?>(nextCardId),
+      'locationName': serializer.toJson<String?>(locationName),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
     };
   }
 
@@ -3230,6 +3485,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     Value<String?> assigneePersonId = const Value.absent(),
     Value<Recurrence?> recurrence = const Value.absent(),
     Value<String?> nextCardId = const Value.absent(),
+    Value<String?> locationName = const Value.absent(),
+    Value<double?> latitude = const Value.absent(),
+    Value<double?> longitude = const Value.absent(),
   }) => CardRow(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -3249,6 +3507,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
         : this.assigneePersonId,
     recurrence: recurrence.present ? recurrence.value : this.recurrence,
     nextCardId: nextCardId.present ? nextCardId.value : this.nextCardId,
+    locationName: locationName.present ? locationName.value : this.locationName,
+    latitude: latitude.present ? latitude.value : this.latitude,
+    longitude: longitude.present ? longitude.value : this.longitude,
   );
   CardRow copyWithCompanion(CardsCompanion data) {
     return CardRow(
@@ -3278,6 +3539,11 @@ class CardRow extends DataClass implements Insertable<CardRow> {
       nextCardId: data.nextCardId.present
           ? data.nextCardId.value
           : this.nextCardId,
+      locationName: data.locationName.present
+          ? data.locationName.value
+          : this.locationName,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
     );
   }
 
@@ -3299,7 +3565,10 @@ class CardRow extends DataClass implements Insertable<CardRow> {
           ..write('completedAt: $completedAt, ')
           ..write('assigneePersonId: $assigneePersonId, ')
           ..write('recurrence: $recurrence, ')
-          ..write('nextCardId: $nextCardId')
+          ..write('nextCardId: $nextCardId, ')
+          ..write('locationName: $locationName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
           ..write(')'))
         .toString();
   }
@@ -3322,6 +3591,9 @@ class CardRow extends DataClass implements Insertable<CardRow> {
     assigneePersonId,
     recurrence,
     nextCardId,
+    locationName,
+    latitude,
+    longitude,
   );
   @override
   bool operator ==(Object other) =>
@@ -3342,7 +3614,10 @@ class CardRow extends DataClass implements Insertable<CardRow> {
           other.completedAt == this.completedAt &&
           other.assigneePersonId == this.assigneePersonId &&
           other.recurrence == this.recurrence &&
-          other.nextCardId == this.nextCardId);
+          other.nextCardId == this.nextCardId &&
+          other.locationName == this.locationName &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude);
 }
 
 class CardsCompanion extends UpdateCompanion<CardRow> {
@@ -3362,6 +3637,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
   final Value<String?> assigneePersonId;
   final Value<Recurrence?> recurrence;
   final Value<String?> nextCardId;
+  final Value<String?> locationName;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
   final Value<int> rowid;
   const CardsCompanion({
     this.id = const Value.absent(),
@@ -3380,6 +3658,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     this.assigneePersonId = const Value.absent(),
     this.recurrence = const Value.absent(),
     this.nextCardId = const Value.absent(),
+    this.locationName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CardsCompanion.insert({
@@ -3399,6 +3680,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     this.assigneePersonId = const Value.absent(),
     this.recurrence = const Value.absent(),
     this.nextCardId = const Value.absent(),
+    this.locationName = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        createdAt = Value(createdAt),
@@ -3425,6 +3709,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     Expression<String>? assigneePersonId,
     Expression<String>? recurrence,
     Expression<String>? nextCardId,
+    Expression<String>? locationName,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3444,6 +3731,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
       if (assigneePersonId != null) 'assignee_person_id': assigneePersonId,
       if (recurrence != null) 'recurrence': recurrence,
       if (nextCardId != null) 'next_card_id': nextCardId,
+      if (locationName != null) 'location_name': locationName,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3465,6 +3755,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     Value<String?>? assigneePersonId,
     Value<Recurrence?>? recurrence,
     Value<String?>? nextCardId,
+    Value<String?>? locationName,
+    Value<double?>? latitude,
+    Value<double?>? longitude,
     Value<int>? rowid,
   }) {
     return CardsCompanion(
@@ -3484,6 +3777,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
       assigneePersonId: assigneePersonId ?? this.assigneePersonId,
       recurrence: recurrence ?? this.recurrence,
       nextCardId: nextCardId ?? this.nextCardId,
+      locationName: locationName ?? this.locationName,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3543,6 +3839,15 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
     if (nextCardId.present) {
       map['next_card_id'] = Variable<String>(nextCardId.value);
     }
+    if (locationName.present) {
+      map['location_name'] = Variable<String>(locationName.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3568,6 +3873,9 @@ class CardsCompanion extends UpdateCompanion<CardRow> {
           ..write('assigneePersonId: $assigneePersonId, ')
           ..write('recurrence: $recurrence, ')
           ..write('nextCardId: $nextCardId, ')
+          ..write('locationName: $locationName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -5893,6 +6201,9 @@ typedef $$ProjectsTableCreateCompanionBuilder = ProjectsCompanion Function({
   Value<String?> details,
   required double position,
   Value<bool> isInbox,
+  Value<String?> locationName,
+  Value<double?> latitude,
+  Value<double?> longitude,
   Value<int> rowid,
 });
 typedef $$ProjectsTableUpdateCompanionBuilder = ProjectsCompanion Function({
@@ -5911,6 +6222,9 @@ typedef $$ProjectsTableUpdateCompanionBuilder = ProjectsCompanion Function({
   Value<String?> details,
   Value<double> position,
   Value<bool> isInbox,
+  Value<String?> locationName,
+  Value<double?> latitude,
+  Value<double?> longitude,
   Value<int> rowid,
 });
 
@@ -6091,6 +6405,21 @@ class $$ProjectsTableFilterComposer
 
   ColumnFilters<bool> get isInbox => $composableBuilder(
     column: $table.isInbox,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+    column: $table.longitude,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -6297,6 +6626,21 @@ class $$ProjectsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$PersonsTableOrderingComposer get responsiblePersonId {
     final $$PersonsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -6373,6 +6717,17 @@ class $$ProjectsTableAnnotationComposer
 
   GeneratedColumn<bool> get isInbox =>
       $composableBuilder(column: $table.isInbox, builder: (column) => column);
+
+  GeneratedColumn<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
 
   $$PersonsTableAnnotationComposer get responsiblePersonId {
     final $$PersonsTableAnnotationComposer composer = $composerBuilder(
@@ -6548,6 +6903,9 @@ class $$ProjectsTableTableManager
                 Value<String?> details = const Value.absent(),
                 Value<double> position = const Value.absent(),
                 Value<bool> isInbox = const Value.absent(),
+                Value<String?> locationName = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProjectsCompanion(
                 id: id,
@@ -6565,6 +6923,9 @@ class $$ProjectsTableTableManager
                 details: details,
                 position: position,
                 isInbox: isInbox,
+                locationName: locationName,
+                latitude: latitude,
+                longitude: longitude,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6584,6 +6945,9 @@ class $$ProjectsTableTableManager
                 Value<String?> details = const Value.absent(),
                 required double position,
                 Value<bool> isInbox = const Value.absent(),
+                Value<String?> locationName = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProjectsCompanion.insert(
                 id: id,
@@ -6601,6 +6965,9 @@ class $$ProjectsTableTableManager
                 details: details,
                 position: position,
                 isInbox: isInbox,
+                locationName: locationName,
+                latitude: latitude,
+                longitude: longitude,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -7758,6 +8125,9 @@ typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
   Value<String?> assigneePersonId,
   Value<Recurrence?> recurrence,
   Value<String?> nextCardId,
+  Value<String?> locationName,
+  Value<double?> latitude,
+  Value<double?> longitude,
   Value<int> rowid,
 });
 typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
@@ -7777,6 +8147,9 @@ typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
   Value<String?> assigneePersonId,
   Value<Recurrence?> recurrence,
   Value<String?> nextCardId,
+  Value<String?> locationName,
+  Value<double?> latitude,
+  Value<double?> longitude,
   Value<int> rowid,
 });
 
@@ -7944,6 +8317,21 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
 
   ColumnFilters<String> get nextCardId => $composableBuilder(
     column: $table.nextCardId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+    column: $table.longitude,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8141,6 +8529,21 @@ class $$CardsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+    column: $table.latitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+    column: $table.longitude,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$BoardColumnsTableOrderingComposer get columnId {
     final $$BoardColumnsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -8267,6 +8670,17 @@ class $$CardsTableAnnotationComposer
     column: $table.nextCardId,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get locationName => $composableBuilder(
+    column: $table.locationName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
 
   $$BoardColumnsTableAnnotationComposer get columnId {
     final $$BoardColumnsTableAnnotationComposer composer = $composerBuilder(
@@ -8438,6 +8852,9 @@ class $$CardsTableTableManager
                 Value<String?> assigneePersonId = const Value.absent(),
                 Value<Recurrence?> recurrence = const Value.absent(),
                 Value<String?> nextCardId = const Value.absent(),
+                Value<String?> locationName = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CardsCompanion(
                 id: id,
@@ -8456,6 +8873,9 @@ class $$CardsTableTableManager
                 assigneePersonId: assigneePersonId,
                 recurrence: recurrence,
                 nextCardId: nextCardId,
+                locationName: locationName,
+                latitude: latitude,
+                longitude: longitude,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -8476,6 +8896,9 @@ class $$CardsTableTableManager
                 Value<String?> assigneePersonId = const Value.absent(),
                 Value<Recurrence?> recurrence = const Value.absent(),
                 Value<String?> nextCardId = const Value.absent(),
+                Value<String?> locationName = const Value.absent(),
+                Value<double?> latitude = const Value.absent(),
+                Value<double?> longitude = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CardsCompanion.insert(
                 id: id,
@@ -8494,6 +8917,9 @@ class $$CardsTableTableManager
                 assigneePersonId: assigneePersonId,
                 recurrence: recurrence,
                 nextCardId: nextCardId,
+                locationName: locationName,
+                latitude: latitude,
+                longitude: longitude,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

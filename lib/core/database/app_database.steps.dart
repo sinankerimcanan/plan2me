@@ -739,8 +739,382 @@ i1.GeneratedColumn<String> _column_32(String aliasedName) =>
       type: i1.DriftSqlType.string,
       $customConstraints: 'NOT NULL REFERENCES labels(id)ON DELETE CASCADE',
     );
+
+final class Schema3 extends i0.VersionedSchema {
+  Schema3({required super.database}) : super(version: 3);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    persons,
+    projects,
+    projectRequesters,
+    boardColumns,
+    cards,
+    checklistItems,
+    labels,
+    cardLabels,
+    idxPersonsEmail,
+    idxProjectsStatusPosition,
+    idxProjectsResponsible,
+    idxProjectsDue,
+    idxRequestersPerson,
+    idxColumnsProjectPosition,
+    idxCardsColumnPosition,
+    idxCardsProject,
+    idxCardsDue,
+    idxCardsAssignee,
+    idxChecklistCardPosition,
+    idxLabelsProject,
+    idxCardLabelsLabel,
+  ];
+  late final Shape0 persons = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'persons',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_5,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_9,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 projects = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'projects',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+        _column_15,
+        _column_16,
+        _column_17,
+        _column_18,
+        _column_19,
+        _column_33,
+        _column_34,
+        _column_35,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 projectRequesters = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'project_requesters',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)', 'UNIQUE(project_id, person_id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_20,
+        _column_21,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 boardColumns = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'board_columns',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_20,
+        _column_5,
+        _column_18,
+        _column_8,
+        _column_22,
+        _column_23,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape9 cards = Shape9(
+    source: i0.VersionedTable(
+      entityName: 'cards',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_24,
+        _column_20,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_15,
+        _column_18,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_33,
+        _column_34,
+        _column_35,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape5 checklistItems = Shape5(
+    source: i0.VersionedTable(
+      entityName: 'checklist_items',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_29,
+        _column_10,
+        _column_30,
+        _column_18,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape6 labels = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'labels',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_20,
+        _column_5,
+        _column_31,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 cardLabels = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'card_labels',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)', 'UNIQUE(card_id, label_id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_29,
+        _column_32,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxPersonsEmail = i1.Index(
+    'idx_persons_email',
+    'CREATE INDEX idx_persons_email ON persons (email)',
+  );
+  final i1.Index idxProjectsStatusPosition = i1.Index(
+    'idx_projects_status_position',
+    'CREATE INDEX idx_projects_status_position ON projects (status, position)',
+  );
+  final i1.Index idxProjectsResponsible = i1.Index(
+    'idx_projects_responsible',
+    'CREATE INDEX idx_projects_responsible ON projects (responsible_person_id)',
+  );
+  final i1.Index idxProjectsDue = i1.Index(
+    'idx_projects_due',
+    'CREATE INDEX idx_projects_due ON projects (due_date)',
+  );
+  final i1.Index idxRequestersPerson = i1.Index(
+    'idx_requesters_person',
+    'CREATE INDEX idx_requesters_person ON project_requesters (person_id)',
+  );
+  final i1.Index idxColumnsProjectPosition = i1.Index(
+    'idx_columns_project_position',
+    'CREATE INDEX idx_columns_project_position ON board_columns (project_id, position)',
+  );
+  final i1.Index idxCardsColumnPosition = i1.Index(
+    'idx_cards_column_position',
+    'CREATE INDEX idx_cards_column_position ON cards (column_id, position)',
+  );
+  final i1.Index idxCardsProject = i1.Index(
+    'idx_cards_project',
+    'CREATE INDEX idx_cards_project ON cards (project_id)',
+  );
+  final i1.Index idxCardsDue = i1.Index(
+    'idx_cards_due',
+    'CREATE INDEX idx_cards_due ON cards (due_date)',
+  );
+  final i1.Index idxCardsAssignee = i1.Index(
+    'idx_cards_assignee',
+    'CREATE INDEX idx_cards_assignee ON cards (assignee_person_id)',
+  );
+  final i1.Index idxChecklistCardPosition = i1.Index(
+    'idx_checklist_card_position',
+    'CREATE INDEX idx_checklist_card_position ON checklist_items (card_id, position)',
+  );
+  final i1.Index idxLabelsProject = i1.Index(
+    'idx_labels_project',
+    'CREATE INDEX idx_labels_project ON labels (project_id)',
+  );
+  final i1.Index idxCardLabelsLabel = i1.Index(
+    'idx_card_labels_label',
+    'CREATE INDEX idx_card_labels_label ON card_labels (label_id)',
+  );
+}
+
+class Shape8 extends i0.VersionedTable {
+  Shape8({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get updatedAt =>
+      columnsByName['updated_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get deletedAt =>
+      columnsByName['deleted_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get version =>
+      columnsByName['version']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get title =>
+      columnsByName['title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get description =>
+      columnsByName['description']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get priority =>
+      columnsByName['priority']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get status =>
+      columnsByName['status']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get startDate =>
+      columnsByName['start_date']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get dueDate =>
+      columnsByName['due_date']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get responsiblePersonId =>
+      columnsByName['responsible_person_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get details =>
+      columnsByName['details']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get position =>
+      columnsByName['position']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<int> get isInbox =>
+      columnsByName['is_inbox']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get locationName =>
+      columnsByName['location_name']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get latitude =>
+      columnsByName['latitude']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<double> get longitude =>
+      columnsByName['longitude']! as i1.GeneratedColumn<double>;
+}
+
+i1.GeneratedColumn<String> _column_33(String aliasedName) =>
+    i1.GeneratedColumn<String>(
+      'location_name',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.string,
+      $customConstraints: 'NULL',
+    );
+i1.GeneratedColumn<double> _column_34(String aliasedName) =>
+    i1.GeneratedColumn<double>(
+      'latitude',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+      $customConstraints: 'NULL',
+    );
+i1.GeneratedColumn<double> _column_35(String aliasedName) =>
+    i1.GeneratedColumn<double>(
+      'longitude',
+      aliasedName,
+      true,
+      type: i1.DriftSqlType.double,
+      $customConstraints: 'NULL',
+    );
+
+class Shape9 extends i0.VersionedTable {
+  Shape9({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get updatedAt =>
+      columnsByName['updated_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get deletedAt =>
+      columnsByName['deleted_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get version =>
+      columnsByName['version']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get columnId =>
+      columnsByName['column_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get projectId =>
+      columnsByName['project_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get title =>
+      columnsByName['title']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get description =>
+      columnsByName['description']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get priority =>
+      columnsByName['priority']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get dueDate =>
+      columnsByName['due_date']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get position =>
+      columnsByName['position']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<String> get completedAt =>
+      columnsByName['completed_at']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get assigneePersonId =>
+      columnsByName['assignee_person_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get recurrence =>
+      columnsByName['recurrence']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get nextCardId =>
+      columnsByName['next_card_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get locationName =>
+      columnsByName['location_name']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<double> get latitude =>
+      columnsByName['latitude']! as i1.GeneratedColumn<double>;
+  i1.GeneratedColumn<double> get longitude =>
+      columnsByName['longitude']! as i1.GeneratedColumn<double>;
+}
+
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -749,6 +1123,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from1To2(migrator, schema);
         return 2;
+      case 2:
+        final schema = Schema3(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from2To3(migrator, schema);
+        return 3;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -757,6 +1136,7 @@ i0.MigrationStepWithVersion migrationSteps({
 
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) => i0.VersionedSchema.stepByStepHelper(
-  step: migrationSteps(from1To2: from1To2),
+  step: migrationSteps(from1To2: from1To2, from2To3: from2To3),
 );

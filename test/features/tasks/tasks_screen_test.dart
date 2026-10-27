@@ -24,7 +24,10 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     final db = memoryDb();
-    container = ProviderContainer(overrides: [appDatabaseProvider.overrideWithValue(db)], retry: (_, _) => null);
+    container = ProviderContainer(
+      overrides: [appDatabaseProvider.overrideWithValue(db)],
+      retry: (_, _) => null,
+    );
     addTearDown(() async {
       container.dispose();
       await tester.runAsync(db.close);
@@ -32,22 +35,36 @@ void main() {
     await tester.runAsync(() async {
       final pid = await container
           .read(projectRepositoryProvider)
-          .create(const ProjectDraft(title: 'Site'), defaultColumns: ['Yapılacak', 'Devam', 'Bitti']);
-      final col = (await container.read(boardRepositoryProvider).watchBoard(pid).first).lanes[1].column.id;
-      await container.read(boardRepositoryProvider).addCard(col, 'Devamdaki görev');
-      await container.read(taskRepositoryProvider).addTask(
-        QuickTaskInput(title: 'Bugünkü görev', dueDate: today()),
-        inboxTitle: 'Gelen kutusu',
-        defaultColumns: ['Yapılacak', 'Devam', 'Bitti'],
-      );
+          .create(
+            const ProjectDraft(title: 'Site'),
+            defaultColumns: ['Yapılacak', 'Devam', 'Bitti'],
+          );
+      final col =
+          (await container.read(boardRepositoryProvider).watchBoard(pid).first)
+              .lanes[1]
+              .column
+              .id;
+      await container
+          .read(boardRepositoryProvider)
+          .addCard(col, 'Devamdaki görev');
+      await container
+          .read(taskRepositoryProvider)
+          .addTask(
+            QuickTaskInput(title: 'Bugünkü görev', dueDate: today()),
+            inboxTitle: 'Gelen kutusu',
+            defaultColumns: ['Yapılacak', 'Devam', 'Bitti'],
+          );
     });
     await tester.pumpWidget(testApp(container, const TasksScreen()));
     await settleDb(tester);
   }
 
-  Future<TaskItem> task(WidgetTester tester, String title) async => (await tester.runAsync(
-    () async => (await container.read(taskRepositoryProvider).watchTasks().first).firstWhere((t) => t.card.title == title),
-  ))!;
+  Future<TaskItem> task(WidgetTester tester, String title) async =>
+      (await tester.runAsync(
+        () async =>
+            (await container.read(taskRepositoryProvider).watchTasks().first)
+                .firstWhere((t) => t.card.title == title),
+      ))!;
 
   testWidgets('gruplar ve Gelen kutusu etiketi görünür', (tester) async {
     await pumpTasks(tester);
@@ -57,10 +74,17 @@ void main() {
     expect(find.text('Site'), findsOneWidget);
   });
 
-  testWidgets('daireye dokununca tamamlanır, Geri al eski sütuna döndürür', (tester) async {
+  testWidgets('daireye dokununca tamamlanır, Geri al eski sütuna döndürür', (
+    tester,
+  ) async {
     await pumpTasks(tester);
-    final tile = find.ancestor(of: find.text('Devamdaki görev'), matching: find.byType(TaskRow));
-    await tester.tap(find.descendant(of: tile, matching: find.byType(InkResponse)).first);
+    final tile = find.ancestor(
+      of: find.text('Devamdaki görev'),
+      matching: find.byType(TaskRow),
+    );
+    await tester.tap(
+      find.descendant(of: tile, matching: find.byType(InkResponse)).first,
+    );
     await settleDb(tester);
     expect((await task(tester, 'Devamdaki görev')).isCompleted, isTrue);
     expect(find.text('Görev tamamlandı'), findsOneWidget);
@@ -72,11 +96,16 @@ void main() {
     expect(t.columnName, 'Devam');
   });
 
-  testWidgets('sağa kaydırma tamamlar, sola kaydırma yarına erteler', (tester) async {
+  testWidgets('sağa kaydırma tamamlar, sola kaydırma yarına erteler', (
+    tester,
+  ) async {
     await pumpTasks(tester);
     await tester.drag(find.text('Bugünkü görev'), const Offset(-400, 0));
     await settleDb(tester);
-    expect((await task(tester, 'Bugünkü görev')).card.dueDate, today().add(const Duration(days: 1)));
+    expect(
+      (await task(tester, 'Bugünkü görev')).card.dueDate,
+      today().add(const Duration(days: 1)),
+    );
     expect(find.text('Yarına ertelendi'), findsOneWidget);
 
     await tester.drag(find.text('Bugünkü görev'), const Offset(400, 0));

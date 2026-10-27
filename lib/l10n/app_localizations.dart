@@ -849,6 +849,264 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Sürüm {version}'**
   String settingsVersion(String version);
+
+  /// No description provided for @navTasks.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görevler'**
+  String get navTasks;
+
+  /// No description provided for @tasksTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görevlerim'**
+  String get tasksTitle;
+
+  /// No description provided for @tasksAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get tasksAll;
+
+  /// No description provided for @tasksMine.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bana atanan'**
+  String get tasksMine;
+
+  /// No description provided for @tasksShowCompleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamlananları göster'**
+  String get tasksShowCompleted;
+
+  /// No description provided for @tasksEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her şey yolunda'**
+  String get tasksEmptyTitle;
+
+  /// No description provided for @tasksEmptyBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekleyen görevin yok. Aklına geleni hemen ekleyebilirsin.'**
+  String get tasksEmptyBody;
+
+  /// No description provided for @tasksMineEmpty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sana atanmış açık görev yok.'**
+  String get tasksMineEmpty;
+
+  /// No description provided for @tasksNoMe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişiler\'de kendini \"Bu benim\" olarak işaretlersen sana atanan görevleri burada görürsün.'**
+  String get tasksNoMe;
+
+  /// No description provided for @taskGroupOverdue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gecikmiş'**
+  String get taskGroupOverdue;
+
+  /// No description provided for @taskGroupToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get taskGroupToday;
+
+  /// No description provided for @taskGroupTomorrow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yarın'**
+  String get taskGroupTomorrow;
+
+  /// No description provided for @taskGroupThisWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta'**
+  String get taskGroupThisWeek;
+
+  /// No description provided for @taskGroupLater.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha sonra'**
+  String get taskGroupLater;
+
+  /// No description provided for @taskGroupNoDate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarihsiz'**
+  String get taskGroupNoDate;
+
+  /// No description provided for @taskGroupCompleted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamlanan'**
+  String get taskGroupCompleted;
+
+  /// No description provided for @taskAdd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev ekle'**
+  String get taskAdd;
+
+  /// No description provided for @taskTitleHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne yapılacak?'**
+  String get taskTitleHint;
+
+  /// No description provided for @taskProject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Proje'**
+  String get taskProject;
+
+  /// No description provided for @taskMore.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha fazla'**
+  String get taskMore;
+
+  /// No description provided for @taskAssignee.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sorumlu'**
+  String get taskAssignee;
+
+  /// No description provided for @taskAdded.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev eklendi'**
+  String get taskAdded;
+
+  /// No description provided for @taskCompletedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev tamamlandı'**
+  String get taskCompletedToast;
+
+  /// No description provided for @taskReopenedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev yeniden açıldı'**
+  String get taskReopenedToast;
+
+  /// No description provided for @taskSnoozedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yarına ertelendi'**
+  String get taskSnoozedToast;
+
+  /// No description provided for @taskSnooze.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yarına ertele'**
+  String get taskSnooze;
+
+  /// No description provided for @taskComplete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamamla'**
+  String get taskComplete;
+
+  /// No description provided for @taskReopen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeniden aç'**
+  String get taskReopen;
+
+  /// No description provided for @taskDeletedToast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Görev silindi'**
+  String get taskDeletedToast;
+
+  /// No description provided for @inboxTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelen kutusu'**
+  String get inboxTitle;
+
+  /// No description provided for @openInbox.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelen kutusunu aç'**
+  String get openInbox;
+
+  /// No description provided for @dateToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get dateToday;
+
+  /// No description provided for @dateTomorrow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yarın'**
+  String get dateTomorrow;
+
+  /// No description provided for @dateWeekend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta sonu'**
+  String get dateWeekend;
+
+  /// No description provided for @dateNextWeek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelecek hafta'**
+  String get dateNextWeek;
+
+  /// No description provided for @dateNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarihsiz'**
+  String get dateNone;
+
+  /// No description provided for @recurrence.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar'**
+  String get recurrence;
+
+  /// No description provided for @recurrenceNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar yok'**
+  String get recurrenceNone;
+
+  /// No description provided for @recurrenceDaily.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün'**
+  String get recurrenceDaily;
+
+  /// No description provided for @recurrenceWeekly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her hafta'**
+  String get recurrenceWeekly;
+
+  /// No description provided for @recurrenceMonthly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her ay'**
+  String get recurrenceMonthly;
+
+  /// No description provided for @recurrenceYearly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her yıl'**
+  String get recurrenceYearly;
+
+  /// No description provided for @undo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri al'**
+  String get undo;
 }
 
 class _AppLocalizationsDelegate

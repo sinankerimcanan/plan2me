@@ -1,11 +1,9 @@
 {
   "@@locale": "tr",
   "appTitle": "plan2me",
-
   "navProjects": "Projeler",
   "navPeople": "Kişiler",
   "navSettings": "Ayarlar",
-
   "commonSave": "Kaydet",
   "commonCancel": "Vazgeç",
   "commonDelete": "Sil",
@@ -19,14 +17,18 @@
   "commonColor": "Renk",
   "commonNotFound": "Kayıt bulunamadı",
   "errorGeneric": "Bir şeyler ters gitti: {error}",
-  "@errorGeneric": { "placeholders": { "error": { "type": "Object" } } },
-
+  "@errorGeneric": {
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
   "priority": "Öncelik",
   "priorityLow": "Düşük",
   "priorityMedium": "Orta",
   "priorityHigh": "Yüksek",
   "priorityCritical": "Kritik",
-
   "status": "Aşama",
   "statusBacklog": "Havuz",
   "statusPlanned": "Planlandı",
@@ -34,7 +36,6 @@
   "statusOnHold": "Askıda",
   "statusDone": "Tamamlandı",
   "statusCancelled": "İptal",
-
   "projectsTitle": "Projelerim",
   "projectsSearchHint": "Proje, kişi veya detay ara",
   "projectsEmptyTitle": "Henüz proje yok",
@@ -51,8 +52,16 @@
   "sortDueDate": "Son tarih",
   "sortUpdated": "Son güncellenen",
   "cardsProgress": "{done}/{total} kart",
-  "@cardsProgress": { "placeholders": { "done": { "type": "int" }, "total": { "type": "int" } } },
-
+  "@cardsProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "projectFormNew": "Yeni proje",
   "projectFormEdit": "Projeyi düzenle",
   "fieldTitle": "Başlık",
@@ -68,29 +77,49 @@
   "pickDate": "Tarih seç",
   "addPersonInline": "Yeni kişi",
   "noPeopleYet": "Henüz kişi yok. Yeni kişi ekleyebilirsin.",
-
   "defaultColumnTodo": "Yapılacak",
   "defaultColumnDoing": "Devam ediyor",
   "defaultColumnDone": "Tamamlandı",
-
   "projectOpenBoard": "Board'u aç",
   "projectPeople": "Kişiler",
   "projectDetails": "Detaylar",
   "projectNoDetails": "Henüz detay eklenmemiş.",
   "projectBoardSummary": "Board",
   "projectDeleteBody": "\"{title}\" projesi ve tüm board içeriği silinecek.",
-  "@projectDeleteBody": { "placeholders": { "title": { "type": "String" } } },
+  "@projectDeleteBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "projectChangeStatus": "Aşamayı değiştir",
   "projectCreated": "Oluşturuldu {date}",
-  "@projectCreated": { "placeholders": { "date": { "type": "String" } } },
-
+  "@projectCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "dueOverdue": "{days} gün gecikti",
-  "@dueOverdue": { "placeholders": { "days": { "type": "int" } } },
+  "@dueOverdue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "dueToday": "Bugün",
   "dueTomorrow": "Yarın",
   "dueInDays": "{days} gün kaldı",
-  "@dueInDays": { "placeholders": { "days": { "type": "int" } } },
-
+  "@dueInDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "boardAddColumn": "Sütun ekle",
   "boardColumnName": "Sütun adı",
   "boardAddCard": "Kart ekle",
@@ -105,9 +134,17 @@
   "columnIsDone": "Tamamlanma sütunu",
   "columnIsDoneHelp": "Bu sütuna taşınan kartlar tamamlandı sayılır.",
   "columnDeleteBody": "\"{name}\" sütunu ve içindeki {count} kart silinecek.",
-  "@columnDeleteBody": { "placeholders": { "name": { "type": "String" }, "count": { "type": "int" } } },
+  "@columnDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "columnLastWarning": "Board'da en az bir sütun kalmalı.",
-
   "cardColumn": "Sütun",
   "cardDescription": "Açıklama",
   "cardDescriptionHint": "Açıklama ekle…",
@@ -116,15 +153,25 @@
   "cardChecklistHint": "Yeni madde ekle",
   "cardDeleteBody": "Bu kart ve kontrol listesi silinecek.",
   "cardCompletedOn": "Tamamlandı · {date}",
-  "@cardCompletedOn": { "placeholders": { "date": { "type": "String" } } },
+  "@cardCompletedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "cardNoLabels": "Bu projede henüz etiket yok.",
-
   "labelsManage": "Etiketleri yönet",
   "labelNew": "Yeni etiket",
   "labelName": "Etiket adı",
   "labelDeleteBody": "\"{name}\" etiketi tüm kartlardan kaldırılacak.",
-  "@labelDeleteBody": { "placeholders": { "name": { "type": "String" } } },
-
+  "@labelDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "peopleTitle": "Kişiler",
   "peopleEmptyTitle": "Kişi listesi boş",
   "peopleEmptyBody": "Projelere talep eden ve sorumlu atamak için kişi ekle.",
@@ -138,10 +185,24 @@
   "personIsMeHelp": "Yeni projelerde varsayılan sorumlu olur.",
   "personMe": "Ben",
   "personStats": "{responsible} sorumlu · {requested} talep",
-  "@personStats": { "placeholders": { "responsible": { "type": "int" }, "requested": { "type": "int" } } },
+  "@personStats": {
+    "placeholders": {
+      "responsible": {
+        "type": "int"
+      },
+      "requested": {
+        "type": "int"
+      }
+    }
+  },
   "personDeleteBody": "\"{name}\" silinecek ve projelerdeki atamaları kaldırılacak.",
-  "@personDeleteBody": { "placeholders": { "name": { "type": "String" } } },
-
+  "@personDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "settingsTitle": "Ayarlar",
   "settingsTheme": "Tema",
   "themeSystem": "Sistem",
@@ -151,5 +212,54 @@
   "settingsDataLocal": "Tüm veriler yalnızca bu cihazda saklanıyor. Senkronizasyon ileride eklenecek.",
   "settingsAbout": "Hakkında",
   "settingsVersion": "Sürüm {version}",
-  "@settingsVersion": { "placeholders": { "version": { "type": "String" } } }
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "navTasks": "Görevler",
+  "tasksTitle": "Görevlerim",
+  "tasksAll": "Tümü",
+  "tasksMine": "Bana atanan",
+  "tasksShowCompleted": "Tamamlananları göster",
+  "tasksEmptyTitle": "Her şey yolunda",
+  "tasksEmptyBody": "Bekleyen görevin yok. Aklına geleni hemen ekleyebilirsin.",
+  "tasksMineEmpty": "Sana atanmış açık görev yok.",
+  "tasksNoMe": "Kişiler'de kendini \"Bu benim\" olarak işaretlersen sana atanan görevleri burada görürsün.",
+  "taskGroupOverdue": "Gecikmiş",
+  "taskGroupToday": "Bugün",
+  "taskGroupTomorrow": "Yarın",
+  "taskGroupThisWeek": "Bu hafta",
+  "taskGroupLater": "Daha sonra",
+  "taskGroupNoDate": "Tarihsiz",
+  "taskGroupCompleted": "Tamamlanan",
+  "taskAdd": "Görev ekle",
+  "taskTitleHint": "Ne yapılacak?",
+  "taskProject": "Proje",
+  "taskMore": "Daha fazla",
+  "taskAssignee": "Sorumlu",
+  "taskAdded": "Görev eklendi",
+  "taskCompletedToast": "Görev tamamlandı",
+  "taskReopenedToast": "Görev yeniden açıldı",
+  "taskSnoozedToast": "Yarına ertelendi",
+  "taskSnooze": "Yarına ertele",
+  "taskComplete": "Tamamla",
+  "taskReopen": "Yeniden aç",
+  "taskDeletedToast": "Görev silindi",
+  "inboxTitle": "Gelen kutusu",
+  "openInbox": "Gelen kutusunu aç",
+  "dateToday": "Bugün",
+  "dateTomorrow": "Yarın",
+  "dateWeekend": "Hafta sonu",
+  "dateNextWeek": "Gelecek hafta",
+  "dateNone": "Tarihsiz",
+  "recurrence": "Tekrar",
+  "recurrenceNone": "Tekrar yok",
+  "recurrenceDaily": "Her gün",
+  "recurrenceWeekly": "Her hafta",
+  "recurrenceMonthly": "Her ay",
+  "recurrenceYearly": "Her yıl",
+  "undo": "Geri al"
 }

@@ -160,6 +160,14 @@ class DriftProjectRepository implements ProjectRepository {
   });
 
   @override
+  Stream<String?> watchInboxId() =>
+      (_db.select(_db.projects)
+            ..where((t) => t.isInbox.equals(true) & t.deletedAt.isNull())
+            ..limit(1))
+          .watchSingleOrNull()
+          .map((r) => r?.id);
+
+  @override
   Future<String> ensureInbox({
     required String title,
     required List<String> columns,

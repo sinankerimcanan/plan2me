@@ -34,6 +34,11 @@ class AppShell extends StatelessWidget {
                 label: l.navProjects,
               ),
               NavigationDestination(
+                icon: const Icon(Icons.task_alt_outlined),
+                selectedIcon: const Icon(Icons.task_alt_rounded),
+                label: l.navTasks,
+              ),
+              NavigationDestination(
                 icon: const Icon(Icons.groups_outlined),
                 selectedIcon: const Icon(Icons.groups_rounded),
                 label: l.navPeople,

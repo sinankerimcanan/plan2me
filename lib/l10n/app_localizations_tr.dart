@@ -413,4 +413,135 @@ class AppLocalizationsTr extends AppLocalizations {
   String settingsVersion(String version) {
     return 'Sürüm $version';
   }
+
+  @override
+  String get navTasks => 'Görevler';
+
+  @override
+  String get tasksTitle => 'Görevlerim';
+
+  @override
+  String get tasksAll => 'Tümü';
+
+  @override
+  String get tasksMine => 'Bana atanan';
+
+  @override
+  String get tasksShowCompleted => 'Tamamlananları göster';
+
+  @override
+  String get tasksEmptyTitle => 'Her şey yolunda';
+
+  @override
+  String get tasksEmptyBody =>
+      'Bekleyen görevin yok. Aklına geleni hemen ekleyebilirsin.';
+
+  @override
+  String get tasksMineEmpty => 'Sana atanmış açık görev yok.';
+
+  @override
+  String get tasksNoMe =>
+      'Kişiler\'de kendini \"Bu benim\" olarak işaretlersen sana atanan görevleri burada görürsün.';
+
+  @override
+  String get taskGroupOverdue => 'Gecikmiş';
+
+  @override
+  String get taskGroupToday => 'Bugün';
+
+  @override
+  String get taskGroupTomorrow => 'Yarın';
+
+  @override
+  String get taskGroupThisWeek => 'Bu hafta';
+
+  @override
+  String get taskGroupLater => 'Daha sonra';
+
+  @override
+  String get taskGroupNoDate => 'Tarihsiz';
+
+  @override
+  String get taskGroupCompleted => 'Tamamlanan';
+
+  @override
+  String get taskAdd => 'Görev ekle';
+
+  @override
+  String get taskTitleHint => 'Ne yapılacak?';
+
+  @override
+  String get taskProject => 'Proje';
+
+  @override
+  String get taskMore => 'Daha fazla';
+
+  @override
+  String get taskAssignee => 'Sorumlu';
+
+  @override
+  String get taskAdded => 'Görev eklendi';
+
+  @override
+  String get taskCompletedToast => 'Görev tamamlandı';
+
+  @override
+  String get taskReopenedToast => 'Görev yeniden açıldı';
+
+  @override
+  String get taskSnoozedToast => 'Yarına ertelendi';
+
+  @override
+  String get taskSnooze => 'Yarına ertele';
+
+  @override
+  String get taskComplete => 'Tamamla';
+
+  @override
+  String get taskReopen => 'Yeniden aç';
+
+  @override
+  String get taskDeletedToast => 'Görev silindi';
+
+  @override
+  String get inboxTitle => 'Gelen kutusu';
+
+  @override
+  String get openInbox => 'Gelen kutusunu aç';
+
+  @override
+  String get dateToday => 'Bugün';
+
+  @override
+  String get dateTomorrow => 'Yarın';
+
+  @override
+  String get dateWeekend => 'Hafta sonu';
+
+  @override
+  String get dateNextWeek => 'Gelecek hafta';
+
+  @override
+  String get dateNone => 'Tarihsiz';
+
+  @override
+  String get recurrence => 'Tekrar';
+
+  @override
+  String get recurrenceNone => 'Tekrar yok';
+
+  @override
+  String get recurrenceDaily => 'Her gün';
+
+  @override
+  String get recurrenceWeekly => 'Her hafta';
+
+  @override
+  String get recurrenceMonthly => 'Her ay';
+
+  @override
+  String get recurrenceYearly => 'Her yıl';
+
+  @override
+  String get undo => 'Geri al';
 }

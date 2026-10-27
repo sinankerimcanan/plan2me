@@ -171,3 +171,36 @@ final class ProjectOverviewFamily extends $Family
   @override
   String toString() => r'projectOverviewProvider';
 }
+
+@ProviderFor(inboxProjectId)
+final inboxProjectIdProvider = InboxProjectIdProvider._();
+
+final class InboxProjectIdProvider
+    extends $FunctionalProvider<AsyncValue<String?>, String?, Stream<String?>>
+    with $FutureModifier<String?>, $StreamProvider<String?> {
+  InboxProjectIdProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'inboxProjectIdProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$inboxProjectIdHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<String?> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<String?> create(Ref ref) {
+    return inboxProjectId(ref);
+  }
+}
+
+String _$inboxProjectIdHash() => r'088682ffdf2970d1677b70d5f72a4df81e7f7453';

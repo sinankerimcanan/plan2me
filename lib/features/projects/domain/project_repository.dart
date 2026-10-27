@@ -19,6 +19,9 @@ abstract interface class ProjectRepository {
   /// [beforeId] null ise sona taşır.
   Future<void> move(String id, {String? beforeId});
 
+  /// Varsa "Gelen kutusu" projesinin id'si.
+  Stream<String?> watchInboxId();
+
   /// "Gelen kutusu" projesinin id'si; yoksa [title] ve [columns] ile oluşturur.
   Future<String> ensureInbox({
     required String title,

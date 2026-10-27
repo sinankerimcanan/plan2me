@@ -9,6 +9,7 @@ import '../../features/projects/presentation/project_detail_screen.dart';
 import '../../features/projects/presentation/project_form_screen.dart';
 import '../../features/projects/presentation/projects_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/tasks/presentation/tasks_screen.dart';
 import 'app_shell.dart';
 import 'routes.dart';
 import 'transitions.dart';
@@ -27,6 +28,15 @@ GoRouter appRouter(Ref ref) {
     navigatorKey: _rootKey,
     initialLocation: ref.read(initialLocationProvider),
     routes: [
+      // Board bağlamı olmadan kart detayı (görevler / takvim / bildirimlerden).
+      GoRoute(
+        path: '/cards/:cardId',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (context, state) => BottomSheetPage(
+          key: state.pageKey,
+          child: CardDetailSheet(cardId: state.pathParameters['cardId']!),
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => AppShell(shell: shell),
         branches: [
@@ -91,6 +101,17 @@ GoRouter appRouter(Ref ref) {
                     ],
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.tasks,
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: const TasksScreen(),
+                ),
               ),
             ],
           ),

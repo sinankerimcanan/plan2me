@@ -20,3 +20,7 @@ Stream<List<ProjectOverview>> projectOverviews(Ref ref) =>
 @riverpod
 Stream<ProjectOverview?> projectOverview(Ref ref, String id) =>
     ref.watch(projectRepositoryProvider).watchOverview(id);
+
+@riverpod
+Stream<String?> inboxProjectId(Ref ref) =>
+    ref.watch(projectRepositoryProvider).watchInboxId();

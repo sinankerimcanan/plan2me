@@ -71,3 +71,13 @@ extension StatusL10n on ProjectStatus {
     ProjectStatus.cancelled => Icons.cancel_outlined,
   };
 }
+
+extension RecurrenceL10n on Recurrence? {
+  String label(AppLocalizations l) => switch (this) {
+    null => l.recurrenceNone,
+    Recurrence.daily => l.recurrenceDaily,
+    Recurrence.weekly => l.recurrenceWeekly,
+    Recurrence.monthly => l.recurrenceMonthly,
+    Recurrence.yearly => l.recurrenceYearly,
+  };
+}

@@ -46,13 +46,6 @@ ChecklistItem checklistFromRow(ChecklistItemRow r) => ChecklistItem(
 Label labelFromRow(LabelRow r) =>
     Label(id: r.id, projectId: r.projectId, name: r.name, colorHex: r.colorHex);
 
-class BoardRuleException implements Exception {
-  BoardRuleException(this.message);
-  final String message;
-  @override
-  String toString() => 'BoardRuleException: $message';
-}
-
 class DriftBoardRepository implements BoardRepository {
   DriftBoardRepository(this._db, {this._clock = systemClock});
 

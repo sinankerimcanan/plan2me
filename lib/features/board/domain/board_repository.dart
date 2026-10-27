@@ -1,5 +1,13 @@
 import 'board_models.dart';
 
+/// Board kuralı ihlali (ör. kartı başka projenin sütununa taşıma, kart bulunamadı).
+class BoardRuleException implements Exception {
+  BoardRuleException(this.message);
+  final String message;
+  @override
+  String toString() => 'BoardRuleException: $message';
+}
+
 /// Proje board'u (sütun, kart, checklist, etiket) için sözleşme.
 /// Agregat kökü projedir; tüm yazımlar kartın/sütunun projesini korur.
 abstract interface class BoardRepository {

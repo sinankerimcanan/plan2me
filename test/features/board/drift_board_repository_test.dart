@@ -3,6 +3,7 @@ import 'package:plan2me/core/database/app_database.dart';
 import 'package:plan2me/core/domain/enums.dart';
 import 'package:plan2me/features/board/data/drift_board_repository.dart';
 import 'package:plan2me/features/board/domain/board_models.dart';
+import 'package:plan2me/features/board/domain/board_repository.dart';
 import 'package:plan2me/features/people/data/drift_person_repository.dart';
 import 'package:plan2me/features/people/domain/person.dart';
 import 'package:plan2me/features/projects/data/drift_project_repository.dart';

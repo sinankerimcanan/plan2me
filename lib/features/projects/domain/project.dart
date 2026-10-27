@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/domain/enums.dart';
+import '../../../core/domain/place.dart';
 import '../../people/domain/person.dart';
 
 part 'project.freezed.dart';
@@ -20,6 +21,7 @@ abstract class Project with _$Project {
     String? details,
     @Default(0) double position,
     @Default(false) bool isInbox,
+    Place? location,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Project;
@@ -57,6 +59,7 @@ abstract class ProjectDraft with _$ProjectDraft {
     String? responsiblePersonId,
     @Default(<String>[]) List<String> requesterIds,
     String? details,
+    Place? location,
   }) = _ProjectDraft;
 
   factory ProjectDraft.fromOverview(ProjectOverview o) => ProjectDraft(
@@ -69,5 +72,6 @@ abstract class ProjectDraft with _$ProjectDraft {
     responsiblePersonId: o.project.responsiblePersonId,
     requesterIds: [for (final p in o.requesters) p.id],
     details: o.project.details,
+    location: o.project.location,
   );
 }

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/domain/enums.dart';
+import '../../../core/domain/place.dart';
 import '../../../core/utils/clock.dart';
 import '../../../core/utils/ids.dart';
 import '../../../core/utils/positioning.dart';
@@ -31,6 +32,7 @@ KanbanCard cardFromRow(CardRow r) => KanbanCard(
   completedAt: r.completedAt,
   assigneePersonId: r.assigneePersonId,
   recurrence: r.recurrence,
+  location: Place.fromColumns(r.locationName, r.latitude, r.longitude),
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 );
@@ -392,6 +394,9 @@ class DriftBoardRepository implements BoardRepository {
             dueDate: Value(initial.dueDate),
             assigneePersonId: Value(initial.assigneePersonId),
             recurrence: Value(initial.recurrence),
+            locationName: Value(initial.location?.name),
+            latitude: Value(initial.location?.latitude),
+            longitude: Value(initial.location?.longitude),
             position: positionAtEnd(siblings.map((s) => s.position)),
             completedAt: Value(col.isDoneColumn ? now : null),
           ),
@@ -497,6 +502,9 @@ class DriftBoardRepository implements BoardRepository {
             dueDate: Value(nextDue),
             assigneePersonId: Value(card.assigneePersonId),
             recurrence: Value(recurrence),
+            locationName: Value(card.locationName),
+            latitude: Value(card.latitude),
+            longitude: Value(card.longitude),
             position: positionAtEnd(siblings.map((s) => s.position)),
           ),
         );
@@ -568,6 +576,21 @@ class DriftBoardRepository implements BoardRepository {
                 : (patch.recurrence == null
                       ? const Value.absent()
                       : Value(patch.recurrence)),
+            locationName: patch.clearLocation
+                ? const Value(null)
+                : (patch.location == null
+                      ? const Value.absent()
+                      : Value(patch.location!.name)),
+            latitude: patch.clearLocation
+                ? const Value(null)
+                : (patch.location == null
+                      ? const Value.absent()
+                      : Value(patch.location!.latitude)),
+            longitude: patch.clearLocation
+                ? const Value(null)
+                : (patch.location == null
+                      ? const Value.absent()
+                      : Value(patch.location!.longitude)),
           ),
           _clock(),
         );

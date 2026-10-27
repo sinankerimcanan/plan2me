@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plan2me/core/database/app_database.dart';
 import 'package:plan2me/core/domain/enums.dart';
+import 'package:plan2me/core/domain/place.dart';
 import 'package:plan2me/features/board/data/drift_board_repository.dart';
 import 'package:plan2me/features/board/domain/board_models.dart';
 import 'package:plan2me/features/board/domain/board_repository.dart';
@@ -295,6 +296,46 @@ void main() {
             if (!c.card.isCompleted) c,
       ];
       expect(again, hasLength(1));
+    },
+  );
+
+  test(
+    'kart konumu eklenir, güncellenir, kaldırılır ve tekrara taşınır',
+    () async {
+      const ofis = Place(
+        name: 'Elfatek Ofis, Kadıköy',
+        latitude: 40.99,
+        longitude: 29.03,
+      );
+      final k = await board.addCard(
+        cols[0],
+        'Toplantı',
+        initial: CardPatch(
+          location: ofis,
+          recurrence: Recurrence.weekly,
+          dueDate: DateTime.utc(2026, 1, 5),
+        ),
+      );
+      expect((await board.watchCard(k).first)!.card.location, ofis);
+
+      await board.updateCard(
+        k,
+        const CardPatch(location: Place(name: 'Sadece adres')),
+      );
+      final loc = (await board.watchCard(k).first)!.card.location!;
+      expect((loc.name, loc.hasCoordinates), ('Sadece adres', false));
+
+      await board.updateCard(k, const CardPatch(location: ofis));
+      await board.completeCard(k);
+      final next = [
+        for (final l in (await board.watchBoard(projectId).first).lanes)
+          for (final c in l.cards)
+            if (!c.card.isCompleted) c.card,
+      ].single;
+      expect(next.location, ofis);
+
+      await board.updateCard(next.id, const CardPatch(clearLocation: true));
+      expect((await board.watchCard(next.id).first)!.card.location, isNull);
     },
   );
 }

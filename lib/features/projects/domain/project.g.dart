@@ -26,6 +26,9 @@ _Project _$ProjectFromJson(Map<String, dynamic> json) => _Project(
   details: json['details'] as String?,
   position: (json['position'] as num?)?.toDouble() ?? 0,
   isInbox: json['isInbox'] as bool? ?? false,
+  location: json['location'] == null
+      ? null
+      : Place.fromJson(json['location'] as Map<String, dynamic>),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -42,6 +45,7 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
   'details': instance.details,
   'position': instance.position,
   'isInbox': instance.isInbox,
+  'location': instance.location,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
 };

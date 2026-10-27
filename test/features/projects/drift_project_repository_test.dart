@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plan2me/core/database/app_database.dart';
 import 'package:plan2me/core/domain/enums.dart';
+import 'package:plan2me/core/domain/place.dart';
 import 'package:plan2me/features/board/data/drift_board_repository.dart';
 import 'package:plan2me/features/people/data/drift_person_repository.dart';
 import 'package:plan2me/features/people/domain/person.dart';
@@ -156,5 +157,26 @@ void main() {
     )..where((t) => t.id.equals(id))).getSingle();
     expect(row.status, ProjectStatus.inProgress);
     expect(row.version, 2);
+  });
+
+  test('proje konumu oluşturulur ve düzenlemede kaldırılabilir', () async {
+    const yer = Place(
+      name: 'Şantiye, Ataşehir',
+      latitude: 40.98,
+      longitude: 29.12,
+    );
+    final id = await projects.create(
+      const ProjectDraft(title: 'Saha', location: yer),
+      defaultColumns: columns,
+    );
+    var o = (await projects.getOverview(id))!;
+    expect(o.project.location, yer);
+    expect(ProjectDraft.fromOverview(o).location, yer);
+    await projects.update(
+      id,
+      ProjectDraft.fromOverview(o).copyWith(location: null),
+    );
+    o = (await projects.getOverview(id))!;
+    expect(o.project.location, isNull);
   });
 }

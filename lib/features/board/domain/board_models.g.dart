@@ -45,6 +45,9 @@ _KanbanCard _$KanbanCardFromJson(Map<String, dynamic> json) => _KanbanCard(
       : DateTime.parse(json['completedAt'] as String),
   assigneePersonId: json['assigneePersonId'] as String?,
   recurrence: $enumDecodeNullable(_$RecurrenceEnumMap, json['recurrence']),
+  location: json['location'] == null
+      ? null
+      : Place.fromJson(json['location'] as Map<String, dynamic>),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
@@ -62,6 +65,7 @@ Map<String, dynamic> _$KanbanCardToJson(_KanbanCard instance) =>
       'completedAt': instance.completedAt?.toIso8601String(),
       'assigneePersonId': instance.assigneePersonId,
       'recurrence': _$RecurrenceEnumMap[instance.recurrence],
+      'location': instance.location,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
     };

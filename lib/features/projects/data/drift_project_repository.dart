@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/domain/enums.dart';
+import '../../../core/domain/place.dart';
 import '../../../core/utils/clock.dart';
 import '../../../core/utils/ids.dart';
 import '../../../core/utils/positioning.dart';
@@ -22,6 +23,7 @@ Project projectFromRow(ProjectRow r) => Project(
   details: r.details,
   position: r.position,
   isInbox: r.isInbox,
+  location: Place.fromColumns(r.locationName, r.latitude, r.longitude),
   createdAt: r.createdAt,
   updatedAt: r.updatedAt,
 );
@@ -136,6 +138,9 @@ class DriftProjectRepository implements ProjectRepository {
             dueDate: Value(draft.dueDate),
             responsiblePersonId: Value(draft.responsiblePersonId),
             details: Value(_blankToNull(draft.details)),
+            locationName: Value(draft.location?.name),
+            latitude: Value(draft.location?.latitude),
+            longitude: Value(draft.location?.longitude),
             // Yeni projeler listenin başına.
             position: positionAtStart(positions),
           ),
@@ -202,6 +207,9 @@ class DriftProjectRepository implements ProjectRepository {
             dueDate: Value(draft.dueDate),
             responsiblePersonId: Value(draft.responsiblePersonId),
             details: Value(_blankToNull(draft.details)),
+            locationName: Value(draft.location?.name),
+            latitude: Value(draft.location?.latitude),
+            longitude: Value(draft.location?.longitude),
             updatedAt: Value(now),
           ),
         );

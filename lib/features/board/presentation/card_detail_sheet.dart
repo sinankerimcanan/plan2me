@@ -12,6 +12,8 @@ import '../../../core/widgets/glass_sheet.dart';
 import '../../../core/widgets/person_avatar.dart';
 import '../../../core/widgets/toast.dart';
 import '../../people/data/people_providers.dart';
+import '../../location/presentation/location_picker_sheet.dart';
+import '../../location/presentation/location_tile.dart';
 import '../../trash/data/trash_providers.dart';
 import '../domain/board_models.dart';
 import 'card_detail_view_model.dart';
@@ -237,6 +239,36 @@ class _Content extends ConsumerWidget {
               ),
             ],
           ],
+        ),
+        SectionHeader(l.location, icon: Icons.place_rounded),
+        Builder(
+          builder: (context) {
+            Future<void> pick() async {
+              final result = await showLocationPicker(
+                context,
+                initial: card.location,
+              );
+              switch (result) {
+                case LocationPicked(:final place):
+                  await vm.setLocation(place);
+                case LocationCleared():
+                  await vm.setLocation(null);
+                case null:
+                  break;
+              }
+            }
+
+            return card.location == null
+                ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: OutlinedButton.icon(
+                      onPressed: pick,
+                      icon: const Icon(Icons.add_location_alt_rounded),
+                      label: Text(l.locationAdd),
+                    ),
+                  )
+                : LocationTile(place: card.location!, onEdit: pick);
+          },
         ),
         SectionHeader(l.taskAssignee, icon: Icons.person_pin_rounded),
         Wrap(

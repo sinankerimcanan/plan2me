@@ -107,6 +107,12 @@ class KanbanCardTile extends StatelessWidget {
                           ? s.success
                           : theme.colorScheme.onSurfaceVariant,
                     ),
+                  if (card.location != null)
+                    Icon(
+                      Icons.place_rounded,
+                      size: 16,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   if (card.recurrence != null)
                     Icon(
                       Icons.repeat_rounded,

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/domain/enums.dart';
+import '../../../core/domain/place.dart';
 import '../../../core/utils/clock.dart';
 import '../../people/data/people_providers.dart';
 import '../../people/domain/person.dart';
@@ -40,6 +41,8 @@ class ProjectFormViewModel extends _$ProjectFormViewModel {
   void setDetails(String v) => _patch((d) => d.copyWith(details: v));
   void setPriority(Priority v) => _patch((d) => d.copyWith(priority: v));
   void setStatus(ProjectStatus v) => _patch((d) => d.copyWith(status: v));
+  void setLocation(Place? place) => _patch((d) => d.copyWith(location: place));
+
   void setResponsible(String? id) =>
       _patch((d) => d.copyWith(responsiblePersonId: id));
 

@@ -1473,6 +1473,108 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kilidi aç'**
   String get appLockUnlock;
+
+  /// No description provided for @location.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum'**
+  String get location;
+
+  /// No description provided for @locationAdd.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ekle'**
+  String get locationAdd;
+
+  /// No description provided for @locationEdit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumu değiştir'**
+  String get locationEdit;
+
+  /// No description provided for @locationRemove.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumu kaldır'**
+  String get locationRemove;
+
+  /// No description provided for @locationSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adres veya yer ara'**
+  String get locationSearchHint;
+
+  /// No description provided for @locationSearch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara'**
+  String get locationSearch;
+
+  /// No description provided for @locationUseCurrent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut konumumu kullan'**
+  String get locationUseCurrent;
+
+  /// No description provided for @locationUseAsTyped.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"{text}\" olarak kaydet'**
+  String locationUseAsTyped(String text);
+
+  /// No description provided for @locationNoResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonuç bulunamadı. Yazdığın adres olduğu gibi kaydedilebilir.'**
+  String get locationNoResults;
+
+  /// No description provided for @locationServiceDisabled.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum servisleri kapalı.'**
+  String get locationServiceDisabled;
+
+  /// No description provided for @locationDenied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni verilmedi.'**
+  String get locationDenied;
+
+  /// No description provided for @locationDeniedForever.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum izni kapalı. Ayarlar > plan2me\'den açabilirsin.'**
+  String get locationDeniedForever;
+
+  /// No description provided for @locationFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum alınamadı.'**
+  String get locationFailed;
+
+  /// No description provided for @mapsOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritada aç'**
+  String get mapsOpen;
+
+  /// No description provided for @mapsDirections.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yol tarifi'**
+  String get mapsDirections;
+
+  /// No description provided for @mapsChooseApp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Harita uygulaması seç'**
+  String get mapsChooseApp;
+
+  /// No description provided for @mapsNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu konumu açabilecek harita uygulaması bulunamadı.'**
+  String get mapsNone;
 }
 
 class _AppLocalizationsDelegate

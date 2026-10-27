@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/domain/enums.dart';
+import '../../../core/domain/place.dart';
 import '../../../core/utils/clock.dart';
 import '../../../core/utils/positioning.dart';
 import '../data/board_providers.dart';
@@ -64,6 +65,13 @@ class CardDetailViewModel extends _$CardDetailViewModel {
       undo: () => _repo.undoComplete(cardId, toColumnId: card.columnId),
     );
   }
+
+  Future<void> setLocation(Place? place) => _repo.updateCard(
+    cardId,
+    place == null
+        ? const CardPatch(clearLocation: true)
+        : CardPatch(location: place),
+  );
 
   Future<void> moveToColumn(String columnId) =>
       _repo.moveCard(cardId, columnId);

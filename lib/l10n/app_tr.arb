@@ -405,5 +405,29 @@
   "appLockUnsupported": "Bu cihazda biyometrik kilit veya ekran şifresi ayarlı değil.",
   "appLockReason": "plan2me'yi açmak için kimliğini doğrula",
   "appLockLocked": "plan2me kilitli",
-  "appLockUnlock": "Kilidi aç"
+  "appLockUnlock": "Kilidi aç",
+  "location": "Konum",
+  "locationAdd": "Konum ekle",
+  "locationEdit": "Konumu değiştir",
+  "locationRemove": "Konumu kaldır",
+  "locationSearchHint": "Adres veya yer ara",
+  "locationSearch": "Ara",
+  "locationUseCurrent": "Mevcut konumumu kullan",
+  "locationUseAsTyped": "\"{text}\" olarak kaydet",
+  "locationNoResults": "Sonuç bulunamadı. Yazdığın adres olduğu gibi kaydedilebilir.",
+  "locationServiceDisabled": "Konum servisleri kapalı.",
+  "locationDenied": "Konum izni verilmedi.",
+  "locationDeniedForever": "Konum izni kapalı. Ayarlar > plan2me'den açabilirsin.",
+  "locationFailed": "Konum alınamadı.",
+  "mapsOpen": "Haritada aç",
+  "mapsDirections": "Yol tarifi",
+  "mapsChooseApp": "Harita uygulaması seç",
+  "mapsNone": "Bu konumu açabilecek harita uygulaması bulunamadı.",
+  "@locationUseAsTyped": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  }
 }

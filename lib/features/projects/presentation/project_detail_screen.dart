@@ -16,6 +16,7 @@ import '../../../core/widgets/person_avatar.dart';
 import '../../../core/widgets/toast.dart';
 import '../../trash/data/trash_providers.dart';
 import '../../board/presentation/board_view_model.dart';
+import '../../location/presentation/location_tile.dart';
 import '../../people/domain/person.dart';
 import '../domain/project.dart';
 import 'project_detail_view_model.dart';
@@ -226,6 +227,10 @@ class _Body extends ConsumerWidget {
           ],
         ),
       ),
+      if (p.location != null) ...[
+        SectionHeader(l.location, icon: Icons.place_rounded),
+        LocationTile(place: p.location!),
+      ],
       SectionHeader(l.projectDetails, icon: Icons.notes_rounded),
       GlassSurface(
         padding: const EdgeInsets.all(16),

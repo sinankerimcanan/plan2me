@@ -757,4 +757,59 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get appLockUnlock => 'Kilidi aç';
+
+  @override
+  String get location => 'Konum';
+
+  @override
+  String get locationAdd => 'Konum ekle';
+
+  @override
+  String get locationEdit => 'Konumu değiştir';
+
+  @override
+  String get locationRemove => 'Konumu kaldır';
+
+  @override
+  String get locationSearchHint => 'Adres veya yer ara';
+
+  @override
+  String get locationSearch => 'Ara';
+
+  @override
+  String get locationUseCurrent => 'Mevcut konumumu kullan';
+
+  @override
+  String locationUseAsTyped(String text) {
+    return '\"$text\" olarak kaydet';
+  }
+
+  @override
+  String get locationNoResults =>
+      'Sonuç bulunamadı. Yazdığın adres olduğu gibi kaydedilebilir.';
+
+  @override
+  String get locationServiceDisabled => 'Konum servisleri kapalı.';
+
+  @override
+  String get locationDenied => 'Konum izni verilmedi.';
+
+  @override
+  String get locationDeniedForever =>
+      'Konum izni kapalı. Ayarlar > plan2me\'den açabilirsin.';
+
+  @override
+  String get locationFailed => 'Konum alınamadı.';
+
+  @override
+  String get mapsOpen => 'Haritada aç';
+
+  @override
+  String get mapsDirections => 'Yol tarifi';
+
+  @override
+  String get mapsChooseApp => 'Harita uygulaması seç';
+
+  @override
+  String get mapsNone => 'Bu konumu açabilecek harita uygulaması bulunamadı.';
 }

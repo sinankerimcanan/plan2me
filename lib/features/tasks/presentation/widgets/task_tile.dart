@@ -89,6 +89,15 @@ class TaskTile extends StatelessWidget {
                               closed: done,
                               dense: true,
                             ),
+                          if (card.location != null)
+                            Tooltip(
+                              message: card.location!.name,
+                              child: Icon(
+                                Icons.place_rounded,
+                                size: 16,
+                                color: muted,
+                              ),
+                            ),
                           if (card.recurrence != null)
                             Tooltip(
                               message: card.recurrence.label(context.l10n),

@@ -58,6 +58,9 @@ dependencies:
   file_picker: ^13.3.0
   quick_actions: ^1.1.1
   local_auth: ^3.0.2
+  geolocator: ^14.0.1
+  geocoding: ^5.0.0
+  map_launcher: ^7.0.0
 
 dev_dependencies:
   flutter_test:

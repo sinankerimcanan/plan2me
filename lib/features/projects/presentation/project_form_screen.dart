@@ -9,6 +9,8 @@ import '../../../core/theme/glass.dart';
 import '../../../core/theme/semantic_colors.dart';
 import '../../../core/widgets/common.dart';
 import '../../people/data/people_providers.dart';
+import '../../location/presentation/location_picker_sheet.dart';
+import '../../location/presentation/location_tile.dart';
 import '../../people/presentation/person_form_sheet.dart';
 import '../domain/project.dart';
 import 'project_form_view_model.dart';
@@ -269,6 +271,39 @@ class _Form extends ConsumerWidget {
                 },
               ),
             ],
+          ),
+        ),
+        section(
+          l.location,
+          Icons.place_rounded,
+          Builder(
+            builder: (context) {
+              Future<void> pick() async {
+                final result = await showLocationPicker(
+                  context,
+                  initial: draft.location,
+                );
+                switch (result) {
+                  case LocationPicked(:final place):
+                    vm.setLocation(place);
+                  case LocationCleared():
+                    vm.setLocation(null);
+                  case null:
+                    break;
+                }
+              }
+
+              return draft.location == null
+                  ? Align(
+                      alignment: Alignment.centerLeft,
+                      child: OutlinedButton.icon(
+                        onPressed: pick,
+                        icon: const Icon(Icons.add_location_alt_rounded),
+                        label: Text(l.locationAdd),
+                      ),
+                    )
+                  : LocationTile(place: draft.location!, onEdit: pick);
+            },
           ),
         ),
         section(

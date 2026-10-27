@@ -39,6 +39,13 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
+		<string>yandexmaps</string>
+		<string>yandexnavi</string>
+		<string>waze</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCalendarsFullAccessUsageDescription</key>
@@ -51,6 +58,8 @@
 	<string>Takvim etkinliği eklerken konum önerileri için.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>plan2me kilidini Face ID ile açmak için.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Görev ve projelere bulunduğun konumu eklemek için.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -4,6 +4,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- Uygulama kilidi: biyometrik doğrulama -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <!-- Konum: göreve/projeye mevcut konumu ekleme -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <application
         android:label="plan2me"
         android:name="${applicationName}"
@@ -56,6 +59,11 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- map_launcher: yüklü harita uygulamalarını tanıma -->
+        <package android:name="com.google.android.apps.maps"/>
+        <package android:name="ru.yandex.yandexmaps"/>
+        <package android:name="ru.yandex.yandexnavi"/>
+        <package android:name="com.waze"/>
         <!-- add_2_calendar: takvime etkinlik ekleme -->
         <intent>
             <action android:name="android.intent.action.INSERT"/>

@@ -99,6 +99,39 @@ class AppDatabase extends _$AppDatabase {
     updateKind: UpdateKind.update,
   );
 
+  /// Geri alma: aynı silme işleminde ([deletedAt] zamanında) silinmiş ve
+  /// [whereSql] koşuluna uyan satırları geri getirir.
+  Future<int> restoreWhere(
+    TableInfo<Table, Object?> table,
+    String whereSql,
+    List<Variable<Object>> args,
+    DateTime deletedAt,
+    DateTime now,
+  ) => customUpdate(
+    'UPDATE ${table.actualTableName} '
+    'SET deleted_at = NULL, updated_at = ?, version = version + 1 '
+    'WHERE deleted_at = ? AND ($whereSql)',
+    variables: [
+      Variable<DateTime>(now),
+      Variable<DateTime>(deletedAt),
+      ...args,
+    ],
+    updates: {table},
+    updateKind: UpdateKind.update,
+  );
+
+  /// Bağımlılık sırasına göre tablolar (önce ebeveynler). Yedek ve temizlik için.
+  List<TableInfo<Table, Object?>> get tablesInDependencyOrder => [
+    persons,
+    projects,
+    projectRequesters,
+    boardColumns,
+    cards,
+    checklistItems,
+    labels,
+    cardLabels,
+  ];
+
   /// Soft delete: [whereSql] koşuluna uyan ve henüz silinmemiş satırları işaretler.
   Future<int> softDeleteWhere(
     TableInfo<Table, Object?> table,
